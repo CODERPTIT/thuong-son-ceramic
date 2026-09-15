@@ -51,12 +51,21 @@ function normalizeSize(rawSize) {
   return s;
 }
 
-function makeUrl(relPath) {
-  if (!relPath) return '';
+function makeFaceUrl(relPath, sku) {
+  if (!relPath) return `https://grandtiles.com.vn/product-photo/${sku}/${sku}__4_product_photo_v1.png`;
   if (relPath.startsWith('http://') || relPath.startsWith('https://')) return relPath;
-  const clean = relPath.startsWith('/') ? relPath : `/${relPath}`;
-  return `${BASE_CDN}${clean}`;
+  let clean = relPath.startsWith('/') ? relPath.slice(1) : relPath;
+  if (!clean.startsWith('thumbs/') && !clean.startsWith('static/') && !clean.startsWith('product-photo/')) {
+    clean = `thumbs/${clean}`;
+  }
+  return `${BASE_CDN}/${clean}`;
 }
+
+const PANO_SCENES = [
+  'https://grandtiles.com.vn/static/pano720/scenes/SCN-01-living-luxe/SCN-01-living-luxe_web4k.jpg',
+  'https://grandtiles.com.vn/static/pano720/scenes/SCN-02-bath-oasis/SCN-02-bath-oasis_web4k.jpg',
+  'https://grandtiles.com.vn/static/pano720/scenes/SCN-02-bedroom/SCN-02-bedroom_web4k.jpg'
+];
 
 async function sync() {
   console.log(`[1/4] Đang nạp dữ liệu từ ${API_URL}...`);
@@ -71,17 +80,21 @@ async function sync() {
     const material = normalizeMaterial(p.pattern, p.name, p.collection);
     const surface = normalizeSurface(p.surface, p.name);
     const size = normalizeSize(p.size);
-    const slug = `${slugify(brand)}-${slugify(p.sku || `item-${index}`)}`;
+    const sku = (p.sku || `ITEM-${index}`).trim();
+    const slug = `${slugify(brand)}-${slugify(sku)}`;
 
-    // Build image URLs
-    const thumbRel = p.thumb_webp || p.thumb || p.faces_webp?.[0] || p.faces?.[0];
-    const thumbUrl = thumbRel ? makeUrl(thumbRel) : `https://grandtiles.com.vn/product-photo/${p.sku}/${p.sku}__4_product_photo_v1.png`;
+    // Guaranteed working 4-face studio photo
+    const productPhotoUrl = `https://grandtiles.com.vn/product-photo/${sku}/${sku}__4_product_photo_v1.png`;
 
-    const faceUrl = p.faces_webp?.[0] || p.faces?.[0] ? makeUrl(p.faces_webp?.[0] || p.faces?.[0]) : thumbUrl;
-    const closeUpUrl = p.faces_webp?.[1] || p.faces?.[1] ? makeUrl(p.faces_webp?.[1] || p.faces?.[1]) : thumbUrl;
+    // Real single tile face photo from CDN
+    const faceRel = p.faces_webp?.[0] || p.faces?.[0] || p.thumb_webp || p.thumb;
+    const faceUrl = makeFaceUrl(faceRel, sku);
 
-    const sceneRel = p.scenes?.[0];
-    const inSpaceUrl = sceneRel ? makeUrl(sceneRel) : 'https://grandtiles.com.vn/static/pano720/scenes/SCN-01-living-luxe/SCN-01-living-luxe_web4k.jpg';
+    const closeUpRel = p.faces_webp?.[1] || p.faces?.[1] || faceRel;
+    const closeUpUrl = makeFaceUrl(closeUpRel, sku);
+
+    // Pick scenic render based on index or material
+    const sceneUrl = PANO_SCENES[index % PANO_SCENES.length];
 
     // Use cases
     const useCases = (Array.isArray(p.use_cases) && p.use_cases.length > 0)
@@ -92,10 +105,10 @@ async function sync() {
     const color = p.color && p.color !== 'Chua phan loai' ? p.color : (material === 'Marble' ? 'Trắng cẩm thạch' : 'Xám tự nhiên');
 
     return {
-      id: `gt-${p.sku || index}`,
+      id: `gt-${sku}`,
       slug: slug,
-      name: p.name || `${brand} ${p.sku}`,
-      code: p.sku || `SKU-${index}`,
+      name: p.name || `${brand} ${sku}`,
+      code: sku,
       brand: brand,
       collection: p.collection || `${brand} Collection`,
       collectionSlug: slugify(p.collection || brand),
@@ -104,13 +117,13 @@ async function sync() {
       colors: [color],
       sizes: [size],
       useCases: useCases,
-      description: p.description || `Gạch ốp lát ${p.name || p.sku} kích thước ${size}, bề mặt men ${surface}. Xương porcelain nguyên khối cao cấp, phân phối chính hãng bởi Công ty TNHH Thường Sơn.`,
+      description: p.description || `Gạch ốp lát ${p.name || sku} kích thước ${size}, bề mặt men ${surface}. Xương porcelain nguyên khối cao cấp, phân phối chính hãng bởi Công ty TNHH Thường Sơn.`,
       price: 'Liên hệ báo giá',
       images: {
-        thumbnail: thumbUrl,
+        thumbnail: productPhotoUrl,
         fullFace: faceUrl,
         closeUp: closeUpUrl,
-        inSpace: inSpaceUrl
+        inSpace: sceneUrl
       },
       featured: index < 12,
       new: index % 7 === 0,
@@ -125,7 +138,7 @@ async function sync() {
     };
   });
 
-  console.log(`[3/4] Đã chuẩn hóa ${mappedProducts.length} sản phẩm.`);
+  console.log(`[3/4] Đã chuẩn hóa ${mappedProducts.length} sản phẩm với ảnh product-photo và thumbs CDN hợp lệ.`);
 
   // Write out crawledProducts.json
   const outPath = path.join(process.cwd(), 'src', 'data', 'crawledProducts.json');

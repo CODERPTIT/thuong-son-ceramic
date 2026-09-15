@@ -13,6 +13,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, aspectRatio = 'portrait' }: ProductCardProps) {
   const aspectClass = aspectRatio === 'square' ? 'aspect-square' : 'aspect-[4/5]';
+  const [imgSrc, setImgSrc] = React.useState(product.images.thumbnail);
 
   return (
     <article className="group flex flex-col bg-white border border-[#D5CDBE]/70 hover:border-[#B85C38] transition-all duration-300">
@@ -22,11 +23,18 @@ export default function ProductCard({ product, aspectRatio = 'portrait' }: Produ
         className={`relative ${aspectClass} overflow-hidden bg-[#FAF8F4] block`}
       >
         <Image
-          src={product.images.thumbnail}
+          src={imgSrc}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+          onError={() => {
+            if (!imgSrc.includes('product-photo')) {
+              setImgSrc(`https://grandtiles.com.vn/product-photo/${product.code}/${product.code}__4_product_photo_v1.png`);
+            } else {
+              setImgSrc('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80');
+            }
+          }}
         />
         {/* Surface tag */}
         <div className="absolute top-3 left-3 bg-[#1C1B19]/85 text-[#F5F1EA] text-[10px] font-mono px-2 py-0.5 uppercase tracking-wider">
