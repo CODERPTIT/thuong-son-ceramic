@@ -7,6 +7,18 @@ import { ArrowLeft, Download, Phone, MessageSquare, Share2, Layers, CheckCircle 
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 
+// Encode spaces in URL paths for products with spaces in their code
+function sanitizeImageUrl(url: string): string {
+  if (!url) return '';
+  try {
+    const u = new URL(url);
+    u.pathname = u.pathname.split('/').map(seg => encodeURIComponent(decodeURIComponent(seg))).join('/');
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 interface ProductDetailViewProps {
   product: Product;
   similarProducts: Product[];
@@ -18,11 +30,12 @@ export default function ProductDetailView({
   similarProducts,
   collection,
 }: ProductDetailViewProps) {
+  const encodedCode = product.code.replace(/ /g, '%20');
   // Gallery images array
   const galleryImages = [
-    { label: 'Face Gạch Thật', src: product.images.fullFace },
-    { label: 'Phối Cảnh Không Gian', src: product.images.inSpace || product.images.thumbnail },
-    { label: 'Cận Cảnh Men Sứ', src: product.images.closeUp || product.images.thumbnail },
+    { label: 'Face Gạch Thật', src: sanitizeImageUrl(product.images.fullFace) },
+    { label: 'Phối Cảnh Không Gian', src: sanitizeImageUrl(product.images.inSpace || product.images.thumbnail) },
+    { label: 'Cận Cảnh Men Sứ', src: sanitizeImageUrl(product.images.closeUp || product.images.thumbnail) },
   ];
 
   const [activeImage, setActiveImage] = useState(0);

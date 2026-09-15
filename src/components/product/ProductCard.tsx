@@ -11,9 +11,23 @@ interface ProductCardProps {
   aspectRatio?: 'square' | 'portrait';
 }
 
+// Encode spaces in URL paths so browsers fetch correctly
+function sanitizeImageUrl(url: string): string {
+  if (!url) return '';
+  try {
+    // Only encode the path portion, not the full URL
+    const u = new URL(url);
+    u.pathname = u.pathname.split('/').map(seg => encodeURIComponent(decodeURIComponent(seg))).join('/');
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 export default function ProductCard({ product, aspectRatio = 'portrait' }: ProductCardProps) {
   const aspectClass = aspectRatio === 'square' ? 'aspect-square' : 'aspect-[4/5]';
-  const [imgSrc, setImgSrc] = React.useState(product.images.thumbnail);
+  const encodedCode = product.code.replace(/ /g, '%20');
+  const [imgSrc, setImgSrc] = React.useState(sanitizeImageUrl(product.images.thumbnail));
 
   return (
     <article className="group flex flex-col bg-white border border-[#D5CDBE]/70 hover:border-[#B85C38] transition-all duration-300">
@@ -30,7 +44,7 @@ export default function ProductCard({ product, aspectRatio = 'portrait' }: Produ
           className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
           onError={() => {
             if (!imgSrc.includes('product-photo')) {
-              setImgSrc(`https://grandtiles.com.vn/product-photo/${product.code}/${product.code}__4_product_photo_v1.png`);
+              setImgSrc(`https://grandtiles.com.vn/product-photo/${encodedCode}/${encodedCode}__4_product_photo_v1.png`);
             } else {
               setImgSrc('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80');
             }

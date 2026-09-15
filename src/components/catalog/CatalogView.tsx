@@ -179,7 +179,7 @@ export default function CatalogView() {
             Catalog Vật Liệu Kiến Trúc
           </h1>
           <p className="text-sm text-[#8B7C66] mt-2 max-w-2xl font-light">
-            Tuyển tập hơn 800+ mẫu gạch ốp lát cẩm thạch, đá tự nhiên, xi măng và gỗ porcelain chính hãng từ các thương hiệu hàng đầu thế giới.
+            Tuyển tập 590+ mẫu gạch ốp lát cẩm thạch, đá tự nhiên, xi măng và gỗ porcelain chính hãng từ các thương hiệu Apodio Grand, Monalisa, Changyih, Việt Ý SC và Thường Sơn.
           </p>
         </div>
 
