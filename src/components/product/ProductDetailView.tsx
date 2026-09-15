@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Download, Phone, MessageSquare, Share2, Layers, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Download, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
+import ProductQRModal from '@/components/product/ProductQRModal';
 
 // Encode spaces in URL paths for products with spaces in their code
 function sanitizeImageUrl(url: string): string {
@@ -40,6 +41,7 @@ export default function ProductDetailView({
 
   const [activeImage, setActiveImage] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [qrModalOpen, setQrModalOpen] = useState(false);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [inquiryName, setInquiryName] = useState('');
   const [inquiryPhone, setInquiryPhone] = useState('');
@@ -250,13 +252,13 @@ export default function ProductDetailView({
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
-                  {/* Download Spec CTA */}
-                  <a
-                    href={`/catalog`}
-                    className="text-xs font-mono uppercase text-[#8B7C66] hover:text-[#B85C38] flex items-center gap-1.5"
+                  {/* QR Code button */}
+                  <button
+                    onClick={() => setQrModalOpen(true)}
+                    className="text-xs font-mono uppercase text-[#8B7C66] hover:text-[#B85C38] flex items-center gap-1.5 transition-colors"
                   >
-                    <Download size={13} /> Tải Catalogue Kỹ Thuật (PDF)
-                  </a>
+                    <QrCode size={13} /> Tải Mã QR Sản Phẩm
+                  </button>
 
                   {/* Share button */}
                   <button
@@ -465,6 +467,14 @@ export default function ProductDetailView({
             )}
           </div>
         </div>
+      )}
+
+      {/* QR Code Modal */}
+      {qrModalOpen && (
+        <ProductQRModal
+          product={product}
+          onClose={() => setQrModalOpen(false)}
+        />
       )}
     </div>
   );
