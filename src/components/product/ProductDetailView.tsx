@@ -268,25 +268,6 @@ export default function ProductDetailView({
                     <Share2 size={13} /> {copied ? 'Đã sao chép link!' : 'Chia sẻ mẫu'}
                   </button>
                 </div>
-
-                <div className="pt-2 border-t border-[#D5CDBE]/50 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#8B7C66] gap-1.5">
-                  <a
-                    href="https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-[#B85C38] hover:underline flex items-center gap-1"
-                    title="Mở bản đồ chỉ đường đến Showroom"
-                  >
-                    📍 Showroom Hoằng Lộc, Thanh Hóa ↗
-                  </a>
-                  <a
-                    href="mailto:nguyenhieu32005@gamil.com"
-                    className="hover:text-[#B85C38] hover:underline"
-                    title="Nhấn để gửi email cho Thường Sơn Ceramic"
-                  >
-                    ✉ nguyenhieu32005@gamil.com
-                  </a>
-                </div>
               </div>
             </div>
           </div>
