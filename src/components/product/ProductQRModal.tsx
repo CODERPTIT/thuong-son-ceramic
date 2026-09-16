@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { X, Download, QrCode, Loader2 } from 'lucide-react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { X, Download, QrCode, Loader2, Check } from 'lucide-react';
+import QRCode from 'qrcode';
 import { Product } from '@/types';
 
 interface ProductQRModalProps {
@@ -9,13 +10,23 @@ interface ProductQRModalProps {
   onClose: () => void;
 }
 
-// Load an image cross-origin so we can draw it on Canvas
+function dataURLtoBlob(dataUrl: string): Blob {
+  const arr = dataUrl.split(',');
+  const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/png';
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], { type: mime });
+}
+
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = 'anonymous';
     img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error('Cannot load image: ' + src));
+    img.onerror = () => reject(new Error('Image load failed'));
     img.src = src;
   });
 }
@@ -23,9 +34,10 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 export default function ProductQRModal({ product, onClose }: ProductQRModalProps) {
   const [baseUrl, setBaseUrl] = useState('https://thuongsonceramic.vn');
   const [generating, setGenerating] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [downloaded, setDownloaded] = useState(false);
+  const [cardDataUrl, setCardDataUrl] = useState('');
 
-  // Use production URL so QR works when scanned after printing
+  // Target product URL (uses production domain so printed/saved QR works everywhere)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const origin = window.location.origin;
@@ -33,41 +45,51 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
     }
   }, []);
 
-  const productUrl = baseUrl + '/products/' + product.slug;
-  // High-res QR for canvas rendering (400x400)
-  const qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=' + encodeURIComponent(productUrl) + '&color=1C1B19&bgcolor=FFFFFF&format=png&margin=10';
-  // Preview QR (smaller, for the modal display)
-  const qrPreviewUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(productUrl) + '&color=1C1B19&bgcolor=FAF8F4&format=png&margin=8';
+  const productUrl = `${baseUrl}/products/${product.slug}`;
 
-  // Draw the full QR card onto a Canvas and return PNG data URL
-  const generateCardImage = async (): Promise<string> => {
+  // Generate the complete printable card with Canvas locally
+  const generateCard = useCallback(async (): Promise<string> => {
+    // 1. Generate QR code as high-res DataURL offline via qrcode library
+    const qrDataUrl = await QRCode.toDataURL(productUrl, {
+      width: 320,
+      margin: 1,
+      color: {
+        dark: '#1C1B19',
+        light: '#FFFFFF',
+      },
+      errorCorrectionLevel: 'H',
+    });
+
+    const qrImg = await loadImage(qrDataUrl);
+
+    // 2. Setup Canvas
     const W = 420;
-    const H = 560;
+    const H = 540;
     const canvas = document.createElement('canvas');
     canvas.width = W;
     canvas.height = H;
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error('Canvas not supported');
 
-    // --- Background ---
+    // Background
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, W, H);
 
-    // --- Top accent bar ---
+    // Top accent line
     ctx.fillStyle = '#B85C38';
     ctx.fillRect(0, 0, W, 5);
 
-    // --- Store header ---
+    // Store Branding
     ctx.fillStyle = '#1C1B19';
-    ctx.font = 'bold 20px Georgia, serif';
+    ctx.font = 'bold 22px Georgia, serif';
     ctx.textAlign = 'center';
-    ctx.fillText('TH\u01af\u1edcNG S\u01a0N', W / 2, 40);
+    ctx.fillText('THƯỜNG SƠN', W / 2, 40);
 
     ctx.fillStyle = '#8B7C66';
     ctx.font = '10px monospace';
     ctx.fillText('CERAMIC & SURFACE ATELIER  ·  thuongsonceramic.vn', W / 2, 58);
 
-    // --- Divider ---
+    // Divider
     ctx.strokeStyle = '#E5E0D8';
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -75,121 +97,147 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
     ctx.lineTo(W - 24, 70);
     ctx.stroke();
 
-    // --- QR Code image ---
-    const qrImg = await loadImage(qrApiUrl);
-    const qrSize = 340;
+    // QR Image (crisp 300x300)
+    const qrSize = 300;
     const qrX = (W - qrSize) / 2;
     const qrY = 82;
     ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
-    // --- Divider below QR ---
+    // Divider below QR
     ctx.strokeStyle = '#E5E0D8';
     ctx.beginPath();
-    ctx.moveTo(24, qrY + qrSize + 12);
-    ctx.lineTo(W - 24, qrY + qrSize + 12);
+    ctx.moveTo(24, qrY + qrSize + 14);
+    ctx.lineTo(W - 24, qrY + qrSize + 14);
     ctx.stroke();
 
-    // --- Product info ---
-    const infoY = qrY + qrSize + 34;
-
-    // Code (clay color)
+    // Product Code
+    const infoY = qrY + qrSize + 36;
     ctx.fillStyle = '#B85C38';
     ctx.font = 'bold 13px monospace';
     ctx.textAlign = 'center';
     ctx.fillText(product.code, W / 2, infoY);
 
-    // Name (truncated)
-    const name = product.name.length > 45 ? product.name.slice(0, 42) + '...' : product.name;
+    // Product Name (truncated if long)
+    const displayName = product.name.length > 40 ? product.name.slice(0, 38) + '...' : product.name;
     ctx.fillStyle = '#1C1B19';
     ctx.font = '15px Georgia, serif';
-    ctx.fillText(name, W / 2, infoY + 22);
+    ctx.fillText(displayName, W / 2, infoY + 22);
 
-    // Specs row
-    const specs = product.sizes[0] + '  ·  ' + product.surface + '  ·  ' + product.material;
+    // Specs
+    const specs = `${product.sizes[0]}  ·  ${product.surface}  ·  ${product.material}`;
     ctx.fillStyle = '#8B7C66';
     ctx.font = '11px monospace';
-    ctx.fillText(specs, W / 2, infoY + 42);
+    ctx.fillText(specs, W / 2, infoY + 40);
 
-    // --- Bottom footer ---
-    ctx.fillStyle = '#E5E0D8';
-    ctx.fillRect(0, H - 36, W, 36);
+    // Footer Bar
+    ctx.fillStyle = '#FAF8F4';
+    ctx.fillRect(0, H - 34, W, 34);
+    ctx.strokeStyle = '#E5E0D8';
+    ctx.beginPath();
+    ctx.moveTo(0, H - 34);
+    ctx.lineTo(W, H - 34);
+    ctx.stroke();
 
     ctx.fillStyle = '#8B7C66';
     ctx.font = '10px monospace';
-    ctx.fillText('0916 640 316  ·  0912 958 578  ·  Showroom Ho\u1eb1ng L\u1ed9c, Thanh H\u00f3a', W / 2, H - 14);
+    ctx.fillText('Hotline: 0916 640 316 · Showroom Hoằng Lộc, Thanh Hóa', W / 2, H - 14);
 
     return canvas.toDataURL('image/png');
-  };
+  }, [product, productUrl]);
 
-  const handleSaveImage = async () => {
+  // Pre-generate the card as soon as the modal mounts
+  useEffect(() => {
+    generateCard()
+      .then((url) => setCardDataUrl(url))
+      .catch((err) => console.error('Failed to pre-generate card:', err));
+  }, [generateCard]);
+
+  // Universal download & mobile save handler
+  const handleDownload = async () => {
     setGenerating(true);
     try {
-      const dataUrl = await generateCardImage();
-      setPreviewUrl(dataUrl);
+      const dataUrl = cardDataUrl || (await generateCard());
+      if (!cardDataUrl) setCardDataUrl(dataUrl);
 
-      // Detect mobile
+      const fileName = `QR-ThuongSon-${product.code.replace(/[\s/]/g, '-')}.png`;
+      const blob = dataURLtoBlob(dataUrl);
+
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
       if (isMobile) {
-        // First try Web Share API with file (native "Save Image" to Photo Library on iOS / Android)
+        // Option A: Try native Web Share API (native "Save to Photos" dialog on iOS / Android)
         let shared = false;
         if (typeof navigator !== 'undefined' && 'canShare' in navigator && 'share' in navigator) {
           try {
-            const res = await fetch(dataUrl);
-            const blob = await res.blob();
-            const fileName = 'QR-ThuongSon-' + product.code.replace(/ /g, '-') + '.png';
             const file = new File([blob], fileName, { type: 'image/png' });
             if (navigator.canShare({ files: [file] })) {
               await navigator.share({
                 files: [file],
-                title: 'Thẻ QR ' + product.name,
-                text: 'Mã QR sản phẩm ' + product.name + ' - Thường Sơn Ceramic',
+                title: `Thẻ QR ${product.name}`,
+                text: `Mã QR sản phẩm ${product.name} - Thường Sơn Ceramic`,
               });
               shared = true;
+              setDownloaded(true);
             }
           } catch (e) {
-            console.log('Web share bypassed or cancelled', e);
+            console.log('Native share cancelled or failed:', e);
           }
         }
 
         if (!shared) {
-          // Fallback: open image in new tab so user can long-press to save to camera roll / gallery
-          const win = window.open('', '_blank');
+          // Option B: Trigger download directly via Blob URL
+          const blobUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl);
+          }, 200);
+
+          // Also open in new tab so user can touch & hold to save to Photos if browser blocks background downloads
+          const win = window.open();
           if (win) {
-            win.document.write(
-              '<!DOCTYPE html><html><head><title>QR - ' + product.code + '</title>' +
-              '<meta name="viewport" content="width=device-width,initial-scale=1">' +
-              '<style>body{margin:0;background:#1C1B19;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:16px;box-sizing:border-box;font-family:sans-serif}' +
-              'img{max-width:100%;height:auto;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,0.5)}' +
-              'p{color:#D5CDBE;text-align:center;font-size:13px;margin-top:16px;line-height:1.5}</style>' +
-              '</head><body>' +
-              '<img src="' + dataUrl + '" alt="QR ' + product.code + '">' +
-              '<p>👆 <strong>Chạm &amp; giữ ngón tay vào ảnh</strong><br>chọn <em>"Lưu hình ảnh"</em> để lưu vào Thư Viện ảnh</p>' +
-              '</body></html>'
-            );
+            win.document.write(`
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <title>Thẻ QR - ${product.code}</title>
+                  <meta name="viewport" content="width=device-width, initial-scale=1">
+                  <style>
+                    body { margin: 0; background: #1C1B19; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; box-sizing: border-box; font-family: sans-serif; }
+                    img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+                    p { color: #D5CDBE; text-align: center; font-size: 13px; margin-top: 18px; line-height: 1.5; }
+                  </style>
+                </head>
+                <body>
+                  <img src="${dataUrl}" alt="Thẻ QR ${product.code}">
+                  <p>👆 <strong>Chạm &amp; giữ ngón tay vào ảnh</strong><br>chọn <em>"Lưu hình ảnh"</em> để lưu vào Thư Viện ảnh</p>
+                </body>
+              </html>
+            `);
             win.document.close();
-          } else {
-            const link = document.createElement('a');
-            link.href = dataUrl;
-            link.download = 'QR-ThuongSon-' + product.code.replace(/ /g, '-') + '.png';
-            link.click();
           }
+          setDownloaded(true);
         }
       } else {
-        // Desktop: trigger direct PNG download
+        // Desktop: Clean reliable Blob download
+        const blobUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = 'QR-ThuongSon-' + product.code.replace(/ /g, '-') + '.png';
+        link.href = blobUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
         link.click();
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(blobUrl);
+        }, 200);
+        setDownloaded(true);
       }
     } catch (err) {
-      console.error('QR generation error:', err);
-      // Fallback: download raw QR from API
-      const link = document.createElement('a');
-      link.href = qrApiUrl;
-      link.download = 'QR-' + product.code + '.png';
-      link.target = '_blank';
-      link.click();
+      console.error('Download error:', err);
     } finally {
       setGenerating(false);
     }
@@ -222,48 +270,44 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
             </button>
           </div>
 
-          {/* QR Preview Card */}
+          {/* Generated Card Preview */}
           <div className="flex justify-center mb-4">
-            <div className="p-3 bg-[#FAF8F4] border border-[#D5CDBE] text-center w-full flex flex-col items-center justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={previewUrl || qrPreviewUrl}
-                alt={'QR ' + product.name}
-                width={180}
-                height={180}
-                className="mx-auto block"
-              />
+            <div className="p-2 bg-[#FAF8F4] border border-[#D5CDBE] text-center w-full flex flex-col items-center justify-center min-h-[220px]">
+              {cardDataUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={cardDataUrl}
+                  alt={'Thẻ QR ' + product.name}
+                  width={220}
+                  className="mx-auto block shadow-sm border border-[#E5E0D8]"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-10 gap-2 text-xs font-mono text-[#8B7C66]">
+                  <Loader2 size={24} className="animate-spin text-[#B85C38]" />
+                  <span>Đang tạo thẻ QR...</span>
+                </div>
+              )}
             </div>
-          </div>
-
-          {/* Product info below QR */}
-          <div className="text-center mb-5 space-y-1">
-            <p className="text-[11px] font-mono text-[#B85C38] uppercase tracking-wider font-semibold">
-              {product.code}
-            </p>
-            <h3 className="font-serif text-sm text-[#1C1B19] leading-snug line-clamp-2">
-              {product.name}
-            </h3>
-            <p className="text-[10px] font-mono text-[#8B7C66]">
-              {product.brand} · {product.sizes[0]} · {product.surface}
-            </p>
-            <p className="text-[10px] font-mono text-[#8B7C66] pt-1">
-              Thường Sơn Ceramic · Hotline: 0916 640 316
-            </p>
           </div>
 
           {/* Action button */}
           <button
-            onClick={handleSaveImage}
+            onClick={handleDownload}
             disabled={generating}
             className="w-full btn btn-clay text-xs py-3 flex items-center justify-center gap-2 disabled:opacity-60 shadow-sm"
           >
-            {generating ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
-            {generating ? 'Đang tạo thẻ ảnh...' : 'Lưu Ảnh Thẻ QR (PNG)'}
+            {generating ? (
+              <Loader2 size={15} className="animate-spin" />
+            ) : downloaded ? (
+              <Check size={15} />
+            ) : (
+              <Download size={15} />
+            )}
+            {generating ? 'Đang xuất file ảnh...' : downloaded ? 'Đã Tải / Lưu Thẻ QR!' : 'Tải Ảnh Thẻ QR (PNG)'}
           </button>
 
           <p className="text-[10px] font-mono text-[#8B7C66] text-center mt-2.5 leading-relaxed">
-            📱 Mobile: Chạm giữ ngón tay vào ảnh → Lưu vào Thư Viện ảnh
+            📱 Mobile: Chạm giữ ngón tay vào ảnh trên → chọn <em>Lưu hình ảnh</em>
           </p>
         </div>
       </div>
