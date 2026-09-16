@@ -44,6 +44,14 @@ function getTransporter() {
   const port = Number(process.env.SMTP_PORT) || 465;
   const secure = port === 465;
 
+  // Nếu dùng Gmail, nodemailer có sẵn service 'gmail' được tối ưu sẵn SSL/TLS và DNS
+  if (host.includes('gmail')) {
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user, pass }
+    });
+  }
+
   return nodemailer.createTransport({
     host,
     port,
