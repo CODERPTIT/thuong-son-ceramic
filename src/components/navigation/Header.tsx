@@ -40,57 +40,35 @@ export default function Header() {
   return (
     <>
       {/* Top thin announcement bar with Thường Sơn store info */}
-      <div className="bg-[#1C1B19] text-[#F5F1EA]/85 text-[10px] uppercase font-mono tracking-wider sm:tracking-[0.2em] text-center py-1.5 sm:py-2 px-3 sm:px-4 flex flex-wrap items-center justify-center gap-1.5 sm:gap-4 relative z-50">
-        <span>SHOWROOM</span>
-        <span className="opacity-40">·</span>
-        <a
-          href="https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden sm:inline hover:text-[#B85C38] transition-colors"
-          title="Mở Google Maps chỉ đường Showroom Hoằng Lộc"
-        >
-          HOẰNG LỘC · THANH HOÁ ↗
-        </a>
-        <span className="hidden sm:inline opacity-40">·</span>
-        <div className="flex items-center gap-1.5 sm:gap-2">
+      <div className="bg-[#1C1B19] text-[#F5F1EA]/85 text-[10px] uppercase font-mono tracking-wider sm:tracking-[0.2em] text-center py-1.5 sm:py-2 px-3 sm:px-4 flex items-center justify-center gap-2 sm:gap-4 relative z-50 overflow-hidden text-ellipsis whitespace-nowrap">
+        <span className="shrink-0 font-medium">SHOWROOM</span>
+        <span className="opacity-40 shrink-0">·</span>
+        <div className="flex items-center gap-1.5 shrink-0">
           <Phone size={11} className="text-[#B85C38]" />
           <a href="tel:0916640316" className="hover:text-[#B85C38] transition-colors">0916 640 316</a>
-          <span className="hidden sm:inline opacity-40">/</span>
-          <a href="tel:0912958578" className="hidden sm:inline hover:text-[#B85C38] transition-colors">0912 958 578</a>
         </div>
-        <span className="opacity-40">·</span>
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <span className="opacity-40 shrink-0">·</span>
+        <div className="flex items-center gap-1.5 shrink-0">
           <MessageSquare size={11} className="text-[#B85C38]" />
           <a
             href="https://zalo.me/0916640316"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#B85C38] hover:text-white transition-colors"
+            className="text-[#B85C38] hover:text-white transition-colors font-medium"
           >
-            Zalo 1
-          </a>
-          <span className="hidden sm:inline opacity-40">·</span>
-          <a
-            href="https://zalo.me/0912958578"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline text-[#B85C38] hover:text-white transition-colors"
-          >
-            Zalo 2
+            Zalo
           </a>
         </div>
-        <span className="hidden md:inline opacity-40">·</span>
-        <div className="hidden md:flex items-center gap-1.5">
-          <Mail size={11} className="text-[#B85C38]" />
-          <a
-            href="mailto:nguyenhieu32005@gamil.com"
-            className="text-[#F5F1EA]/85 hover:text-[#B85C38] transition-colors lowercase font-mono text-[10px]"
-            title="Nhấn để gửi email cho Thường Sơn Ceramic"
-          >
-            nguyenhieu32005@gamil.com
-          </a>
-        </div>
+        <span className="hidden md:inline opacity-40 shrink-0">·</span>
+        <a
+          href="https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:inline hover:text-[#B85C38] transition-colors shrink-0"
+          title="Mở Google Maps chỉ đường Showroom Hoằng Lộc"
+        >
+          HOẰNG LỘC · THANH HOÁ ↗
+        </a>
       </div>
 
       {/* Main Sticky Header */}
@@ -101,7 +79,7 @@ export default function Header() {
             : 'bg-[#F5F1EA]/80 backdrop-blur-sm border-b border-[#D5CDBE]/50'
         }`}
       >
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-12 py-4 md:py-5 flex items-center justify-between">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-3.5 sm:py-4 md:py-5 flex items-center justify-between">
           {/* Left: Mobile Burger Button */}
           <div className="flex items-center lg:hidden">
             <button
@@ -184,7 +162,7 @@ export default function Header() {
           </nav>
 
           {/* Right Utility: Search + Lang + CTA */}
-          <div className="flex items-center gap-3 md:gap-5">
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-5">
             {/* Search Trigger */}
             <button
               onClick={() => setSearchModalOpen(true)}
@@ -207,7 +185,7 @@ export default function Header() {
             {/* Consultation CTA */}
             <Link
               href="/showroom"
-              className="btn btn-ink text-[10px] px-3.5 md:px-5 py-2 hidden sm:inline-flex"
+              className="btn btn-ink text-[10px] px-3.5 md:px-5 py-2 hidden md:inline-flex"
             >
               Đặt lịch Showroom
             </Link>
@@ -216,7 +194,7 @@ export default function Header() {
             <a
               href="tel:0916640316"
               aria-label="Gọi hotline"
-              className="sm:hidden p-1.5 text-[#1C1B19] hover:text-[#B85C38]"
+              className="p-1.5 text-[#1C1B19] hover:text-[#B85C38]"
             >
               <Phone size={18} />
             </a>

@@ -282,14 +282,14 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 bg-[#1C1B19]/85 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-[#1C1B19]/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="bg-white w-full max-w-sm shadow-2xl border border-[#D5CDBE] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white w-full max-w-[360px] sm:max-w-sm shadow-2xl border border-[#D5CDBE] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Top accent line */}
         <div className="h-1 bg-[#B85C38]" />
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
