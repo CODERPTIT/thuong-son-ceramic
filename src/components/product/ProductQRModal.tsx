@@ -341,12 +341,6 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
             {generating ? 'Đang xử lý ảnh sắc nét 4K...' : downloaded ? 'Đã Tải / Lưu Thẻ QR Thành Công!' : 'Tải Ảnh Thẻ QR (Ultra HD 4K)'}
           </button>
 
-          <div className="flex items-center justify-center gap-1.5 mt-2.5">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <p className="text-[10px] font-mono text-[#6E6254] text-center">
-              File ảnh 1800×2400 px · Chuẩn in ấn 300+ DPI sắc nét
-            </p>
-          </div>
 
           <p className="text-[10px] font-mono text-[#8B7C66] text-center mt-1 leading-relaxed">
             📱 Mobile: Chạm &amp; giữ ảnh để chọn <em>Lưu hình ảnh vào máy</em>

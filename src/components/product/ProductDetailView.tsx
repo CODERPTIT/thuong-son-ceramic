@@ -1,13 +1,19 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ChevronLeft, ChevronRight, X as CloseIcon } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
 import { validateVietnamesePhone } from '@/lib/validation';
+
+// Clean repeated brand prefixes (e.g. "Grand Ceramics Grand Ceramics 800×800" -> "Grand Ceramics 800×800")
+function cleanProductName(name: string): string {
+  if (!name) return '';
+  return name.replace(/^(Grand Ceramics|Apodio|Việt Ý|Viglacera)\s+\1\b/i, '$1');
+}
 
 // Encode spaces in URL paths for products with spaces in their code
 function sanitizeImageUrl(url: string): string {
@@ -32,9 +38,11 @@ export default function ProductDetailView({
   similarProducts,
   collection,
 }: ProductDetailViewProps) {
+  const displayName = useMemo(() => cleanProductName(product.name), [product.name]);
+
   // Dynamic gallery: Xây dựng danh sách ảnh KHÔNG TRÙNG LẶP, ảnh luôn khớp theo mã sản phẩm
   // Thứ tự ưu tiên: 1/ Phối cảnh không gian (inSpace) — 2/ Face gạch sạch (fullFace) — 3/ Face render (closeUp) — 4/ Studio thumbnail
-  const galleryImages: { label: string; src: string; type: string }[] = [];
+  const rawGalleryImages: { label: string; src: string; type: string }[] = [];
   const addedSrcs = new Set<string>();
 
   const addUnique = (label: string, rawSrc?: string, type = '') => {
@@ -42,25 +50,33 @@ export default function ProductDetailView({
     const cleanSrc = sanitizeImageUrl(rawSrc);
     if (!cleanSrc || addedSrcs.has(cleanSrc)) return;
     addedSrcs.add(cleanSrc);
-    galleryImages.push({ label, src: cleanSrc, type });
+    rawGalleryImages.push({ label, src: cleanSrc, type });
   };
 
-  // 1. Phối cảnh không gian thực tế từ nhà máy — ưu tiên đầu vì hấp dẫn nhất
+  // 1. Phối cảnh không gian thực tế từ nhà máy
   addUnique('Phối Cảnh Không Gian', product.images.inSpace, 'inSpace');
-
   // 2. Mặt face gạch sạch (nền trắng clean, dùng face_clean nếu có)
   addUnique('Face Gạch Thực Tế', product.images.fullFace, 'fullFace');
-
   // 3. Cận cảnh men sứ / face vân thật (face thường, có texture rõ hơn)
   addUnique('Cận Cảnh Men Sứ', product.images.closeUp, 'closeUp');
-
-  // 4. Ảnh studio product (nền trắng, có đóng gói/perspective) — chỉ nếu khác hẳn
+  // 4. Ảnh studio product (nền trắng, có đóng gói/perspective)
   addUnique('Ảnh Studio Sản Phẩm', product.images.thumbnail, 'thumbnail');
 
-  // Fallback: nếu không có ảnh nào
-  if (galleryImages.length === 0) {
+  if (rawGalleryImages.length === 0) {
     addUnique('Ảnh Sản Phẩm', product.images.fullFace || product.images.thumbnail, 'fallback');
   }
+
+  // Tự động loại bỏ ảnh hỏng (404) từ server nhà máy để không bao giờ hiện ảnh lỗi
+  const [brokenUrls, setBrokenUrls] = useState<string[]>([]);
+  const handleImageError = useCallback((src: string) => {
+    if (!src) return;
+    setBrokenUrls((prev) => (prev.includes(src) ? prev : [...prev, src]));
+  }, []);
+
+  const galleryImages = useMemo(() => {
+    const valid = rawGalleryImages.filter((img) => !brokenUrls.includes(img.src));
+    return valid.length > 0 ? valid : rawGalleryImages;
+  }, [rawGalleryImages, brokenUrls]);
 
   const [activeImage, setActiveImage] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -73,13 +89,33 @@ export default function ProductDetailView({
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxZoomed, setLightboxZoomed] = useState(false);
 
-  const [inquiryName, setInquiryName] = useState('');
-  const [inquiryPhone, setInquiryPhone] = useState('');
-  const [inquiryArea, setInquiryArea] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const [inquiryLoading, setInquiryLoading] = useState(false);
-  const [inquirySuccess, setInquirySuccess] = useState(false);
-  const [inquiryResult, setInquiryResult] = useState<{ delivered?: boolean; mailtoUrl?: string; zaloUrl?: string } | null>(null);
+  // Mobile Touch Swipe support (vuốt trái/phải để đổi ảnh, vuốt xuống để đóng lightbox)
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+    setTouchStartY(e.touches[0].clientY);
+  };
+
+  const handleTouchEnd = (
+    e: React.TouchEvent,
+    onSwipeLeft: () => void,
+    onSwipeRight: () => void,
+    onSwipeDown?: () => void
+  ) => {
+    if (touchStartX === null || touchStartY === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx < -40) onSwipeLeft();
+      else if (dx > 40) onSwipeRight();
+    } else if (onSwipeDown && dy > 70) {
+      onSwipeDown();
+    }
+    setTouchStartX(null);
+    setTouchStartY(null);
+  };
 
   const openLightbox = (idx: number) => {
     setLightboxIndex(idx);
@@ -111,13 +147,20 @@ export default function ProductDetailView({
       if (e.key === 'ArrowRight') lightboxNext();
     };
     window.addEventListener('keydown', onKey);
-    // Prevent body scroll when lightbox open
     document.body.style.overflow = 'hidden';
     return () => {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
     };
   }, [lightboxOpen, closeLightbox, lightboxPrev, lightboxNext]);
+
+  const [inquiryName, setInquiryName] = useState('');
+  const [inquiryPhone, setInquiryPhone] = useState('');
+  const [inquiryArea, setInquiryArea] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [inquiryLoading, setInquiryLoading] = useState(false);
+  const [inquirySuccess, setInquirySuccess] = useState(false);
+  const [inquiryResult, setInquiryResult] = useState<{ delivered?: boolean; mailtoUrl?: string; zaloUrl?: string } | null>(null);
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -169,23 +212,23 @@ export default function ProductDetailView({
   return (
     <div className="py-10 md:py-16 bg-[#F5F1EA]">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-12">
-        {/* Breadcrumb Navigation */}
-        <div className="flex items-center justify-between pb-6 mb-8 border-b border-[#D5CDBE]">
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#8B7C66]">
-            <Link href="/" className="hover:text-[#1C1B19]">Trang chủ</Link>
-            <span>/</span>
-            <Link href="/catalog" className="hover:text-[#1C1B19]">Catalog</Link>
-            <span>/</span>
-            <Link href={`/catalog?material=${product.material}`} className="hover:text-[#1C1B19]">
+        {/* Breadcrumb Navigation - Responsive & horizontally scrollable on mobile */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-6 sm:mb-8 border-b border-[#D5CDBE]">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#8B7C66] overflow-x-auto whitespace-nowrap scrollbar-none py-1">
+            <Link href="/" className="hover:text-[#1C1B19] shrink-0">Trang chủ</Link>
+            <span className="shrink-0 text-[#8B7C66]/50">/</span>
+            <Link href="/catalog" className="hover:text-[#1C1B19] shrink-0">Catalog</Link>
+            <span className="shrink-0 text-[#8B7C66]/50">/</span>
+            <Link href={`/catalog?material=${product.material}`} className="hover:text-[#1C1B19] shrink-0">
               {product.material}
             </Link>
-            <span>/</span>
-            <span className="text-[#1C1B19] truncate max-w-[200px]">{product.name}</span>
-          </div>
+            <span className="shrink-0 text-[#8B7C66]/50">/</span>
+            <span className="text-[#1C1B19] truncate max-w-[220px] sm:max-w-[320px] font-medium shrink-0">{displayName}</span>
+          </nav>
 
           <Link
             href="/catalog"
-            className="text-xs font-mono uppercase tracking-widest text-[#8B7C66] hover:text-[#B85C38] flex items-center gap-1"
+            className="text-xs font-mono uppercase tracking-widest text-[#8B7C66] hover:text-[#B85C38] flex items-center gap-1.5 shrink-0 self-start sm:self-auto py-1"
           >
             <ArrowLeft size={13} /> Quay lại catalog
           </Link>
@@ -197,48 +240,79 @@ export default function ProductDetailView({
           <div className="lg:col-span-7 space-y-4">
             {/* Main Active Image Display */}
             {(() => {
-              const currentActive = galleryImages[activeImage] || galleryImages[0];
+              const safeIdx = activeImage >= galleryImages.length ? 0 : activeImage;
+              const currentActive = galleryImages[safeIdx] || galleryImages[0];
               return (
                 <>
-                  {/* Main image — click to open lightbox */}
+                  {/* Main image — click to open lightbox, swipe on mobile */}
                   <div
-                    className="relative aspect-[4/3] sm:aspect-[1/1] bg-[#FAF8F4] border border-[#D5CDBE] overflow-hidden group cursor-zoom-in"
-                    onClick={() => openLightbox(activeImage)}
+                    className="relative aspect-square sm:aspect-[4/3] lg:aspect-[1/1] bg-[#FAF8F4] border border-[#D5CDBE] overflow-hidden group cursor-zoom-in touch-pan-y"
+                    onClick={() => openLightbox(safeIdx)}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={(e) =>
+                      handleTouchEnd(
+                        e,
+                        () => setActiveImage((safeIdx + 1) % galleryImages.length),
+                        () => setActiveImage((safeIdx - 1 + galleryImages.length) % galleryImages.length)
+                      )
+                    }
                     title="Nhấn để xem ảnh toàn màn hình & phóng to"
                   >
                     <Image
                       src={currentActive.src}
-                      alt={`${product.name} - ${currentActive.label}`}
+                      alt={`${displayName} - ${currentActive.label}`}
                       fill
                       priority
                       sizes="(max-width: 1024px) 100vw, 60vw"
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      onError={() => handleImageError(currentActive.src)}
                     />
                     {/* Image type label */}
-                    <div className="absolute top-4 left-4 bg-[#1C1B19]/85 text-[#F5F1EA] text-[10px] font-mono px-3 py-1 uppercase tracking-wider">
+                    <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-[#1C1B19]/90 backdrop-blur-sm text-[#F5F1EA] text-[10px] sm:text-xs font-mono px-2.5 sm:px-3 py-1 uppercase tracking-wider shadow-sm">
                       {currentActive.label}
                     </div>
-                    {/* Product code badge */}
-                    <div className="absolute bottom-4 right-4 bg-[#1C1B19]/80 backdrop-blur-sm text-[#F5F1EA] text-[10px] font-mono px-2.5 py-1">
-                      Mã: {product.code}
+
+                    {/* Product code & image count badge */}
+                    <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 bg-[#1C1B19]/85 backdrop-blur-sm text-[#F5F1EA] text-[10px] font-mono px-2.5 py-1 flex items-center gap-2 shadow-sm">
+                      <span>Mã: {product.code}</span>
+                      {galleryImages.length > 1 && (
+                        <span className="text-[#B85C38] font-semibold border-l border-white/20 pl-2">
+                          {safeIdx + 1}/{galleryImages.length}
+                        </span>
+                      )}
                     </div>
-                    {/* Zoom hint icon */}
-                    <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm">
-                      <ZoomIn size={15} className="text-[#1C1B19]" />
+
+                    {/* Zoom hint icon (desktop) */}
+                    <div className="hidden sm:flex absolute top-4 right-4 bg-white/85 backdrop-blur-sm p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm items-center gap-1 text-[11px] font-mono text-[#1C1B19]">
+                      <ZoomIn size={14} /> Phóng to
                     </div>
+
+                    {/* Mobile swipe hint banner (shows subtle indicator) */}
+                    {galleryImages.length > 1 && (
+                      <div className="sm:hidden absolute top-3 right-3 bg-black/50 backdrop-blur-sm text-white/90 text-[10px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <ZoomIn size={11} /> Chạm xem to
+                      </div>
+                    )}
+
                     {/* Navigation arrows (show when multiple images) */}
                     {galleryImages.length > 1 && (
                       <>
                         <button
-                          onClick={(e) => { e.stopPropagation(); setActiveImage((activeImage - 1 + galleryImages.length) % galleryImages.length); }}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow hover:bg-white hover:scale-110 z-10"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveImage((safeIdx - 1 + galleryImages.length) % galleryImages.length);
+                          }}
+                          className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 bg-white/85 backdrop-blur-sm p-2 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md hover:bg-white hover:scale-110 z-10 rounded-full"
                           aria-label="Ảnh trước"
                         >
                           <ChevronLeft size={16} className="text-[#1C1B19]" />
                         </button>
                         <button
-                          onClick={(e) => { e.stopPropagation(); setActiveImage((activeImage + 1) % galleryImages.length); }}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow hover:bg-white hover:scale-110 z-10"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveImage((safeIdx + 1) % galleryImages.length);
+                          }}
+                          className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 bg-white/85 backdrop-blur-sm p-2 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md hover:bg-white hover:scale-110 z-10 rounded-full"
                           aria-label="Ảnh tiếp theo"
                         >
                           <ChevronRight size={16} className="text-[#1C1B19]" />
@@ -249,21 +323,15 @@ export default function ProductDetailView({
 
                   {/* Thumbnail selector: only shows when 2+ distinct images */}
                   {galleryImages.length > 1 && (
-                    <div className={`grid gap-2 ${
-                      galleryImages.length === 2
-                        ? 'grid-cols-2'
-                        : galleryImages.length === 3
-                          ? 'grid-cols-3'
-                          : 'grid-cols-4'
-                    }`}>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                       {galleryImages.map((img, idx) => (
                         <button
                           key={`${img.type}-${idx}`}
                           onClick={() => { setActiveImage(idx); }}
                           onDoubleClick={() => openLightbox(idx)}
                           className={`relative aspect-square overflow-hidden border-2 transition-all duration-200 ${
-                            activeImage === idx
-                              ? 'border-[#B85C38] ring-1 ring-[#B85C38] shadow-md'
+                            safeIdx === idx
+                              ? 'border-[#B85C38] ring-1 ring-[#B85C38] shadow-md opacity-100'
                               : 'border-[#D5CDBE] opacity-65 hover:opacity-100 hover:border-[#8B7C66]'
                           }`}
                           title={img.label}
@@ -273,10 +341,11 @@ export default function ProductDetailView({
                             alt={img.label}
                             fill
                             className="object-cover"
-                            sizes="(max-width: 768px) 25vw, 15vw"
+                            sizes="(max-width: 768px) 30vw, 15vw"
+                            onError={() => handleImageError(img.src)}
                           />
-                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1C1B19]/80 to-transparent pt-4 pb-1 px-1.5">
-                            <p className="text-white text-[9px] font-mono leading-tight truncate">{img.label}</p>
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1C1B19]/85 to-transparent pt-3 pb-1 px-1 text-center">
+                            <p className="text-white text-[8px] sm:text-[9px] font-mono leading-tight truncate">{img.label}</p>
                           </div>
                         </button>
                       ))}
@@ -306,7 +375,7 @@ export default function ProductDetailView({
 
               {/* Title */}
               <h1 className="font-serif text-3xl sm:text-4xl font-light text-[#1C1B19] leading-tight mb-3">
-                {product.name}
+                {displayName}
               </h1>
 
               {/* Price */}
@@ -446,11 +515,16 @@ export default function ProductDetailView({
         <div className="mb-24 pt-12 border-t border-[#D5CDBE] space-y-12">
           {/* 1. BẢNG THÔNG SỐ KỸ THUẬT */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 h-[1px] bg-[#B85C38]" />
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
-                THÔNG SỐ KỸ THUẬT
-              </h3>
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-[1px] bg-[#B85C38]" />
+                <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
+                  THÔNG SỐ KỸ THUẬT
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono text-[#8B7C66] sm:hidden flex items-center gap-1">
+                Vuốt ngang ↔
+              </span>
             </div>
 
             <div className="bg-white border border-[#D5CDBE] overflow-x-auto shadow-sm">
@@ -501,11 +575,16 @@ export default function ProductDetailView({
           {/* 2. BẢNG QUY CÁCH ĐÓNG GÓI */}
           {product.packaging && (
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-8 h-[1px] bg-[#B85C38]" />
-                <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
-                  QUY CÁCH ĐÓNG GÓI
-                </h3>
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-[1px] bg-[#B85C38]" />
+                  <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
+                    QUY CÁCH ĐÓNG GÓI
+                  </h3>
+                </div>
+                <span className="text-[10px] font-mono text-[#8B7C66] sm:hidden flex items-center gap-1">
+                  Vuốt ngang ↔
+                </span>
               </div>
 
               <div className="bg-white border border-[#D5CDBE] overflow-x-auto shadow-sm">
@@ -748,113 +827,168 @@ export default function ProductDetailView({
       )}
 
       {/* ===== LIGHTBOX FULLSCREEN IMAGE VIEWER ===== */}
-      {lightboxOpen && galleryImages.length > 0 && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Xem ảnh sản phẩm toàn màn hình"
-          className="fixed inset-0 z-[70] flex flex-col items-center justify-center"
-          style={{ background: 'rgba(10, 9, 8, 0.97)' }}
-          onClick={closeLightbox}
-        >
-          {/* Top bar */}
+      {lightboxOpen && galleryImages.length > 0 && (() => {
+        const safeLightboxIdx = lightboxIndex >= galleryImages.length ? 0 : lightboxIndex;
+        const currentImg = galleryImages[safeLightboxIdx] || galleryImages[0];
+
+        return (
           <div
-            className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-3 z-10"
-            style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), transparent)' }}
-            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Xem ảnh sản phẩm toàn màn hình"
+            className="fixed inset-0 z-[70] flex flex-col justify-between items-center bg-[#070605]/98 backdrop-blur-md select-none touch-none overflow-hidden"
+            onClick={closeLightbox}
           >
-            <div className="text-white/90 font-mono text-xs">
-              <span className="text-[#B85C38] font-medium">{product.code}</span>
-              <span className="mx-2 text-white/40">·</span>
-              <span>{galleryImages[lightboxIndex]?.label}</span>
+            {/* Top Bar: Code, Label, Zoom Button, Close Button */}
+            <div
+              className="w-full flex items-center justify-between px-4 sm:px-6 py-3 z-30 shrink-0 bg-gradient-to-b from-black/80 to-transparent"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2 text-white/90 font-mono text-xs truncate max-w-[65%]">
+                <span className="text-[#B85C38] font-bold shrink-0">{product.code}</span>
+                <span className="text-white/40">·</span>
+                <span className="truncate">{currentImg.label}</span>
+                {galleryImages.length > 1 && (
+                  <span className="ml-1 text-white/60 shrink-0 bg-white/10 px-2 py-0.5 rounded-full text-[10px]">
+                    {safeLightboxIdx + 1}/{galleryImages.length}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                {/* Dedicated Zoom Toggle Button for mobile & desktop */}
+                <button
+                  onClick={() => setLightboxZoomed((z) => !z)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-white/90 bg-white/10 hover:bg-white/20 rounded-full transition-colors active:scale-95"
+                  aria-label={lightboxZoomed ? 'Thu nhỏ' : 'Phóng to'}
+                  title="Bật/tắt phóng to"
+                >
+                  {lightboxZoomed ? <ZoomOut size={15} /> : <ZoomIn size={15} />}
+                  <span className="hidden sm:inline font-sans">{lightboxZoomed ? 'Thu nhỏ (1x)' : 'Phóng to (2x)'}</span>
+                </button>
+
+                <button
+                  onClick={closeLightbox}
+                  aria-label="Đóng ảnh"
+                  className="p-2 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 transition-all rounded-full active:scale-95"
+                >
+                  <CloseIcon size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Main Center Image Viewport (Supports Touch Swipe & Zoom Drag) */}
+            <div
+              className="relative flex-1 w-full flex items-center justify-center p-2 sm:p-6 overflow-hidden touch-pan-y"
+              onClick={(e) => e.stopPropagation()}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={(e) => handleTouchEnd(e, lightboxNext, lightboxPrev, closeLightbox)}
+            >
+              {/* Prev button */}
               {galleryImages.length > 1 && (
-                <span className="ml-3 text-white/50">{lightboxIndex + 1}/{galleryImages.length}</span>
+                <button
+                  onClick={lightboxPrev}
+                  aria-label="Ảnh trước"
+                  className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2.5 sm:p-3.5 text-white/80 hover:text-white bg-black/40 hover:bg-black/70 rounded-full backdrop-blur-md transition-all duration-200 border border-white/10 active:scale-90"
+                >
+                  <ChevronLeft size={22} />
+                </button>
+              )}
+
+              {/* The image — double-click or tap to toggle zoom */}
+              <div
+                className={`relative max-h-full max-w-full flex items-center justify-center transition-transform duration-300 ${
+                  lightboxZoomed
+                    ? 'cursor-zoom-out scale-[1.75] sm:scale-[2.1] origin-center z-10'
+                    : 'cursor-zoom-in'
+                }`}
+                style={{
+                  maxHeight: 'calc(100vh - 8rem)',
+                  maxWidth: 'calc(100vw - 1rem)',
+                }}
+                onDoubleClick={() => setLightboxZoomed((z) => !z)}
+                onClick={(e) => {
+                  if (lightboxZoomed) {
+                    e.stopPropagation();
+                    setLightboxZoomed(false);
+                  }
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={currentImg.src}
+                  alt={`${displayName} - ${currentImg.label}`}
+                  style={{
+                    maxHeight: 'calc(100vh - 8rem)',
+                    maxWidth: 'calc(100vw - 1rem)',
+                    objectFit: 'contain',
+                    display: 'block',
+                  }}
+                  className="rounded shadow-2xl"
+                  draggable={false}
+                  onError={() => handleImageError(currentImg.src)}
+                />
+              </div>
+
+              {/* Next button */}
+              {galleryImages.length > 1 && (
+                <button
+                  onClick={lightboxNext}
+                  aria-label="Ảnh tiếp theo"
+                  className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2.5 sm:p-3.5 text-white/80 hover:text-white bg-black/40 hover:bg-black/70 rounded-full backdrop-blur-md transition-all duration-200 border border-white/10 active:scale-90"
+                >
+                  <ChevronRight size={22} />
+                </button>
               )}
             </div>
-            <button
-              onClick={closeLightbox}
-              aria-label="Đóng ảnh"
-              className="p-2 text-white/70 hover:text-white hover:bg-white/10 transition-all rounded-full"
-            >
-              <CloseIcon size={22} />
-            </button>
-          </div>
 
-          {/* Main image container */}
-          <div
-            className="relative w-full h-full flex items-center justify-center px-12 py-16"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Prev button */}
-            {galleryImages.length > 1 && (
-              <button
-                onClick={lightboxPrev}
-                aria-label="Ảnh trước"
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-all duration-200"
-              >
-                <ChevronLeft size={26} />
-              </button>
-            )}
-
-            {/* The image — double click to toggle zoom */}
+            {/* Bottom Bar: Thumbnails & Dynamic Hint */}
             <div
-              className={`relative max-h-full max-w-full transition-transform duration-300 ${
-                lightboxZoomed ? 'cursor-zoom-out scale-[2] origin-center' : 'cursor-zoom-in'
-              }`}
-              style={{ maxHeight: 'calc(100vh - 8rem)', maxWidth: 'calc(100vw - 6rem)' }}
-              onDoubleClick={() => setLightboxZoomed((z) => !z)}
-              onClick={(e) => { if (lightboxZoomed) { e.stopPropagation(); setLightboxZoomed(false); } }}
+              className="w-full flex flex-col items-center gap-2 px-4 py-3 z-30 shrink-0 bg-gradient-to-t from-black/90 to-transparent"
+              onClick={(e) => e.stopPropagation()}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={galleryImages[lightboxIndex]?.src}
-                alt={`${product.name} - ${galleryImages[lightboxIndex]?.label}`}
-                style={{ maxHeight: 'calc(100vh - 8rem)', maxWidth: 'calc(100vw - 6rem)', objectFit: 'contain', display: 'block' }}
-                draggable={false}
-              />
+              {galleryImages.length > 1 && (
+                <div className="flex items-center gap-2 overflow-x-auto max-w-full py-1 px-2 scrollbar-none">
+                  {galleryImages.map((img, idx) => (
+                    <button
+                      key={`lb-thumb-${idx}`}
+                      onClick={() => {
+                        setLightboxIndex(idx);
+                        setLightboxZoomed(false);
+                      }}
+                      className={`relative w-11 h-11 sm:w-14 sm:h-14 shrink-0 overflow-hidden border-2 transition-all rounded ${
+                        safeLightboxIdx === idx
+                          ? 'border-[#B85C38] opacity-100 scale-105 shadow-md'
+                          : 'border-white/20 opacity-50 hover:opacity-80'
+                      }`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={img.src}
+                        alt={img.label}
+                        className="w-full h-full object-cover"
+                        onError={() => handleImageError(img.src)}
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+              <p className="text-white/60 text-[10px] sm:text-xs font-mono text-center">
+                <span className="sm:hidden">
+                  {lightboxZoomed
+                    ? 'Chạm để thu nhỏ · Vuốt xuống để đóng'
+                    : '📱 Vuốt ngang đổi ảnh · Chạm 2 lần phóng to · Vuốt xuống đóng'}
+                </span>
+                <span className="hidden sm:inline">
+                  {lightboxZoomed
+                    ? 'Double-click để thu nhỏ · Phím Esc để đóng'
+                    : 'Phím ← → đổi ảnh · Double-click phóng to 2x · Phím Esc đóng'}
+                </span>
+              </p>
             </div>
-
-            {/* Next button */}
-            {galleryImages.length > 1 && (
-              <button
-                onClick={lightboxNext}
-                aria-label="Ảnh tiếp theo"
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-all duration-200"
-              >
-                <ChevronRight size={26} />
-              </button>
-            )}
           </div>
-
-          {/* Bottom info bar */}
-          <div
-            className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-2 px-6 py-4 z-10"
-            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Thumbnail strip */}
-            {galleryImages.length > 1 && (
-              <div className="flex gap-2">
-                {galleryImages.map((img, idx) => (
-                  <button
-                    key={`lb-thumb-${idx}`}
-                    onClick={() => { setLightboxIndex(idx); setLightboxZoomed(false); }}
-                    className={`relative w-12 h-12 overflow-hidden border-2 transition-all ${
-                      lightboxIndex === idx ? 'border-[#B85C38] opacity-100' : 'border-white/30 opacity-50 hover:opacity-80'
-                    }`}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img.src} alt={img.label} className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
-            )}
-            <p className="text-white/50 text-[10px] font-mono">
-              {lightboxZoomed ? 'Double-click để thu nhỏ · Nhấn Esc để đóng' : 'Double-click hoặc pinch để phóng to · Esc để đóng'}
-            </p>
-          </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }
