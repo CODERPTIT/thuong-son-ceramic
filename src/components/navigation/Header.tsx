@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Menu, X, ChevronDown, Phone, MessageSquare } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, Phone, MessageSquare, Mail } from 'lucide-react';
 import SearchModal from '@/components/search/SearchModal';
 import MegaMenu from '@/components/navigation/MegaMenu';
 import BrandLogo from '@/components/ui/BrandLogo';
@@ -43,7 +43,15 @@ export default function Header() {
       <div className="bg-[#1C1B19] text-[#F5F1EA]/85 text-[10px] uppercase font-mono tracking-[0.2em] text-center py-2 px-4 flex flex-wrap items-center justify-center gap-2 sm:gap-4 relative z-50">
         <span>SHOWROOM</span>
         <span className="opacity-40">·</span>
-        <span className="hidden sm:inline">HOẰNG LỘC · THANH HOÁ</span>
+        <a
+          href="https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden sm:inline hover:text-[#B85C38] transition-colors"
+          title="Mở Google Maps chỉ đường Showroom Hoằng Lộc"
+        >
+          HOẰNG LỘC · THANH HOÁ ↗
+        </a>
         <span className="hidden sm:inline opacity-40">·</span>
         <div className="flex items-center gap-2">
           <Phone size={11} className="text-[#B85C38]" />
@@ -70,6 +78,17 @@ export default function Header() {
             className="text-[#B85C38] hover:text-white transition-colors"
           >
             Zalo 2
+          </a>
+        </div>
+        <span className="hidden md:inline opacity-40">·</span>
+        <div className="hidden md:flex items-center gap-1.5">
+          <Mail size={11} className="text-[#B85C38]" />
+          <a
+            href="mailto:nguyenhieu32005@gamil.com"
+            className="text-[#F5F1EA]/85 hover:text-[#B85C38] transition-colors lowercase font-mono text-[10px]"
+            title="Nhấn để gửi email cho Thường Sơn Ceramic"
+          >
+            nguyenhieu32005@gamil.com
           </a>
         </div>
       </div>
@@ -309,6 +328,27 @@ export default function Header() {
                     0912 958 578
                   </a>
                 </div>
+              </div>
+              <div className="flex items-center justify-between pt-1 border-t border-[#D5CDBE]/40">
+                <span>Email:</span>
+                <a
+                  href="mailto:nguyenhieu32005@gamil.com"
+                  className="text-[#B85C38] hover:underline"
+                  title="Nhấn để gửi email cho Thường Sơn Ceramic"
+                >
+                  nguyenhieu32005@gamil.com
+                </a>
+              </div>
+              <div className="pt-1 border-t border-[#D5CDBE]/40">
+                <a
+                  href="https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#B85C38] hover:underline flex items-center gap-1 text-[11px]"
+                  title="Mở Google Maps chỉ đường"
+                >
+                  📍 Số 01 Đình Bảng, Hoằng Lộc, Thanh Hóa ↗
+                </a>
               </div>
             </div>
           </div>

@@ -12,7 +12,7 @@ export const COMPANY_INFO = {
     { label: 'Hotline & Zalo 1', number: '0916 640 316', raw: '0916640316', zaloUrl: 'https://zalo.me/0916640316' },
     { label: 'Hotline & Zalo 2', number: '0912 958 578', raw: '0912958578', zaloUrl: 'https://zalo.me/0912958578' }
   ],
-  email: 'thuongsonceramic@gmail.com',
+  email: 'nguyenhieu32005@gamil.com',
   openingHours: {
     weekdays: '07:30 – 18:00 (Thứ Hai - Thứ Bảy)',
     sunday: '08:00 – 12:00 (Chủ Nhật)'

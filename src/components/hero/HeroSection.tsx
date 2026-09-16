@@ -48,7 +48,15 @@ export default function HeroSection() {
             <div className="w-[1px] h-8 bg-[#D5CDBE]" />
             <div>
               <span className="text-[#1C1B19] font-medium block">SHOWROOM THẬT</span>
-              <span>Hoằng Lộc, Thanh Hóa</span>
+              <a
+                href="https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#B85C38] hover:underline transition-colors block"
+                title="Mở bản đồ Google Maps chỉ đường"
+              >
+                Hoằng Lộc, Thanh Hóa ↗
+              </a>
             </div>
           </div>
         </div>

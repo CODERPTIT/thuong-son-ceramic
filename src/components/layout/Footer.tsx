@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 import BrandLogo from '@/components/ui/BrandLogo';
+import { COMPANY_INFO } from '@/data/mockData';
 
 export default function Footer() {
   return (
@@ -44,10 +45,16 @@ export default function Footer() {
               Công ty TNHH Thường Sơn. Đại lý phân phối chiến lược các thương hiệu gạch ốp lát kiến trúc cao cấp: Apodio, Monalisa, Changyih Premium và Việt Ý SC tại Thanh Hóa và khu vực Bắc Trung Bộ.
             </p>
             <div className="space-y-3 text-xs text-[#F5F1EA]/80 font-mono">
-              <div className="flex items-start gap-2.5">
-                <MapPin size={15} className="text-[#B85C38] shrink-0 mt-0.5" />
-                <span>Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa</span>
-              </div>
+              <a
+                href={COMPANY_INFO.mapDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2.5 hover:text-[#B85C38] transition-colors group"
+                title="Mở bản đồ Google Maps chỉ đường"
+              >
+                <MapPin size={15} className="text-[#B85C38] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                <span className="group-hover:underline">Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa ↗</span>
+              </a>
               <div className="flex items-center gap-2.5">
                 <Phone size={15} className="text-[#B85C38] shrink-0" />
                 <div className="flex items-center gap-2">
@@ -62,8 +69,12 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail size={15} className="text-[#B85C38] shrink-0" />
-                <a href="mailto:thuongsonceramic@gmail.com" className="hover:text-[#B85C38] transition-colors">
-                  thuongsonceramic@gmail.com
+                <a
+                  href={`mailto:${COMPANY_INFO.email}`}
+                  className="hover:text-[#B85C38] hover:underline transition-colors"
+                  title="Nhấn để gửi email cho Thường Sơn Ceramic"
+                >
+                  {COMPANY_INFO.email}
                 </a>
               </div>
             </div>
@@ -164,7 +175,16 @@ export default function Footer() {
       {/* Bottom Bar / Colophon */}
       <div className="border-t border-white/10 py-6 px-6 lg:px-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-4 max-w-[1440px] mx-auto text-[11px] font-mono text-[#8B7C66]">
         <div>
-          © 2026 Công ty TNHH Thường Sơn. Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa.
+          © 2026 Công ty TNHH Thường Sơn.{' '}
+          <a
+            href={COMPANY_INFO.mapDirectionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#B85C38] hover:underline transition-colors"
+            title="Mở bản đồ Google Maps chỉ đường"
+          >
+            Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa.
+          </a>
         </div>
         <div className="flex items-center gap-4">
           <Link href="/showroom" className="hover:underline">Bản đồ chỉ đường</Link>

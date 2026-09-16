@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { MapPin, Phone, Clock, CheckCircle2, Navigation, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, Clock, CheckCircle2, Navigation, MessageSquare, Mail } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/mockData';
 
 const SHOWROOM_GALLERY = [
@@ -106,9 +106,15 @@ export default function ShowroomPage() {
               priority
               className="object-cover"
             />
-            <div className="absolute bottom-3 left-4 bg-[#1C1B19]/80 backdrop-blur-sm text-xs font-mono px-3 py-1 text-[#D7CEBE]">
-              {COMPANY_INFO.address}
-            </div>
+            <a
+              href={COMPANY_INFO.mapDirectionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-3 left-4 bg-[#1C1B19]/80 backdrop-blur-sm text-xs font-mono px-3 py-1 text-[#D7CEBE] hover:text-[#B85C38] transition-colors"
+              title="Mở Google Maps chỉ đường"
+            >
+              📍 {COMPANY_INFO.address} ↗
+            </a>
           </div>
         </div>
       </section>
@@ -122,15 +128,31 @@ export default function ShowroomPage() {
             <h3 className="font-serif text-xl font-normal text-[#1C1B19] mb-2">
               Địa Chỉ Showroom
             </h3>
-            <p className="text-sm text-[#1C1B19]/75 font-light leading-relaxed mb-4">
-              {COMPANY_INFO.address}
-            </p>
             <a
-              href="#ban-do"
-              className="text-xs font-mono uppercase text-[#B85C38] hover:underline inline-flex items-center gap-1"
+              href={COMPANY_INFO.mapDirectionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[#1C1B19]/75 font-light leading-relaxed mb-4 block hover:text-[#B85C38] transition-colors group"
+              title="Mở bản đồ Google Maps chỉ đường"
             >
-              Xem bản đồ Google Maps bên dưới ↓
+              <span className="group-hover:underline">{COMPANY_INFO.address}</span>
             </a>
+            <div className="flex flex-col gap-2">
+              <a
+                href={COMPANY_INFO.mapDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-mono uppercase text-[#B85C38] hover:underline inline-flex items-center gap-1 font-medium"
+              >
+                Mở Google Maps chỉ đường ↗
+              </a>
+              <a
+                href="#ban-do"
+                className="text-xs font-mono uppercase text-[#8B7C66] hover:text-[#1C1B19] hover:underline inline-flex items-center gap-1"
+              >
+                Xem bản đồ nhúng bên dưới ↓
+              </a>
+            </div>
           </div>
 
           {/* Card 2: Hours */}
@@ -186,6 +208,18 @@ export default function ShowroomPage() {
                   className="text-xs text-[#B85C38] hover:underline flex items-center gap-1"
                 >
                   <MessageSquare size={12} /> Chat Zalo 2
+                </a>
+              </div>
+              <div className="pt-2 border-t border-[#D5CDBE]/50 flex items-center justify-between">
+                <span className="flex items-center gap-1">
+                  <Mail size={12} className="text-[#B85C38]" /> Email:
+                </span>
+                <a
+                  href={`mailto:${COMPANY_INFO.email}`}
+                  className="text-[#B85C38] hover:underline font-mono text-[11px]"
+                  title="Nhấn để gửi email cho Thường Sơn Ceramic"
+                >
+                  {COMPANY_INFO.email}
                 </a>
               </div>
             </div>
@@ -296,7 +330,10 @@ export default function ShowroomPage() {
                   Đã Gửi Lịch Hẹn Thành Công!
                 </h3>
                 <p className="text-xs md:text-sm text-[#1C1B19]/75 font-light leading-relaxed max-w-md mx-auto">
-                  Cảm ơn quý khách <strong>{formData.name}</strong>. Thông tin đã được chuyển tiếp đến ban quản lý Công ty TNHH Thường Sơn và thông báo về email <strong>nguyenhieu32005@gmail.com</strong>.
+                  Cảm ơn quý khách <strong>{formData.name}</strong>. Thông tin đã được chuyển tiếp đến ban quản lý Công ty TNHH Thường Sơn và thông báo về email{' '}
+                  <a href={`mailto:${COMPANY_INFO.email}`} className="text-[#B85C38] hover:underline font-medium">
+                    {COMPANY_INFO.email}
+                  </a>.
                 </p>
                 <p className="text-xs text-[#8B7C66] font-mono">
                   Thời gian hẹn: <strong>{formData.timeSlot}</strong> ngày <strong>{formData.date || 'sớm nhất'}</strong> · SĐT/Zalo: <strong>{formData.phone}</strong>

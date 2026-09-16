@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Phone, Clock, MessageSquare, Navigation } from 'lucide-react';
+import { MapPin, Phone, Clock, MessageSquare, Navigation, Mail } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/mockData';
 
 export default function ShowroomSection() {
@@ -42,13 +42,19 @@ export default function ShowroomSection() {
 
             {/* Structured details list */}
             <div className="space-y-4 pt-2 border-t border-white/10 text-xs font-mono">
-              <div className="flex items-start gap-3">
-                <MapPin size={16} className="text-[#B85C38] shrink-0 mt-0.5" />
+              <a
+                href={COMPANY_INFO.mapDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-3 group hover:text-[#B85C38] transition-colors"
+                title="Mở bản đồ Google Maps chỉ đường"
+              >
+                <MapPin size={16} className="text-[#B85C38] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                 <div>
-                  <strong className="text-white block font-sans text-sm">{COMPANY_INFO.name}</strong>
-                  <span className="text-[#8B7C66]">{COMPANY_INFO.address}</span>
+                  <strong className="text-white group-hover:text-[#B85C38] block font-sans text-sm transition-colors">{COMPANY_INFO.name}</strong>
+                  <span className="text-[#8B7C66] group-hover:underline">{COMPANY_INFO.address} ↗</span>
                 </div>
-              </div>
+              </a>
 
               <div className="flex items-start gap-3">
                 <Clock size={16} className="text-[#B85C38] shrink-0 mt-0.5" />
@@ -71,6 +77,20 @@ export default function ShowroomSection() {
                       0912 958 578
                     </a>
                   </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Mail size={16} className="text-[#B85C38] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-white block font-sans text-sm">Email liên hệ</strong>
+                  <a
+                    href={`mailto:${COMPANY_INFO.email}`}
+                    className="text-[#8B7C66] hover:text-[#B85C38] hover:underline"
+                    title="Nhấn để gửi email cho Thường Sơn Ceramic"
+                  >
+                    {COMPANY_INFO.email}
+                  </a>
                 </div>
               </div>
             </div>

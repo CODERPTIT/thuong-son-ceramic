@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export const RECIPIENT_EMAIL = process.env.NOTIFICATION_EMAIL || 'nguyenhieu32005@gmail.com';
+export const RECIPIENT_EMAIL = process.env.NOTIFICATION_EMAIL || 'nguyenhieu32005@gamil.com';
 
 export interface AppointmentData {
   name: string;
@@ -44,7 +44,7 @@ function getTransporter() {
 }
 
 /**
- * Gửi email thông báo Đặt Lịch Trải Nghiệm Showroom về nguyenhieu32005@gmail.com
+ * Gửi email thông báo Đặt Lịch Trải Nghiệm Showroom về nguyenhieu32005@gamil.com
  */
 export async function sendAppointmentEmail(data: AppointmentData): Promise<{ success: boolean; message: string; simulated?: boolean }> {
   const targetEmail = RECIPIENT_EMAIL;
@@ -156,7 +156,7 @@ export async function sendAppointmentEmail(data: AppointmentData): Promise<{ suc
 }
 
 /**
- * Gửi email thông báo Yêu Cầu Báo Giá & Mẫu Thật về nguyenhieu32005@gmail.com
+ * Gửi email thông báo Yêu Cầu Báo Giá & Mẫu Thật về nguyenhieu32005@gamil.com
  */
 export async function sendInquiryEmail(data: InquiryData): Promise<{ success: boolean; message: string; simulated?: boolean }> {
   const targetEmail = RECIPIENT_EMAIL;

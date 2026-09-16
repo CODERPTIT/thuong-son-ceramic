@@ -68,14 +68,14 @@ git push -u origin main
 Tại màn hình cấu hình project trước khi bấm Deploy:
 - **Framework Preset:** Giữ nguyên mặc định là `Next.js` (Vercel tự động nhận diện Turbopack và App Router).
 - **Root Directory:** Giữ nguyên `./`.
-- Mở mục **Environment Variables** và thêm các biến để hệ thống gửi email về `nguyenhieu32005@gmail.com`:
+- Mở mục **Environment Variables** và thêm các biến để hệ thống gửi email về `nguyenhieu32005@gamil.com`:
 
 | Tên Biến (Key) | Giá Trị (Value) | Giải Thích |
 | :--- | :--- | :--- |
-| `NOTIFICATION_EMAIL` | `nguyenhieu32005@gmail.com` | Email nhận thông báo đặt lịch & báo giá |
+| `NOTIFICATION_EMAIL` | `nguyenhieu32005@gamil.com` | Email nhận thông báo đặt lịch & báo giá |
 | `SMTP_HOST` | `smtp.gmail.com` | Máy chủ gửi mail của Google |
 | `SMTP_PORT` | `465` | Cổng bảo mật SSL của Gmail |
-| `SMTP_USER` | `nguyenhieu32005@gmail.com` | Tài khoản Gmail của bạn |
+| `SMTP_USER` | `nguyenhieu32005@gamil.com` | Tài khoản Gmail của bạn |
 | `SMTP_PASS` | `xxxx xxxx xxxx xxxx` | **Mật khẩu ứng dụng** 16 ký tự tạo từ tài khoản Google (xem hướng dẫn bên dưới) |
 
 > **Cách lấy Mật khẩu ứng dụng Gmail (App Password):**
