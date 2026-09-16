@@ -51,46 +51,46 @@ export default function ProductCard({ product, aspectRatio = 'portrait' }: Produ
           }}
         />
         {/* Surface tag */}
-        <div className="absolute top-3 left-3 bg-[#1C1B19]/85 text-[#F5F1EA] text-[10px] font-mono px-2 py-0.5 uppercase tracking-wider">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#1C1B19]/85 text-[#F5F1EA] text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 uppercase tracking-wider">
           {product.surface}
         </div>
         {product.new && (
-          <div className="absolute top-3 right-3 bg-[#B85C38] text-[#F5F1EA] text-[10px] font-mono px-2 py-0.5 uppercase tracking-wider">
+          <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-[#B85C38] text-[#F5F1EA] text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 uppercase tracking-wider">
             Mới
           </div>
         )}
       </Link>
 
       {/* Meta details */}
-      <div className="p-4 md:p-5 flex flex-col flex-1 justify-between bg-[#FAF8F4]/50">
+      <div className="p-2.5 sm:p-4 md:p-5 flex flex-col flex-1 justify-between bg-[#FAF8F4]/50">
         <div>
-          <div className="flex items-center justify-between text-[11px] font-mono text-[#8B7C66] mb-1.5 uppercase">
-            <span>{product.brand}</span>
-            <span>{product.code}</span>
+          <div className="flex items-center justify-between text-[9px] sm:text-[11px] font-mono text-[#8B7C66] mb-1 sm:mb-1.5 uppercase">
+            <span className="truncate max-w-[55%]">{product.brand}</span>
+            <span className="truncate max-w-[45%] text-right">{product.code}</span>
           </div>
 
           <Link href={`/products/${product.slug}`}>
-            <h3 className="font-serif text-base text-[#1C1B19] group-hover:text-[#B85C38] transition-colors leading-snug line-clamp-1">
+            <h3 className="font-serif text-xs sm:text-base text-[#1C1B19] group-hover:text-[#B85C38] transition-colors leading-snug line-clamp-1">
               {product.name}
             </h3>
           </Link>
 
-          <div className="text-xs text-[#8B7C66] mt-2 flex items-center gap-2">
+          <div className="text-[10px] sm:text-xs text-[#8B7C66] mt-1 sm:mt-2 flex items-center gap-1 sm:gap-2 truncate">
             <span>{product.sizes[0]}</span>
             <span>·</span>
-            <span>{product.material}</span>
+            <span className="truncate">{product.material}</span>
           </div>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-[#D5CDBE]/50 flex items-center justify-between">
-          <span className="text-xs font-mono font-medium text-[#1C1B19]">
+        <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-[#D5CDBE]/50 flex items-center justify-between gap-1">
+          <span className="text-[10px] sm:text-xs font-mono font-medium text-[#1C1B19] truncate">
             {product.price || 'Liên hệ báo giá'}
           </span>
           <Link
             href={`/products/${product.slug}`}
-            className="text-xs font-mono text-[#8B7C66] group-hover:text-[#B85C38] flex items-center gap-1 transition-colors"
+            className="text-[10px] sm:text-xs font-mono text-[#8B7C66] group-hover:text-[#B85C38] flex items-center gap-0.5 sm:gap-1 transition-colors shrink-0"
           >
-            Chi tiết <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+            <span>Chi tiết</span> <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
       </div>

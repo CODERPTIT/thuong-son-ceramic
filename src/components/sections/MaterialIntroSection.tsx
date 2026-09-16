@@ -3,18 +3,18 @@ import Image from 'next/image';
 
 export default function MaterialIntroSection() {
   return (
-    <section className="py-24 md:py-36 bg-[#F5F1EA] border-b border-[#D5CDBE]">
+    <section className="py-14 sm:py-20 md:py-36 bg-[#F5F1EA] border-b border-[#D5CDBE]">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-12">
         {/* Editorial Eyebrow */}
-        <div className="text-center mb-12">
-          <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#8B7C66]">
+        <div className="text-center mb-8 sm:mb-12">
+          <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] sm:tracking-[0.3em] text-[#8B7C66]">
             — TRIẾT LÝ VẬT LIỆU BỀ MẶT —
           </span>
         </div>
 
         {/* Large Typography Pull Quote */}
-        <div className="max-w-5xl mx-auto text-center mb-16 md:mb-24">
-          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-light text-[#1C1B19] leading-[1.18] tracking-tight">
+        <div className="max-w-5xl mx-auto text-center mb-12 md:mb-24">
+          <h2 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-light text-[#1C1B19] leading-[1.2] sm:leading-[1.18] tracking-tight">
             &ldquo;Vật liệu không chỉ hoàn thiện không gian.{' '}
             <em className="serif-italic text-[#B85C38]">
               Nó định hình cách chúng ta cảm nhận không gian.
@@ -47,9 +47,9 @@ export default function MaterialIntroSection() {
             <p className="text-sm md:text-base text-[#1C1B19]/75 leading-relaxed font-light">
               Tại Thường Sơn, chúng tôi từ chối lối tiếp cận thương mại đại trà. Mọi mã gạch đều được đối chiếu trực tiếp dưới ánh sáng tự nhiên và bối cảnh sống thực trước khi giới thiệu đến kiến trúc sư và gia chủ.
             </p>
-            <div className="pt-4 border-t border-[#D5CDBE] flex items-center gap-6 text-xs font-mono text-[#8B7C66]">
+            <div className="pt-4 border-t border-[#D5CDBE] flex flex-wrap items-center gap-2 sm:gap-6 text-[11px] sm:text-xs font-mono text-[#8B7C66]">
               <span>TIÊU CHUẨN XƯƠNG PORCELAIN E &lt; 0.1%</span>
-              <span>·</span>
+              <span className="hidden sm:inline">·</span>
               <span>CÔNG NGHỆ CHÂU ÂU</span>
             </div>
           </div>

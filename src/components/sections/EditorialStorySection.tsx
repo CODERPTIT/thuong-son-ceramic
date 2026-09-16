@@ -5,20 +5,20 @@ import { ArrowRight } from 'lucide-react';
 
 export default function EditorialStorySection() {
   return (
-    <section className="py-24 md:py-36 bg-[#F5F1EA] border-b border-[#D5CDBE]">
+    <section className="py-14 sm:py-20 md:py-36 bg-[#F5F1EA] border-b border-[#D5CDBE]">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           {/* Small text column (5 cols) */}
-          <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col justify-center space-y-6">
-            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#B85C38]">
+          <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col justify-center space-y-4 sm:space-y-6">
+            <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#B85C38]">
               — EDITORIAL ARCHITECTURE —
             </span>
 
-            <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#1C1B19] leading-[1.15]">
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-light text-[#1C1B19] leading-[1.18] sm:leading-[1.15]">
               Khi viên gạch đối thoại cùng <em className="serif-italic text-[#8B7C66]">ánh sáng tự nhiên.</em>
             </h2>
 
-            <p className="text-sm md:text-base text-[#1C1B19]/80 font-light leading-relaxed">
+            <p className="text-xs sm:text-sm md:text-base text-[#1C1B19]/80 font-light leading-relaxed">
               Một kiến trúc sư tài ba từng nói: &ldquo;Ánh sáng là vật liệu xây dựng duy nhất không tốn tiền, nhưng lại đắt giá nhất.&rdquo; Một bề mặt gạch hoàn hảo là bề mặt biết cách đón nhận ánh sáng vào lúc bình minh, làm dịu ánh nắng gay gắt buổi trưa và lưu giữ sự ấm áp lúc hoàng hôn buông xuống.
             </p>
 

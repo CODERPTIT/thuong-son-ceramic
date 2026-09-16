@@ -184,18 +184,18 @@ export default function CatalogView() {
         </div>
 
         {/* Top Control Bar: Total Count, Chips, Sort, Grid toggle */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#D5CDBE]">
-          <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 sm:pb-6 mb-6 sm:mb-8 border-b border-[#D5CDBE]">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
             {/* Mobile Filter Button */}
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden btn btn-bone text-xs py-2 px-3.5 flex items-center gap-2"
+              className="lg:hidden btn btn-bone text-xs py-2 px-3 flex items-center gap-1.5"
             >
-              <Filter size={14} /> Bộ Lọc ({activeChips.length})
+              <Filter size={13} /> Bộ Lọc ({activeChips.length})
             </button>
 
             <span className="text-xs font-mono uppercase tracking-widest text-[#8B7C66]">
-              Hiển thị <strong>{filteredProducts.length}</strong> mẫu sản phẩm
+              Hiển thị <strong>{filteredProducts.length}</strong> mẫu
             </span>
 
             {searchQuery && (
@@ -206,10 +206,10 @@ export default function CatalogView() {
           </div>
 
           {/* Controls: Sort and Column Toggle */}
-          <div className="flex items-center gap-4 self-end lg:self-auto">
+          <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
             {/* Sort Select */}
-            <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="text-[#8B7C66] uppercase tracking-wider hidden sm:inline">Sắp xếp:</span>
+            <div className="flex items-center gap-2 text-xs font-mono w-full sm:w-auto justify-between sm:justify-start">
+              <span className="text-[#8B7C66] uppercase tracking-wider text-[11px] sm:text-xs">Sắp xếp:</span>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortOption)}
@@ -302,9 +302,9 @@ export default function CatalogView() {
             ) : (
               <>
                 <div
-                  className={`grid grid-cols-1 sm:grid-cols-2 ${
+                  className={`grid grid-cols-2 sm:grid-cols-2 ${
                     columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'
-                  } gap-6`}
+                  } gap-3 sm:gap-6`}
                 >
                   {filteredProducts.slice(0, visibleCount).map((product) => (
                     <ProductCard key={product.id} product={product} />

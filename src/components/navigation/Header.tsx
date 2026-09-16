@@ -40,7 +40,7 @@ export default function Header() {
   return (
     <>
       {/* Top thin announcement bar with Thường Sơn store info */}
-      <div className="bg-[#1C1B19] text-[#F5F1EA]/85 text-[10px] uppercase font-mono tracking-[0.2em] text-center py-2 px-4 flex flex-wrap items-center justify-center gap-2 sm:gap-4 relative z-50">
+      <div className="bg-[#1C1B19] text-[#F5F1EA]/85 text-[10px] uppercase font-mono tracking-wider sm:tracking-[0.2em] text-center py-1.5 sm:py-2 px-3 sm:px-4 flex flex-wrap items-center justify-center gap-1.5 sm:gap-4 relative z-50">
         <span>SHOWROOM</span>
         <span className="opacity-40">·</span>
         <a
@@ -53,14 +53,14 @@ export default function Header() {
           HOẰNG LỘC · THANH HOÁ ↗
         </a>
         <span className="hidden sm:inline opacity-40">·</span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <Phone size={11} className="text-[#B85C38]" />
           <a href="tel:0916640316" className="hover:text-[#B85C38] transition-colors">0916 640 316</a>
-          <span className="opacity-40">/</span>
-          <a href="tel:0912958578" className="hover:text-[#B85C38] transition-colors">0912 958 578</a>
+          <span className="hidden sm:inline opacity-40">/</span>
+          <a href="tel:0912958578" className="hidden sm:inline hover:text-[#B85C38] transition-colors">0912 958 578</a>
         </div>
         <span className="opacity-40">·</span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <MessageSquare size={11} className="text-[#B85C38]" />
           <a
             href="https://zalo.me/0916640316"
@@ -70,12 +70,12 @@ export default function Header() {
           >
             Zalo 1
           </a>
-          <span className="opacity-40">·</span>
+          <span className="hidden sm:inline opacity-40">·</span>
           <a
             href="https://zalo.me/0912958578"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#B85C38] hover:text-white transition-colors"
+            className="hidden sm:inline text-[#B85C38] hover:text-white transition-colors"
           >
             Zalo 2
           </a>

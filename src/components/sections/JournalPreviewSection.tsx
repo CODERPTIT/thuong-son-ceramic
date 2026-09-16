@@ -6,15 +6,15 @@ import { JOURNAL_ARTICLES } from '@/data/mockData';
 
 export default function JournalPreviewSection() {
   return (
-    <section id="cam-nang" className="py-24 md:py-36 bg-[#FAF8F4] border-b border-[#D5CDBE]">
+    <section id="cam-nang" className="py-14 sm:py-20 md:py-36 bg-[#FAF8F4] border-b border-[#D5CDBE]">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-12">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-16 gap-4 sm:gap-6">
           <div>
-            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#8B7C66] block mb-3">
+            <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#8B7C66] block mb-2 sm:mb-3">
               — CẨM NANG KIẾN TRÚC —
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#1C1B19]">
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-light text-[#1C1B19]">
               Bài Viết &amp; Nghiên Cứu Bề Mặt
             </h2>
           </div>
@@ -27,7 +27,7 @@ export default function JournalPreviewSection() {
         </div>
 
         {/* 3 Editorial Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8">
           {JOURNAL_ARTICLES.slice(0, 3).map((article) => (
             <article
               key={article.id}
@@ -51,7 +51,7 @@ export default function JournalPreviewSection() {
               </Link>
 
               {/* Content */}
-              <div className="p-6 md:p-8 flex flex-col flex-1 justify-between">
+              <div className="p-5 sm:p-6 md:p-8 flex flex-col flex-1 justify-between">
                 <div>
                   <div className="flex items-center gap-3 text-[11px] font-mono text-[#8B7C66] mb-3">
                     <span>{article.date}</span>
@@ -62,7 +62,7 @@ export default function JournalPreviewSection() {
                   </div>
 
                   <Link href={`/journal/${article.slug}`}>
-                    <h3 className="font-serif text-xl font-normal text-[#1C1B19] group-hover:text-[#B85C38] transition-colors leading-snug mb-3">
+                    <h3 className="font-serif text-lg sm:text-xl font-normal text-[#1C1B19] group-hover:text-[#B85C38] transition-colors leading-snug mb-2 sm:mb-3">
                       {article.title}
                     </h3>
                   </Link>

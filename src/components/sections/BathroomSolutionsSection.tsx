@@ -6,29 +6,29 @@ import { BATHROOM_SOLUTIONS } from '@/data/mockData';
 
 export default function BathroomSolutionsSection() {
   return (
-    <section id="giai-phap" className="py-24 md:py-36 bg-[#FAF8F4] border-b border-[#D5CDBE]">
+    <section id="giai-phap" className="py-14 sm:py-20 md:py-36 bg-[#FAF8F4] border-b border-[#D5CDBE]">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-12">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-16 gap-4 sm:gap-6">
           <div>
-            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#8B7C66] block mb-3">
+            <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#8B7C66] block mb-2 sm:mb-3">
               — GIẢI PHÁP ĐỒNG BỘ —
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#1C1B19]">
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-light text-[#1C1B19]">
               Hoàn Thiện Không Gian Phòng Tắm
             </h2>
           </div>
-          <p className="text-sm text-[#8B7C66] max-w-md font-light leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#8B7C66] max-w-md font-light leading-relaxed">
             Không dừng lại ở một viên gạch lát sàn. Thường Sơn mang đến gói giải pháp tổng thể gồm thiết bị vệ sinh, sen nhiệt độ và phụ kiện đồng bộ cao cấp.
           </p>
         </div>
 
         {/* 4 Solution Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {BATHROOM_SOLUTIONS.map((sol) => (
             <div
               key={sol.id}
-              className="bg-white border border-[#D5CDBE] hover:border-[#B85C38] p-6 flex flex-col justify-between transition-all duration-300 group"
+              className="bg-white border border-[#D5CDBE] hover:border-[#B85C38] p-4 sm:p-6 flex flex-col justify-between transition-all duration-300 group"
             >
               <div>
                 <div className="relative aspect-[4/3] overflow-hidden bg-[#EBE5DA] mb-5">

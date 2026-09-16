@@ -35,17 +35,17 @@ export default function HeroSection() {
           </div>
 
           {/* Surface index tracker */}
-          <div className="mt-12 pt-6 border-t border-[#D5CDBE] flex items-center justify-between text-xs font-mono text-[#8B7C66]">
+          <div className="mt-8 sm:mt-12 pt-5 sm:pt-6 border-t border-[#D5CDBE] flex items-center justify-between text-[10px] sm:text-xs font-mono text-[#8B7C66] gap-2 sm:gap-4">
             <div>
               <span className="text-[#1C1B19] font-medium block">800+ MÃ</span>
               <span>Được tuyển chọn</span>
             </div>
-            <div className="w-[1px] h-8 bg-[#D5CDBE]" />
+            <div className="w-[1px] h-7 sm:h-8 bg-[#D5CDBE]" />
             <div>
               <span className="text-[#1C1B19] font-medium block">4 THƯƠNG HIỆU</span>
               <span>Chiến lược hàng đầu</span>
             </div>
-            <div className="w-[1px] h-8 bg-[#D5CDBE]" />
+            <div className="w-[1px] h-7 sm:h-8 bg-[#D5CDBE]" />
             <div>
               <span className="text-[#1C1B19] font-medium block">SHOWROOM THẬT</span>
               <a
@@ -62,7 +62,7 @@ export default function HeroSection() {
         </div>
 
         {/* Right Column: Hero Real Architectural Visual (7 cols) */}
-        <div className="lg:col-span-7 relative h-[420px] sm:h-[520px] lg:h-[680px] w-full bg-[#EBE5DA] overflow-hidden group">
+        <div className="lg:col-span-7 relative h-[320px] sm:h-[480px] lg:h-[680px] w-full bg-[#EBE5DA] overflow-hidden group">
           <Image
             src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=85"
             alt="Phối cảnh kiến trúc không gian phòng khách sử dụng gạch vân đá cao cấp Thường Sơn Ceramic"
@@ -73,19 +73,19 @@ export default function HeroSection() {
           />
 
           {/* Floating Surface Spec Badge */}
-          <div className="absolute bottom-6 left-6 right-6 sm:right-auto bg-[#FAF8F4]/90 backdrop-blur-md border border-[#D5CDBE] p-4 sm:p-5 shadow-lg max-w-sm">
+          <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-auto bg-[#FAF8F4]/95 backdrop-blur-md border border-[#D5CDBE] p-3 sm:p-5 shadow-lg max-w-sm">
             <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-[#8B7C66] mb-1">
               <span>Specimen: MM48001</span>
               <span className="text-[#B85C38]">Monalisa</span>
             </div>
-            <h4 className="font-serif text-sm font-medium text-[#1C1B19]">
+            <h4 className="font-serif text-xs sm:text-sm font-medium text-[#1C1B19]">
               Aureo Pietra Statuary White
             </h4>
-            <div className="text-xs text-[#8B7C66] mt-1 flex items-center justify-between">
+            <div className="text-[11px] sm:text-xs text-[#8B7C66] mt-1 flex items-center justify-between">
               <span>Matt Microcid · 800×1600mm</span>
               <Link
                 href="/products/monalisa-aureo-pietra-mm48001"
-                className="text-[#B85C38] hover:underline flex items-center gap-0.5"
+                className="text-[#B85C38] hover:underline flex items-center gap-0.5 ml-2"
               >
                 Xem mặt gạch <ArrowRight size={12} />
               </Link>

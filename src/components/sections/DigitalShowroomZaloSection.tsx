@@ -5,31 +5,31 @@ import { COMPANY_INFO } from '@/data/mockData';
 
 export default function DigitalShowroomZaloSection() {
   return (
-    <section id="zalo-hub" className="py-16 md:py-20 bg-[#F5F1EA] border-b border-[#D5CDBE]">
+    <section id="zalo-hub" className="py-10 sm:py-16 md:py-20 bg-[#F5F1EA] border-b border-[#D5CDBE]">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-12">
-        <div className="bg-[#FAF8F4] border border-[#D5CDBE] p-8 md:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="bg-[#FAF8F4] border border-[#D5CDBE] p-5 sm:p-8 md:p-12 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
           {/* Left Description (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.25em] text-[#B85C38] mb-3">
+            <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.25em] text-[#B85C38] mb-2 sm:mb-3">
               <MessageSquare size={13} /> TƯ VẤN VẬT LIỆU TRỰC TIẾP QUA ZALO
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl font-light text-[#1C1B19] mb-3">
               Gửi Bản Vẽ &amp; Nhận Ảnh Mặt Gạch Thật
             </h2>
-            <p className="text-sm text-[#1C1B19]/75 font-light leading-relaxed max-w-2xl mb-6">
+            <p className="text-xs sm:text-sm text-[#1C1B19]/75 font-light leading-relaxed max-w-2xl mb-5 sm:mb-6">
               Kết nối trực tiếp qua Zalo cùng chuyên viên tư vấn của Công ty TNHH Thường Sơn. Gửi ảnh phối cảnh, diện tích phòng hoặc mã gạch đang cân nhắc để nhận video quay cận cảnh men sứ và báo giá tốt nhất cho công trình.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Link
                 href="/catalog"
-                className="btn btn-ghost text-xs flex items-center gap-2"
+                className="btn btn-ghost text-xs flex items-center justify-center gap-2"
               >
                 <BookOpen size={14} /> Khám Phá Catalog Online
               </Link>
               <Link
                 href="/showroom"
-                className="btn btn-ink text-xs flex items-center gap-2"
+                className="btn btn-ink text-xs flex items-center justify-center gap-2"
               >
                 <UserCheck size={14} /> Đặt Lịch Ghé Showroom
               </Link>

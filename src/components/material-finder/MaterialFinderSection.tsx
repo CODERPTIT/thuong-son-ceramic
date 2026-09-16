@@ -81,23 +81,23 @@ export default function MaterialFinderSection() {
   };
 
   return (
-    <section id="material-finder" className="py-24 md:py-36 bg-[#1C1B19] text-[#F5F1EA] border-b border-[#2A2825] relative overflow-hidden">
+    <section id="material-finder" className="py-14 sm:py-20 md:py-36 bg-[#1C1B19] text-[#F5F1EA] border-b border-[#2A2825] relative overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-12 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.3em] text-[#B85C38] mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-14">
+          <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] sm:tracking-[0.3em] text-[#B85C38] mb-2 sm:mb-3">
             <Sparkles size={14} /> TÌM VẬT LIỆU TƯƠNG TÁC
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-light text-white leading-tight mb-4">
+          <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-light text-white leading-tight mb-3 sm:mb-4">
             Material Finder
           </h2>
-          <p className="text-sm md:text-base text-[#F5F1EA]/70 font-light leading-relaxed">
+          <p className="text-xs sm:text-sm md:text-base text-[#F5F1EA]/70 font-light leading-relaxed">
             Trả lời 5 câu hỏi nhanh để tìm ra mẫu gạch lý tưởng có tỷ lệ, ánh sáng và bề mặt hòa hợp tuyệt đối với không gian sống của bạn.
           </p>
         </div>
 
         {/* Wizard Container */}
-        <div className="max-w-4xl mx-auto bg-[#292825] border border-white/10 p-6 md:p-12 shadow-2xl relative">
+        <div className="max-w-4xl mx-auto bg-[#292825] border border-white/10 p-4 sm:p-8 md:p-12 shadow-2xl relative">
           {/* Step Progress Tracker */}
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
             <div className="flex items-center gap-2">

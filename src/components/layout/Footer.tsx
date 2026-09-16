@@ -6,26 +6,26 @@ import { COMPANY_INFO } from '@/data/mockData';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1C1B19] text-[#F5F1EA] border-t border-[#2A2825] mt-24">
+    <footer className="bg-[#1C1B19] text-[#F5F1EA] border-t border-[#2A2825] mt-12 sm:mt-24">
       {/* Editorial Pull-Quote / Final CTA Banner */}
-      <div className="border-b border-white/10 py-16 md:py-24 px-6 lg:px-12 text-center relative overflow-hidden">
+      <div className="border-b border-white/10 py-12 sm:py-20 md:py-24 px-5 lg:px-12 text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
-          <span className="text-[11px] uppercase font-mono tracking-[0.35em] text-[#B85C38] block mb-4">
+          <span className="text-[10px] sm:text-[11px] uppercase font-mono tracking-[0.25em] sm:tracking-[0.35em] text-[#B85C38] block mb-3 sm:mb-4">
             — THE ART OF SURFACE —
           </span>
-          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-light leading-[1.15] mb-6">
+          <h2 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-light leading-[1.2] sm:leading-[1.15] mb-4 sm:mb-6">
             Không gian bắt đầu từ <em className="serif-italic text-[#D7CEBE]">bề mặt.</em>
           </h2>
-          <p className="text-sm md:text-base text-[#F5F1EA]/70 max-w-xl mx-auto leading-relaxed mb-8">
+          <p className="text-xs sm:text-sm md:text-base text-[#F5F1EA]/70 max-w-xl mx-auto leading-relaxed mb-6 sm:mb-8">
             Công ty TNHH Thường Sơn tuyển chọn giải pháp gạch ốp lát và bề mặt kiến trúc cho các công trình mang dấu ấn riêng. Sẵn sàng đón tiếp quý khách tại showroom Hoằng Lộc, Thanh Hóa.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/catalog" className="btn btn-clay text-xs">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+            <Link href="/catalog" className="btn btn-clay text-xs flex items-center justify-center">
               Khám Phá Toàn Bộ Catalog
             </Link>
             <Link
               href="/showroom"
-              className="btn btn-ghost text-[#F5F1EA] border-[#F5F1EA]/30 hover:border-[#B85C38] text-xs"
+              className="btn btn-ghost text-[#F5F1EA] border-[#F5F1EA]/30 hover:border-[#B85C38] text-xs flex items-center justify-center"
             >
               Đặt Lịch Hẹn Showroom
             </Link>
@@ -34,7 +34,7 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Links Columns */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-16 grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12">
+      <div className="max-w-[1440px] mx-auto px-5 lg:px-12 py-10 sm:py-16 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
         {/* Brand & Address (4 cols) */}
         <div className="md:col-span-4 flex flex-col justify-between">
           <div>
