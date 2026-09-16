@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Download, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ChevronLeft, ChevronRight, X as CloseIcon } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
@@ -32,40 +32,34 @@ export default function ProductDetailView({
   similarProducts,
   collection,
 }: ProductDetailViewProps) {
-  const encodedCode = product.code.replace(/ /g, '%20');
-  // Dynamic gallery: Chỉ lấy các ảnh THỰC TẾ có thật và KHÔNG trùng lặp
-  const galleryImages: { label: string; src: string }[] = [];
+  // Dynamic gallery: Xây dựng danh sách ảnh KHÔNG TRÙNG LẶP, ảnh luôn khớp theo mã sản phẩm
+  // Thứ tự ưu tiên: 1/ Phối cảnh không gian (inSpace) — 2/ Face gạch sạch (fullFace) — 3/ Face render (closeUp) — 4/ Studio thumbnail
+  const galleryImages: { label: string; src: string; type: string }[] = [];
   const addedSrcs = new Set<string>();
 
-  const addUnique = (label: string, rawSrc?: string) => {
+  const addUnique = (label: string, rawSrc?: string, type = '') => {
     if (!rawSrc) return;
     const cleanSrc = sanitizeImageUrl(rawSrc);
     if (!cleanSrc || addedSrcs.has(cleanSrc)) return;
     addedSrcs.add(cleanSrc);
-    galleryImages.push({ label, src: cleanSrc });
+    galleryImages.push({ label, src: cleanSrc, type });
   };
 
-  // 1. Mặt face gạch thật
-  addUnique('Face Gạch Thật', product.images.fullFace);
+  // 1. Phối cảnh không gian thực tế từ nhà máy — ưu tiên đầu vì hấp dẫn nhất
+  addUnique('Phối Cảnh Không Gian', product.images.inSpace, 'inSpace');
 
-  // 2. Phối cảnh không gian thực tế (nếu nhà máy có chụp riêng)
-  if (product.images.inSpace) {
-    addUnique('Phối Cảnh Không Gian', product.images.inSpace);
-  }
+  // 2. Mặt face gạch sạch (nền trắng clean, dùng face_clean nếu có)
+  addUnique('Face Gạch Thực Tế', product.images.fullFace, 'fullFace');
 
-  // 3. Ảnh chụp mẫu gạch studio (nếu có và khác face gạch)
-  if (product.images.thumbnail) {
-    addUnique('Ảnh Mẫu Gạch', product.images.thumbnail);
-  }
+  // 3. Cận cảnh men sứ / face vân thật (face thường, có texture rõ hơn)
+  addUnique('Cận Cảnh Men Sứ', product.images.closeUp, 'closeUp');
 
-  // 4. Cận cảnh men sứ / Face 2 (nếu có và khác các ảnh trên)
-  if (product.images.closeUp) {
-    addUnique('Cận Cảnh Men Sứ', product.images.closeUp);
-  }
+  // 4. Ảnh studio product (nền trắng, có đóng gói/perspective) — chỉ nếu khác hẳn
+  addUnique('Ảnh Studio Sản Phẩm', product.images.thumbnail, 'thumbnail');
 
-  // Fallback nếu sản phẩm chỉ có 1 ảnh
+  // Fallback: nếu không có ảnh nào
   if (galleryImages.length === 0) {
-    addUnique('Ảnh Sản Phẩm', product.images.fullFace || product.images.thumbnail);
+    addUnique('Ảnh Sản Phẩm', product.images.fullFace || product.images.thumbnail, 'fallback');
   }
 
   const [activeImage, setActiveImage] = useState(0);
@@ -74,6 +68,11 @@ export default function ProductDetailView({
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [showFullDesc, setShowFullDesc] = useState(false);
 
+  // Lightbox state
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [lightboxZoomed, setLightboxZoomed] = useState(false);
+
   const [inquiryName, setInquiryName] = useState('');
   const [inquiryPhone, setInquiryPhone] = useState('');
   const [inquiryArea, setInquiryArea] = useState('');
@@ -81,6 +80,44 @@ export default function ProductDetailView({
   const [inquiryLoading, setInquiryLoading] = useState(false);
   const [inquirySuccess, setInquirySuccess] = useState(false);
   const [inquiryResult, setInquiryResult] = useState<{ delivered?: boolean; mailtoUrl?: string; zaloUrl?: string } | null>(null);
+
+  const openLightbox = (idx: number) => {
+    setLightboxIndex(idx);
+    setLightboxZoomed(false);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = useCallback(() => {
+    setLightboxOpen(false);
+    setLightboxZoomed(false);
+  }, []);
+
+  const lightboxPrev = useCallback(() => {
+    setLightboxZoomed(false);
+    setLightboxIndex((i) => (i - 1 + galleryImages.length) % galleryImages.length);
+  }, [galleryImages.length]);
+
+  const lightboxNext = useCallback(() => {
+    setLightboxZoomed(false);
+    setLightboxIndex((i) => (i + 1) % galleryImages.length);
+  }, [galleryImages.length]);
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lightboxPrev();
+      if (e.key === 'ArrowRight') lightboxNext();
+    };
+    window.addEventListener('keydown', onKey);
+    // Prevent body scroll when lightbox open
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [lightboxOpen, closeLightbox, lightboxPrev, lightboxNext]);
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -163,7 +200,12 @@ export default function ProductDetailView({
               const currentActive = galleryImages[activeImage] || galleryImages[0];
               return (
                 <>
-                  <div className="relative aspect-[4/3] sm:aspect-[1/1] bg-[#FAF8F4] border border-[#D5CDBE] overflow-hidden group">
+                  {/* Main image — click to open lightbox */}
+                  <div
+                    className="relative aspect-[4/3] sm:aspect-[1/1] bg-[#FAF8F4] border border-[#D5CDBE] overflow-hidden group cursor-zoom-in"
+                    onClick={() => openLightbox(activeImage)}
+                    title="Nhấn để xem ảnh toàn màn hình & phóng to"
+                  >
                     <Image
                       src={currentActive.src}
                       alt={`${product.name} - ${currentActive.label}`}
@@ -172,41 +214,69 @@ export default function ProductDetailView({
                       sizes="(max-width: 1024px) 100vw, 60vw"
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     />
+                    {/* Image type label */}
                     <div className="absolute top-4 left-4 bg-[#1C1B19]/85 text-[#F5F1EA] text-[10px] font-mono px-3 py-1 uppercase tracking-wider">
                       {currentActive.label}
                     </div>
+                    {/* Product code badge */}
                     <div className="absolute bottom-4 right-4 bg-[#1C1B19]/80 backdrop-blur-sm text-[#F5F1EA] text-[10px] font-mono px-2.5 py-1">
                       Mã: {product.code}
                     </div>
+                    {/* Zoom hint icon */}
+                    <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm">
+                      <ZoomIn size={15} className="text-[#1C1B19]" />
+                    </div>
+                    {/* Navigation arrows (show when multiple images) */}
+                    {galleryImages.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setActiveImage((activeImage - 1 + galleryImages.length) % galleryImages.length); }}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow hover:bg-white hover:scale-110 z-10"
+                          aria-label="Ảnh trước"
+                        >
+                          <ChevronLeft size={16} className="text-[#1C1B19]" />
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setActiveImage((activeImage + 1) % galleryImages.length); }}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow hover:bg-white hover:scale-110 z-10"
+                          aria-label="Ảnh tiếp theo"
+                        >
+                          <ChevronRight size={16} className="text-[#1C1B19]" />
+                        </button>
+                      </>
+                    )}
                   </div>
 
-                  {/* Thumbnail selector: chỉ hiển thị nếu sản phẩm có từ 2 ảnh thật khác nhau trở lên */}
+                  {/* Thumbnail selector: only shows when 2+ distinct images */}
                   {galleryImages.length > 1 && (
-                    <div className={`grid gap-3 ${
-                      galleryImages.length === 2 
-                        ? 'grid-cols-2' 
-                        : galleryImages.length === 3 
-                          ? 'grid-cols-3' 
+                    <div className={`grid gap-2 ${
+                      galleryImages.length === 2
+                        ? 'grid-cols-2'
+                        : galleryImages.length === 3
+                          ? 'grid-cols-3'
                           : 'grid-cols-4'
                     }`}>
                       {galleryImages.map((img, idx) => (
                         <button
-                          key={`${img.label}-${idx}`}
-                          onClick={() => setActiveImage(idx)}
-                          className={`relative aspect-[4/3] overflow-hidden border transition-all ${
+                          key={`${img.type}-${idx}`}
+                          onClick={() => { setActiveImage(idx); }}
+                          onDoubleClick={() => openLightbox(idx)}
+                          className={`relative aspect-square overflow-hidden border-2 transition-all duration-200 ${
                             activeImage === idx
-                              ? 'border-[#B85C38] ring-1 ring-[#B85C38]'
-                              : 'border-[#D5CDBE] opacity-75 hover:opacity-100'
+                              ? 'border-[#B85C38] ring-1 ring-[#B85C38] shadow-md'
+                              : 'border-[#D5CDBE] opacity-65 hover:opacity-100 hover:border-[#8B7C66]'
                           }`}
+                          title={img.label}
                         >
                           <Image
                             src={img.src}
                             alt={img.label}
                             fill
                             className="object-cover"
+                            sizes="(max-width: 768px) 25vw, 15vw"
                           />
-                          <div className="absolute bottom-1 left-1 bg-[#1C1B19]/85 text-white text-[9px] font-mono px-1.5 py-0.5">
-                            {img.label}
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1C1B19]/80 to-transparent pt-4 pb-1 px-1.5">
+                            <p className="text-white text-[9px] font-mono leading-tight truncate">{img.label}</p>
                           </div>
                         </button>
                       ))}
@@ -675,6 +745,115 @@ export default function ProductDetailView({
           product={product}
           onClose={() => setQrModalOpen(false)}
         />
+      )}
+
+      {/* ===== LIGHTBOX FULLSCREEN IMAGE VIEWER ===== */}
+      {lightboxOpen && galleryImages.length > 0 && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Xem ảnh sản phẩm toàn màn hình"
+          className="fixed inset-0 z-[70] flex flex-col items-center justify-center"
+          style={{ background: 'rgba(10, 9, 8, 0.97)' }}
+          onClick={closeLightbox}
+        >
+          {/* Top bar */}
+          <div
+            className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-3 z-10"
+            style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), transparent)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-white/90 font-mono text-xs">
+              <span className="text-[#B85C38] font-medium">{product.code}</span>
+              <span className="mx-2 text-white/40">·</span>
+              <span>{galleryImages[lightboxIndex]?.label}</span>
+              {galleryImages.length > 1 && (
+                <span className="ml-3 text-white/50">{lightboxIndex + 1}/{galleryImages.length}</span>
+              )}
+            </div>
+            <button
+              onClick={closeLightbox}
+              aria-label="Đóng ảnh"
+              className="p-2 text-white/70 hover:text-white hover:bg-white/10 transition-all rounded-full"
+            >
+              <CloseIcon size={22} />
+            </button>
+          </div>
+
+          {/* Main image container */}
+          <div
+            className="relative w-full h-full flex items-center justify-center px-12 py-16"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Prev button */}
+            {galleryImages.length > 1 && (
+              <button
+                onClick={lightboxPrev}
+                aria-label="Ảnh trước"
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-all duration-200"
+              >
+                <ChevronLeft size={26} />
+              </button>
+            )}
+
+            {/* The image — double click to toggle zoom */}
+            <div
+              className={`relative max-h-full max-w-full transition-transform duration-300 ${
+                lightboxZoomed ? 'cursor-zoom-out scale-[2] origin-center' : 'cursor-zoom-in'
+              }`}
+              style={{ maxHeight: 'calc(100vh - 8rem)', maxWidth: 'calc(100vw - 6rem)' }}
+              onDoubleClick={() => setLightboxZoomed((z) => !z)}
+              onClick={(e) => { if (lightboxZoomed) { e.stopPropagation(); setLightboxZoomed(false); } }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={galleryImages[lightboxIndex]?.src}
+                alt={`${product.name} - ${galleryImages[lightboxIndex]?.label}`}
+                style={{ maxHeight: 'calc(100vh - 8rem)', maxWidth: 'calc(100vw - 6rem)', objectFit: 'contain', display: 'block' }}
+                draggable={false}
+              />
+            </div>
+
+            {/* Next button */}
+            {galleryImages.length > 1 && (
+              <button
+                onClick={lightboxNext}
+                aria-label="Ảnh tiếp theo"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-3 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-all duration-200"
+              >
+                <ChevronRight size={26} />
+              </button>
+            )}
+          </div>
+
+          {/* Bottom info bar */}
+          <div
+            className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-2 px-6 py-4 z-10"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Thumbnail strip */}
+            {galleryImages.length > 1 && (
+              <div className="flex gap-2">
+                {galleryImages.map((img, idx) => (
+                  <button
+                    key={`lb-thumb-${idx}`}
+                    onClick={() => { setLightboxIndex(idx); setLightboxZoomed(false); }}
+                    className={`relative w-12 h-12 overflow-hidden border-2 transition-all ${
+                      lightboxIndex === idx ? 'border-[#B85C38] opacity-100' : 'border-white/30 opacity-50 hover:opacity-80'
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img.src} alt={img.label} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
+            <p className="text-white/50 text-[10px] font-mono">
+              {lightboxZoomed ? 'Double-click để thu nhỏ · Nhấn Esc để đóng' : 'Double-click hoặc pinch để phóng to · Esc để đóng'}
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );
