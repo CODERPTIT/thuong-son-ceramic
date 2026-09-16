@@ -29,11 +29,13 @@ const SHOWROOM_GALLERY = [
 ];
 
 import type { MailerResult } from '@/lib/mailer';
+import { validateVietnamesePhone } from '@/lib/validation';
 
 export default function ShowroomPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [appointmentResult, setAppointmentResult] = useState<MailerResult | null>(null);
+  const [phoneError, setPhoneError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -45,14 +47,23 @@ export default function ShowroomPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Kiểm tra số điện thoại chuẩn 10 số trước khi gửi
+    const phoneCheck = validateVietnamesePhone(formData.phone);
+    if (!phoneCheck.isValid) {
+      setPhoneError(phoneCheck.error || 'Số điện thoại không hợp lệ.');
+      return;
+    }
+    setPhoneError('');
     setLoading(true);
+
     try {
       const res = await fetch('/api/appointment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
-          phone: formData.phone,
+          phone: phoneCheck.formatted,
           space: formData.space,
           date: formData.date,
           timeSlot: formData.timeSlot,
@@ -60,6 +71,10 @@ export default function ShowroomPage() {
         }),
       });
       const data = await res.json();
+      if (!res.ok) {
+        setPhoneError(data.error || 'Có lỗi xảy ra.');
+        return;
+      }
       if (data?.details) {
         setAppointmentResult(data.details);
       }
@@ -407,15 +422,31 @@ export default function ShowroomPage() {
                   </div>
 
                   <div>
-                    <label className="block text-[#8B7C66] uppercase mb-1.5">Số điện thoại / Zalo *</label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-[#8B7C66] uppercase text-[11px]">Số điện thoại / Zalo (10 số) *</label>
+                      <span className="text-[10px] text-[#8B7C66] font-mono">Đầu số: 03, 05, 07, 08, 09</span>
+                    </div>
                     <input
                       required
                       type="tel"
+                      maxLength={15}
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="0916 640 316"
-                      className="w-full bg-[#FAF8F4] border border-[#D5CDBE] p-3 text-xs focus:outline-none focus:border-[#B85C38]"
+                      onChange={(e) => {
+                        setFormData({ ...formData, phone: e.target.value });
+                        if (phoneError) setPhoneError('');
+                      }}
+                      placeholder="Ví dụ: 0916640316"
+                      className={`w-full bg-[#FAF8F4] border p-3 text-xs focus:outline-none transition-colors ${
+                        phoneError 
+                          ? 'border-red-500 bg-red-50/20 text-red-900 focus:border-red-600' 
+                          : 'border-[#D5CDBE] focus:border-[#B85C38]'
+                      }`}
                     />
+                    {phoneError && (
+                      <p className="text-red-600 text-[11px] font-mono mt-1.5 flex items-center gap-1">
+                        <span>⚠</span> {phoneError}
+                      </p>
+                    )}
                   </div>
                 </div>
 

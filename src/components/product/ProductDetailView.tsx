@@ -7,6 +7,7 @@ import { ArrowLeft, Download, Phone, MessageSquare, Share2, Layers, CheckCircle,
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
+import { validateVietnamesePhone } from '@/lib/validation';
 
 // Encode spaces in URL paths for products with spaces in their code
 function sanitizeImageUrl(url: string): string {
@@ -71,9 +72,11 @@ export default function ProductDetailView({
   const [copied, setCopied] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
+
   const [inquiryName, setInquiryName] = useState('');
   const [inquiryPhone, setInquiryPhone] = useState('');
   const [inquiryArea, setInquiryArea] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [inquiryLoading, setInquiryLoading] = useState(false);
   const [inquirySuccess, setInquirySuccess] = useState(false);
   const [inquiryResult, setInquiryResult] = useState<{ delivered?: boolean; mailtoUrl?: string; zaloUrl?: string } | null>(null);
@@ -88,20 +91,33 @@ export default function ProductDetailView({
 
   const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Kiểm tra số điện thoại chuẩn 10 số trước khi gửi
+    const phoneCheck = validateVietnamesePhone(inquiryPhone);
+    if (!phoneCheck.isValid) {
+      setPhoneError(phoneCheck.error || 'Số điện thoại không hợp lệ.');
+      return;
+    }
+    setPhoneError('');
     setInquiryLoading(true);
+
     try {
       const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: inquiryName,
-          phone: inquiryPhone,
+          phone: phoneCheck.formatted,
           area: inquiryArea,
           productCode: product.code,
           productName: product.name,
         }),
       });
       const data = await res.json();
+      if (!res.ok) {
+        setPhoneError(data.error || 'Có lỗi xảy ra.');
+        return;
+      }
       setInquiryResult(data.details || null);
       setInquirySuccess(true);
     } catch (err) {
@@ -491,15 +507,31 @@ export default function ProductDetailView({
                 </div>
 
                 <div>
-                  <label className="block text-[#8B7C66] uppercase mb-1">Số điện thoại / Zalo *</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-[#8B7C66] uppercase text-[11px]">Số điện thoại / Zalo (10 số) *</label>
+                    <span className="text-[10px] text-[#8B7C66] font-mono">Bắt đầu bằng 03, 05, 07, 08, 09</span>
+                  </div>
                   <input
                     required
                     type="tel"
+                    maxLength={15}
                     value={inquiryPhone}
-                    onChange={(e) => setInquiryPhone(e.target.value)}
-                    placeholder="0916 640 316"
-                    className="w-full bg-white border border-[#D5CDBE] p-2.5 focus:outline-none focus:border-[#B85C38]"
+                    onChange={(e) => {
+                      setInquiryPhone(e.target.value);
+                      if (phoneError) setPhoneError('');
+                    }}
+                    placeholder="Ví dụ: 0916640316"
+                    className={`w-full bg-white border p-2.5 text-xs focus:outline-none transition-colors ${
+                      phoneError 
+                        ? 'border-red-500 bg-red-50/20 text-red-900 focus:border-red-600' 
+                        : 'border-[#D5CDBE] focus:border-[#B85C38]'
+                    }`}
                   />
+                  {phoneError && (
+                    <p className="text-red-600 text-[11px] font-mono mt-1.5 flex items-center gap-1">
+                      <span>⚠</span> {phoneError}
+                    </p>
+                  )}
                 </div>
 
                 <div>

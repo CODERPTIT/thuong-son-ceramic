@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sendInquiryEmail } from '@/lib/mailer';
+import { validateVietnamesePhone } from '@/lib/validation';
 
 export async function POST(request: Request) {
   try {
@@ -13,9 +14,17 @@ export async function POST(request: Request) {
       );
     }
 
+    const phoneCheck = validateVietnamesePhone(String(phone));
+    if (!phoneCheck.isValid) {
+      return NextResponse.json(
+        { error: phoneCheck.error },
+        { status: 400 }
+      );
+    }
+
     const result = await sendInquiryEmail({
       name: String(name).trim(),
-      phone: String(phone).trim(),
+      phone: phoneCheck.formatted!,
       productCode: productCode ? String(productCode).trim() : undefined,
       productName: productName ? String(productName).trim() : undefined,
       area: area ? String(area).trim() : undefined,
