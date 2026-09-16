@@ -32,16 +32,22 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 }
 
 export default function ProductQRModal({ product, onClose }: ProductQRModalProps) {
-  const [baseUrl, setBaseUrl] = useState('https://thuongsonceramic.vn');
+  const [baseUrl, setBaseUrl] = useState('https://thuong-son-ceramic.vercel.app');
   const [generating, setGenerating] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
   const [cardDataUrl, setCardDataUrl] = useState('');
 
-  // Target product URL (uses production domain so printed/saved QR works everywhere)
+  // Target product URL: Luôn ưu tiên dùng domain production chính thức thuong-son-ceramic.vercel.app
+  // để khi in QR ra dán vào mẫu gạch hoặc quét bằng điện thoại sẽ mở trực tiếp trang công khai không bị chặn
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const origin = window.location.origin;
-      setBaseUrl(origin.includes('localhost') ? 'https://thuongsonceramic.vn' : origin);
+      // Nếu là domain chính thức hoặc domain riêng thì dùng, nếu là preview/localhost thì trỏ về production chuẩn
+      if (origin.includes('localhost') || origin.includes('git-') || origin.includes('-c456.vercel.app')) {
+        setBaseUrl('https://thuong-son-ceramic.vercel.app');
+      } else {
+        setBaseUrl(origin);
+      }
     }
   }, []);
 
