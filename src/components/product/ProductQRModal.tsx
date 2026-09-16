@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
-import { X, Printer, Download, QrCode, Smartphone } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { X, Download, QrCode, Loader2 } from 'lucide-react';
 import { Product } from '@/types';
 
 interface ProductQRModalProps {
@@ -9,10 +9,23 @@ interface ProductQRModalProps {
   onClose: () => void;
 }
 
-export default function ProductQRModal({ product, onClose }: ProductQRModalProps) {
-  const printRef = useRef<HTMLDivElement>(null);
-  const [baseUrl, setBaseUrl] = useState('https://thuongsonceramic.vn');
+// Load an image cross-origin so we can draw it on Canvas
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Cannot load image: ' + src));
+    img.src = src;
+  });
+}
 
+export default function ProductQRModal({ product, onClose }: ProductQRModalProps) {
+  const [baseUrl, setBaseUrl] = useState('https://thuongsonceramic.vn');
+  const [generating, setGenerating] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
+
+  // Use production URL so QR works when scanned after printing
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const origin = window.location.origin;
@@ -21,30 +34,165 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
   }, []);
 
   const productUrl = baseUrl + '/products/' + product.slug;
-  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' + encodeURIComponent(productUrl) + '&color=1C1B19&bgcolor=FAF8F4&format=png&margin=12';
+  // High-res QR for canvas rendering (400x400)
+  const qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=' + encodeURIComponent(productUrl) + '&color=1C1B19&bgcolor=FFFFFF&format=png&margin=10';
+  // Preview QR (smaller, for the modal display)
+  const qrPreviewUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(productUrl) + '&color=1C1B19&bgcolor=FAF8F4&format=png&margin=8';
 
-  const handlePrint = () => {
-    if (!printRef.current) return;
-    const html = printRef.current.outerHTML;
-    const win = window.open('', '_blank', 'width=500,height=700');
-    if (!win) return;
-    win.document.write(
-      '<!DOCTYPE html><html><head>' +
-      '<title>QR - ' + product.code + '</title>' +
-      '<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400&family=JetBrains+Mono:wght@400&family=Manrope:wght@400&display=swap" rel="stylesheet">' +
-      '<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#F5F1EA;display:flex;align-items:center;justify-content:center;min-height:100vh}@page{size:90mm 140mm;margin:5mm}</style>' +
-      '</head><body>' + html + '</body></html>'
-    );
-    win.document.close();
-    win.onload = () => win.print();
+  // Draw the full QR card onto a Canvas and return PNG data URL
+  const generateCardImage = async (): Promise<string> => {
+    const W = 420;
+    const H = 560;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Canvas not supported');
+
+    // --- Background ---
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, W, H);
+
+    // --- Top accent bar ---
+    ctx.fillStyle = '#B85C38';
+    ctx.fillRect(0, 0, W, 5);
+
+    // --- Store header ---
+    ctx.fillStyle = '#1C1B19';
+    ctx.font = 'bold 20px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('TH\u01af\u1edcNG S\u01a0N', W / 2, 40);
+
+    ctx.fillStyle = '#8B7C66';
+    ctx.font = '10px monospace';
+    ctx.fillText('CERAMIC & SURFACE ATELIER  ·  thuongsonceramic.vn', W / 2, 58);
+
+    // --- Divider ---
+    ctx.strokeStyle = '#E5E0D8';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(24, 70);
+    ctx.lineTo(W - 24, 70);
+    ctx.stroke();
+
+    // --- QR Code image ---
+    const qrImg = await loadImage(qrApiUrl);
+    const qrSize = 340;
+    const qrX = (W - qrSize) / 2;
+    const qrY = 82;
+    ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+
+    // --- Divider below QR ---
+    ctx.strokeStyle = '#E5E0D8';
+    ctx.beginPath();
+    ctx.moveTo(24, qrY + qrSize + 12);
+    ctx.lineTo(W - 24, qrY + qrSize + 12);
+    ctx.stroke();
+
+    // --- Product info ---
+    const infoY = qrY + qrSize + 34;
+
+    // Code (clay color)
+    ctx.fillStyle = '#B85C38';
+    ctx.font = 'bold 13px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(product.code, W / 2, infoY);
+
+    // Name (truncated)
+    const name = product.name.length > 45 ? product.name.slice(0, 42) + '...' : product.name;
+    ctx.fillStyle = '#1C1B19';
+    ctx.font = '15px Georgia, serif';
+    ctx.fillText(name, W / 2, infoY + 22);
+
+    // Specs row
+    const specs = product.sizes[0] + '  ·  ' + product.surface + '  ·  ' + product.material;
+    ctx.fillStyle = '#8B7C66';
+    ctx.font = '11px monospace';
+    ctx.fillText(specs, W / 2, infoY + 42);
+
+    // --- Bottom footer ---
+    ctx.fillStyle = '#E5E0D8';
+    ctx.fillRect(0, H - 36, W, 36);
+
+    ctx.fillStyle = '#8B7C66';
+    ctx.font = '10px monospace';
+    ctx.fillText('0916 640 316  ·  0912 958 578  ·  Showroom Ho\u1eb1ng L\u1ed9c, Thanh H\u00f3a', W / 2, H - 14);
+
+    return canvas.toDataURL('image/png');
   };
 
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = qrSrc;
-    link.download = 'QR-ThuongSon-' + product.code.replace(/ /g, '-') + '.png';
-    link.target = '_blank';
-    link.click();
+  const handleSaveImage = async () => {
+    setGenerating(true);
+    try {
+      const dataUrl = await generateCardImage();
+      setPreviewUrl(dataUrl);
+
+      // Detect mobile
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        // First try Web Share API with file (native "Save Image" to Photo Library on iOS / Android)
+        let shared = false;
+        if (typeof navigator !== 'undefined' && 'canShare' in navigator && 'share' in navigator) {
+          try {
+            const res = await fetch(dataUrl);
+            const blob = await res.blob();
+            const fileName = 'QR-ThuongSon-' + product.code.replace(/ /g, '-') + '.png';
+            const file = new File([blob], fileName, { type: 'image/png' });
+            if (navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: 'Thẻ QR ' + product.name,
+                text: 'Mã QR sản phẩm ' + product.name + ' - Thường Sơn Ceramic',
+              });
+              shared = true;
+            }
+          } catch (e) {
+            console.log('Web share bypassed or cancelled', e);
+          }
+        }
+
+        if (!shared) {
+          // Fallback: open image in new tab so user can long-press to save to camera roll / gallery
+          const win = window.open('', '_blank');
+          if (win) {
+            win.document.write(
+              '<!DOCTYPE html><html><head><title>QR - ' + product.code + '</title>' +
+              '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+              '<style>body{margin:0;background:#1C1B19;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:16px;box-sizing:border-box;font-family:sans-serif}' +
+              'img{max-width:100%;height:auto;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,0.5)}' +
+              'p{color:#D5CDBE;text-align:center;font-size:13px;margin-top:16px;line-height:1.5}</style>' +
+              '</head><body>' +
+              '<img src="' + dataUrl + '" alt="QR ' + product.code + '">' +
+              '<p>👆 <strong>Chạm &amp; giữ ngón tay vào ảnh</strong><br>chọn <em>"Lưu hình ảnh"</em> để lưu vào Thư Viện ảnh</p>' +
+              '</body></html>'
+            );
+            win.document.close();
+          } else {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = 'QR-ThuongSon-' + product.code.replace(/ /g, '-') + '.png';
+            link.click();
+          }
+        }
+      } else {
+        // Desktop: trigger direct PNG download
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'QR-ThuongSon-' + product.code.replace(/ /g, '-') + '.png';
+        link.click();
+      }
+    } catch (err) {
+      console.error('QR generation error:', err);
+      // Fallback: download raw QR from API
+      const link = document.createElement('a');
+      link.href = qrApiUrl;
+      link.download = 'QR-' + product.code + '.png';
+      link.target = '_blank';
+      link.click();
+    } finally {
+      setGenerating(false);
+    }
   };
 
   return (
@@ -54,98 +202,69 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
       className="fixed inset-0 z-50 bg-[#1C1B19]/85 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="bg-[#FAF8F4] w-full max-w-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-[#D5CDBE]">
+      <div className="bg-white w-full max-w-sm shadow-2xl border border-[#D5CDBE] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        {/* Top accent line */}
+        <div className="h-1 bg-[#B85C38]" />
 
-        {/* LEFT — Printable QR Card */}
-        <div
-          ref={printRef}
-          className="flex flex-col items-center justify-between bg-[#FAF8F4] p-8 md:p-10 flex-1 border-b md:border-b-0 md:border-r border-[#D5CDBE]"
-        >
-          {/* Branding */}
-          <div className="w-full text-center mb-6">
-            <div className="flex items-center justify-center gap-2 mb-1">
-              <div className="w-8 h-8 bg-[#1C1B19] flex items-center justify-center border border-[#B85C38]/40 shrink-0">
-                <svg viewBox="0 0 40 40" fill="none" className="w-6 h-6">
-                  <line x1="6" y1="10" x2="34" y2="10" stroke="#F5F1EA" strokeWidth="2.5" strokeLinecap="square" />
-                  <line x1="20" y1="10" x2="20" y2="32" stroke="#F5F1EA" strokeWidth="2.5" strokeLinecap="square" />
-                  <path d="M28 14C24 13 14 14 14 20C14 26 26 25 26 30C26 33 21 34 16 33" stroke="#B85C38" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </div>
-              <span className="font-serif text-lg font-medium text-[#1C1B19] leading-none">THƯỜNG SƠN</span>
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <QrCode size={18} className="text-[#B85C38]" />
+              <span className="font-serif text-base text-[#1C1B19] font-medium">Thẻ Mã QR Sản Phẩm</span>
             </div>
-            <span className="text-[9px] font-mono uppercase tracking-[0.25em] text-[#8B7C66]">Ceramic &amp; Surface Atelier</span>
-          </div>
-
-          {/* QR Code */}
-          <div className="relative p-3 bg-white border-2 border-[#1C1B19] shadow-sm">
-            <div className="absolute -top-1.5 -left-1.5 w-5 h-5 border-t-2 border-l-2 border-[#B85C38]" />
-            <div className="absolute -top-1.5 -right-1.5 w-5 h-5 border-t-2 border-r-2 border-[#B85C38]" />
-            <div className="absolute -bottom-1.5 -left-1.5 w-5 h-5 border-b-2 border-l-2 border-[#B85C38]" />
-            <div className="absolute -bottom-1.5 -right-1.5 w-5 h-5 border-b-2 border-r-2 border-[#B85C38]" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={qrSrc} alt={'QR ' + product.name} width={200} height={200} style={{ display: 'block', imageRendering: 'pixelated' }} />
-          </div>
-
-          <p className="text-[10px] font-mono text-[#8B7C66] text-center mt-4 uppercase tracking-[0.18em]">Quét để xem thông số kỹ thuật</p>
-
-          {/* Product Info */}
-          <div className="w-full mt-5 pt-5 border-t border-[#D5CDBE] space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono text-[#8B7C66] uppercase">{product.brand}</span>
-              <span className="text-[11px] font-mono text-[#B85C38] font-medium">{product.code}</span>
-            </div>
-            <h3 className="font-serif text-base text-[#1C1B19]">{product.name}</h3>
-            <div className="flex flex-wrap gap-2 pt-1">
-              <span className="text-[10px] font-mono bg-[#EBE5DA] px-2 py-0.5 text-[#1C1B19]">{product.sizes[0]}</span>
-              <span className="text-[10px] font-mono bg-[#EBE5DA] px-2 py-0.5 text-[#1C1B19]">{product.surface}</span>
-              <span className="text-[10px] font-mono bg-[#EBE5DA] px-2 py-0.5 text-[#1C1B19]">{product.material}</span>
-            </div>
-            <p className="text-[9px] font-mono text-[#8B7C66] pt-1">thuongsonceramic.vn · 0916 640 316</p>
-          </div>
-        </div>
-
-        {/* RIGHT — Instructions & Actions */}
-        <div className="flex flex-col p-7 bg-[#1C1B19] text-[#F5F1EA] w-full md:max-w-[260px]">
-          <div className="flex justify-end mb-4">
-            <button onClick={onClose} aria-label="Dong QR" className="p-1.5 text-[#F5F1EA]/60 hover:text-[#B85C38] transition-colors">
-              <X size={20} />
+            <button
+              onClick={onClose}
+              aria-label="Đóng"
+              className="p-1 text-[#8B7C66] hover:text-[#B85C38] transition-colors"
+            >
+              <X size={18} />
             </button>
           </div>
 
-          <div className="flex-1">
-            <QrCode size={30} className="text-[#B85C38] mb-4" />
-            <h3 className="font-serif text-xl font-light text-white mb-2">Mã QR Sản Phẩm</h3>
-            <p className="text-xs text-[#F5F1EA]/70 font-light leading-relaxed mb-6">
-              Quét bằng camera điện thoại để xem thông số, hình ảnh và liên hệ báo giá — không cần cài app.
+          {/* QR Preview Card */}
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-[#FAF8F4] border border-[#D5CDBE] text-center w-full flex flex-col items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={previewUrl || qrPreviewUrl}
+                alt={'QR ' + product.name}
+                width={180}
+                height={180}
+                className="mx-auto block"
+              />
+            </div>
+          </div>
+
+          {/* Product info below QR */}
+          <div className="text-center mb-5 space-y-1">
+            <p className="text-[11px] font-mono text-[#B85C38] uppercase tracking-wider font-semibold">
+              {product.code}
             </p>
-            <div className="space-y-3.5 text-xs font-mono text-[#F5F1EA]/60 mb-8 border-t border-white/10 pt-5">
-              <div className="flex items-start gap-2">
-                <Smartphone size={13} className="text-[#B85C38] shrink-0 mt-0.5" />
-                <span>Camera iPhone hoặc Android, không cần app</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Printer size={13} className="text-[#B85C38] shrink-0 mt-0.5" />
-                <span>In thẻ QR dán lên mẫu gạch tại showroom</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <Download size={13} className="text-[#B85C38] shrink-0 mt-0.5" />
-                <span>Tải ảnh PNG gửi qua Zalo cho khách hàng</span>
-              </div>
-            </div>
-            <div className="bg-white/5 border border-white/10 p-3 mb-6">
-              <p className="text-[10px] font-mono text-[#B85C38] mb-1 uppercase tracking-wider">Link đích</p>
-              <p className="text-[10px] font-mono text-[#F5F1EA]/50 break-all">{'/products/' + product.slug}</p>
-            </div>
+            <h3 className="font-serif text-sm text-[#1C1B19] leading-snug line-clamp-2">
+              {product.name}
+            </h3>
+            <p className="text-[10px] font-mono text-[#8B7C66]">
+              {product.brand} · {product.sizes[0]} · {product.surface}
+            </p>
+            <p className="text-[10px] font-mono text-[#8B7C66] pt-1">
+              Thường Sơn Ceramic · Hotline: 0916 640 316
+            </p>
           </div>
 
-          <div className="space-y-3">
-            <button onClick={handlePrint} className="w-full btn btn-clay text-xs py-3 flex items-center justify-center gap-2">
-              <Printer size={14} /> In Thẻ QR
-            </button>
-            <button onClick={handleDownload} className="w-full btn btn-ghost text-[#F5F1EA] border-white/20 hover:border-[#B85C38] text-xs py-3 flex items-center justify-center gap-2">
-              <Download size={14} /> Tải QR Code (PNG)
-            </button>
-          </div>
+          {/* Action button */}
+          <button
+            onClick={handleSaveImage}
+            disabled={generating}
+            className="w-full btn btn-clay text-xs py-3 flex items-center justify-center gap-2 disabled:opacity-60 shadow-sm"
+          >
+            {generating ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
+            {generating ? 'Đang tạo thẻ ảnh...' : 'Lưu Ảnh Thẻ QR (PNG)'}
+          </button>
+
+          <p className="text-[10px] font-mono text-[#8B7C66] text-center mt-2.5 leading-relaxed">
+            📱 Mobile: Chạm giữ ngón tay vào ảnh → Lưu vào Thư Viện ảnh
+          </p>
         </div>
       </div>
     </div>
