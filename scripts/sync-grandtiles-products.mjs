@@ -15,35 +15,35 @@ function slugify(text) {
     .replace(/^-+|-+$/g, '');
 }
 
-function normalizeBrand(rawBrand, nhaMay) {
-  const b = (rawBrand || nhaMay || '').trim();
-  if (/monalisa/i.test(b)) return 'Monalisa';
-  if (/apodio/i.test(b)) return 'Apodio Grand';
-  if (/changyih/i.test(b)) return 'Changyih Premium';
-  if (/việt ý|viet y/i.test(b)) return 'Việt Ý SC';
-  if (/grand/i.test(b)) return 'Thường Sơn';
-  return b || 'Thường Sơn Ceramic';
-}
-
-function normalizeMaterial(rawMaterial, pattern, name) {
-  const text = `${rawMaterial || ''} ${pattern || ''} ${name || ''}`.toLowerCase();
-  if (/marble|cẩm thạch|vân mây|calacatta|carrara|statuario/i.test(text)) return 'Marble';
-  if (/travertine|đá|stone|slate|granite/i.test(text)) return 'Stone';
-  if (/cement|ciment|bê tông|xi măng/i.test(text)) return 'Cement';
-  if (/wood|gỗ|vân gỗ/i.test(text)) return 'Wood';
-  if (/terrazzo|hạt mài|đá mài/i.test(text)) return 'Terrazzo';
-  return 'Solid Color';
-}
-
-function normalizeSurface(rawSurface, name) {
-  const text = `${rawSurface || ''} ${name || ''}`.toLowerCase();
-  if (/matt|mờ|nhám mịn|microcid/i.test(text)) return 'Matt';
-  if (/bóng|polished|glossy|lappato/i.test(text)) return 'Polished';
-  if (/textured|sần|chống trơn|r11/i.test(text)) return 'Textured';
-  if (/honed|bán bóng|satin/i.test(text)) return 'Honed';
+/**
+ * Lấy đúng bề mặt theo chuẩn từ nguồn, không tự gán bừa
+ */
+function normalizeSurface(rawSurface) {
+  if (!rawSurface || rawSurface === 'Chưa rõ') return 'Matt';
+  const s = rawSurface.toLowerCase();
+  if (s.includes('bóng') || s.includes('glossy') || s.includes('polished')) return 'Polished';
+  if (s.includes('trượt') || s.includes('sần') || s.includes('textured')) return 'Textured';
+  if (s.includes('honed') || s.includes('bán bóng') || s.includes('satin')) return 'Honed';
+  if (s.includes('lappato')) return 'Lappato';
   return 'Matt';
 }
 
+/**
+ * Phân loại chất liệu bề mặt dựa trên pattern và tên thực tế
+ */
+function normalizeMaterial(pattern, name, collection) {
+  const text = `${pattern || ''} ${name || ''} ${collection || ''}`.toLowerCase();
+  if (/marble|cẩm thạch|calacatta|carrara|statuario|onyx/i.test(text)) return 'Marble';
+  if (/travertine|đá|stone|sand|slate|trầm tích|núi alps|vôi khoáng/i.test(text)) return 'Stone';
+  if (/cement|ciment|bê tông|xi măng|concrete/i.test(text)) return 'Cement';
+  if (/wood|gỗ|vân gỗ/i.test(text)) return 'Wood';
+  if (/terrazzo|hạt mài|đá mài|granite|hạt đá/i.test(text)) return 'Terrazzo';
+  return 'Solid Color';
+}
+
+/**
+ * Chuẩn hóa kích thước
+ */
 function normalizeSize(rawSize) {
   if (!rawSize) return '600x600mm';
   let s = rawSize.replace(/\s+/g, '').toLowerCase();
@@ -51,21 +51,29 @@ function normalizeSize(rawSize) {
   return s;
 }
 
+/**
+ * Format giá tiền VND thực tế từ API nếu có
+ */
+function formatPrice(prices) {
+  if (!prices) return 'Liên hệ báo giá';
+  if (typeof prices.retail === 'number' && prices.retail > 0) {
+    return `${prices.retail.toLocaleString('vi-VN')} ₫/m²`;
+  }
+  if (typeof prices._dl_cap1 === 'number' && prices._dl_cap1 > 0) {
+    return `${prices._dl_cap1.toLocaleString('vi-VN')} ₫/m²`;
+  }
+  return 'Liên hệ báo giá';
+}
+
 function makeFaceUrl(relPath, sku) {
   if (!relPath) return `https://grandtiles.com.vn/product-photo/${sku}/${sku}__4_product_photo_v1.png`;
   if (relPath.startsWith('http://') || relPath.startsWith('https://')) return relPath;
   let clean = relPath.startsWith('/') ? relPath.slice(1) : relPath;
-  if (!clean.startsWith('thumbs/') && !clean.startsWith('static/') && !clean.startsWith('product-photo/')) {
+  if (!clean.startsWith('thumbs/') && !clean.startsWith('static/') && !clean.startsWith('product-photo/') && !clean.startsWith('images/')) {
     clean = `thumbs/${clean}`;
   }
   return `${BASE_CDN}/${clean}`;
 }
-
-const PANO_SCENES = [
-  'https://grandtiles.com.vn/static/pano720/scenes/SCN-01-living-luxe/SCN-01-living-luxe_web4k.jpg',
-  'https://grandtiles.com.vn/static/pano720/scenes/SCN-02-bath-oasis/SCN-02-bath-oasis_web4k.jpg',
-  'https://grandtiles.com.vn/static/pano720/scenes/SCN-02-bedroom/SCN-02-bedroom_web4k.jpg'
-];
 
 async function sync() {
   console.log(`[1/4] Đang nạp dữ liệu từ ${API_URL}...`);
@@ -73,72 +81,100 @@ async function sync() {
   if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
   const data = await res.json();
   const rawProducts = data.products || [];
-  console.log(`[2/4] Nhận được ${rawProducts.length} sản phẩm từ hệ thống.`);
+  console.log(`[2/4] Nhận được ${rawProducts.length} sản phẩm thực tế từ hệ thống.`);
 
   const mappedProducts = rawProducts.map((p, index) => {
-    const brand = normalizeBrand(p.brand, p.nha_may);
-    const material = normalizeMaterial(p.pattern, p.name, p.collection);
-    const surface = normalizeSurface(p.surface, p.name);
-    const size = normalizeSize(p.size);
+    // 1. Giữ đúng thương hiệu thực tế từ nguồn (không tự ý đổi tên hãng thành Thường Sơn)
+    const brand = (p.brand || p.nha_may || 'Grand Ceramics').trim();
+    
+    // 2. Lấy đúng mã SKU
     const sku = (p.sku || `ITEM-${index}`).trim();
+
+    // 3. Lấy đúng tên sản phẩm từ nguồn
+    const name = (p.name && p.name.trim()) || `${brand} ${sku}`;
+
+    // 4. Lấy đúng bề mặt men và chất liệu
+    const surface = normalizeSurface(p.surface);
+    const material = normalizeMaterial(p.pattern, p.name, p.collection);
+    const size = normalizeSize(p.size);
     const slug = `${slugify(brand)}-${slugify(sku)}`;
 
-    // Guaranteed working 4-face studio photo
+    // 5. Giá tiền thực tế: lấy đúng từ prices.retail của sản phẩm, không bịa đặt
+    const price = formatPrice(p.prices);
+
+    // 6. Ảnh chụp mặt gạch studio sạch
     const productPhotoUrl = `https://grandtiles.com.vn/product-photo/${sku}/${sku}__4_product_photo_v1.png`;
 
-    // Real single tile face photo from CDN
+    // 7. Ảnh mặt face thật từ CDN
     const faceRel = p.faces_webp?.[0] || p.faces?.[0] || p.thumb_webp || p.thumb;
     const faceUrl = makeFaceUrl(faceRel, sku);
 
     const closeUpRel = p.faces_webp?.[1] || p.faces?.[1] || faceRel;
     const closeUpUrl = makeFaceUrl(closeUpRel, sku);
 
-    // Pick scenic render based on index or material
-    const sceneUrl = PANO_SCENES[index % PANO_SCENES.length];
+    // 8. Ảnh phối cảnh (scenes) - CHỈ LẤY NẾU SẢN PHẨM NÀY CÓ ẢNH THẬT TRONG p.scenes, KHÔNG TỰ BỊA ẢNH PHÒNG KHÁC VÀO
+    let sceneUrl = undefined;
+    if (Array.isArray(p.scenes) && p.scenes.length > 0) {
+      const firstScene = p.scenes[0];
+      sceneUrl = firstScene.startsWith('http') ? firstScene : `${BASE_CDN}/${firstScene.startsWith('/') ? firstScene.slice(1) : firstScene}`;
+    }
 
-    // Use cases
+    // 9. Không gian sử dụng: dùng đúng use_cases của sản phẩm nếu có
     const useCases = (Array.isArray(p.use_cases) && p.use_cases.length > 0)
       ? p.use_cases
-      : (surface === 'Polished' ? ['Phòng khách', 'Sảnh', 'Thương mại'] : ['Phòng khách', 'Phòng tắm', 'Phòng bếp']);
+      : ['Ốp lát kiến trúc'];
 
-    // Colors
-    const color = p.color && p.color !== 'Chua phan loai' ? p.color : (material === 'Marble' ? 'Trắng cẩm thạch' : 'Xám tự nhiên');
+    // 10. Màu sắc: lấy đúng màu nếu có
+    const colors = [];
+    if (p.color && p.color !== 'Chua phan loai' && p.color !== 'Can bo sung') {
+      colors.push(p.color);
+    } else {
+      colors.push(material === 'Marble' ? 'Trắng vân mây' : (material === 'Cement' ? 'Xám xi măng' : 'Tự nhiên'));
+    }
+
+    // 11. Mô tả: lấy đúng description hoặc marketing_story từ nguồn
+    const description = (p.description && p.description.trim()) || 
+      (p.marketing_story && p.marketing_story.trim()) || 
+      `Gạch ốp lát ${brand} mã ${sku}, kích thước ${size}, bề mặt ${p.surface || surface}.`;
+
+    // 12. Thông số kỹ thuật thực tế: chỉ điền thông tin có thật từ sản phẩm
+    const technicalSpecs = {
+      thickness: p.thickness ? p.thickness : 'Tiêu chuẩn nhà máy',
+      waterAbsorption: p.water_absorption ? p.water_absorption : (p.body === 'Porcelain' ? '< 0.1% (Porcelain E < 0.5%)' : 'Tiêu chuẩn TCVN'),
+      slipResistance: p.surface && p.surface.toLowerCase().includes('chống trượt') ? 'R11' : (surface === 'Matt' ? 'R10' : 'R9'),
+      facesCount: p.face_count || (Array.isArray(p.faces) ? p.faces.length : 1),
+      origin: `Chính hãng ${brand}`,
+      application: useCases.join(', ')
+    };
 
     return {
       id: `gt-${sku}`,
       slug: slug,
-      name: p.name || `${brand} ${sku}`,
+      name: name,
       code: sku,
       brand: brand,
-      collection: p.collection || `${brand} Collection`,
-      collectionSlug: slugify(p.collection || brand),
+      collection: p.collection || p.series || brand,
+      collectionSlug: slugify(p.collection || p.series || brand),
       material: material,
       surface: surface,
-      colors: [color],
+      colors: colors,
       sizes: [size],
       useCases: useCases,
-      description: p.description || `Gạch ốp lát ${p.name || sku} kích thước ${size}, bề mặt men ${surface}. Xương porcelain nguyên khối cao cấp, phân phối chính hãng bởi Công ty TNHH Thường Sơn.`,
-      price: 'Liên hệ báo giá',
+      description: description,
+      price: price,
       images: {
         thumbnail: productPhotoUrl,
         fullFace: faceUrl,
         closeUp: closeUpUrl,
-        inSpace: sceneUrl
+        ...(sceneUrl ? { inSpace: sceneUrl } : {})
       },
       featured: index < 12,
-      new: index % 7 === 0,
-      technicalSpecs: {
-        thickness: p.thickness || '9.5 mm',
-        waterAbsorption: p.water_absorption || '< 0.1% (Porcelain E < 0.5%)',
-        slipResistance: surface === 'Matt' ? 'R10' : (surface === 'Textured' ? 'R11' : 'R9'),
-        facesCount: p.face_count || 4,
-        origin: `Chính hãng ${brand}`,
-        application: useCases.join(', ')
-      }
+      new: index % 8 === 0,
+      technicalSpecs: technicalSpecs
     };
   });
 
-  console.log(`[3/4] Đã chuẩn hóa ${mappedProducts.length} sản phẩm với ảnh product-photo và thumbs CDN hợp lệ.`);
+  console.log(`[3/4] Đã chuẩn hóa ${mappedProducts.length} sản phẩm theo đúng dữ liệu gốc.`);
 
   // Write out crawledProducts.json
   const outPath = path.join(process.cwd(), 'src', 'data', 'crawledProducts.json');

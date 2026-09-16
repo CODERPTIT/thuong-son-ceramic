@@ -28,9 +28,12 @@ const SHOWROOM_GALLERY = [
   },
 ];
 
+import type { MailerResult } from '@/lib/mailer';
+
 export default function ShowroomPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [appointmentResult, setAppointmentResult] = useState<MailerResult | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -44,7 +47,7 @@ export default function ShowroomPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch('/api/appointment', {
+      const res = await fetch('/api/appointment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -56,6 +59,10 @@ export default function ShowroomPage() {
           note: formData.notes,
         }),
       });
+      const data = await res.json();
+      if (data?.details) {
+        setAppointmentResult(data.details);
+      }
       setSubmitted(true);
     } catch (err) {
       console.error('Lỗi gửi lịch hẹn:', err);
@@ -330,26 +337,45 @@ export default function ShowroomPage() {
                   Đã Gửi Lịch Hẹn Thành Công!
                 </h3>
                 <p className="text-xs md:text-sm text-[#1C1B19]/75 font-light leading-relaxed max-w-md mx-auto">
-                  Cảm ơn quý khách <strong>{formData.name}</strong>. Thông tin đã được chuyển tiếp đến ban quản lý Công ty TNHH Thường Sơn và thông báo về email{' '}
-                  <a href={`mailto:${COMPANY_INFO.email}`} className="text-[#B85C38] hover:underline font-medium">
-                    {COMPANY_INFO.email}
-                  </a>.
+                  Cảm ơn quý khách <strong>{formData.name}</strong>. Thông tin đã được tiếp nhận và xử lý ưu tiên gửi về ban quản lý Showroom Thường Sơn.
                 </p>
+
+                {/* Delivery Badge */}
+                {appointmentResult?.delivered ? (
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-mono">
+                    <span>✓</span> Đã chuyển email trực tiếp tới <strong>{COMPANY_INFO.email}</strong>
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-300 text-amber-900 text-xs font-mono">
+                    <span>ℹ</span> Đã lưu thông tin! Quý khách có thể bấm gửi nhanh qua Zalo hoặc Email bên dưới để được ưu tiên xếp lịch ngay:
+                  </div>
+                )}
+
                 <p className="text-xs text-[#8B7C66] font-mono">
-                  Thời gian hẹn: <strong>{formData.timeSlot}</strong> ngày <strong>{formData.date || 'sớm nhất'}</strong> · SĐT/Zalo: <strong>{formData.phone}</strong>
+                  Thời gian hẹn: <strong>{formData.timeSlot}</strong> ngày <strong>{formData.date || 'sớm nhất'}</strong> · SĐT: <strong>{formData.phone}</strong>
                 </p>
+
                 <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
                   <a
-                    href="https://zalo.me/0916640316"
+                    href={appointmentResult?.zaloUrl || "https://zalo.me/0916640316"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-clay text-xs flex items-center gap-1.5"
                   >
-                    <MessageSquare size={13} /> Nhắn Zalo Xác Nhận Ngay
+                    <MessageSquare size={13} /> Chat Zalo 0916 640 316 (Xác Nhận Ngay)
                   </a>
+                  {appointmentResult?.mailtoUrl && (
+                    <a
+                      href={appointmentResult.mailtoUrl}
+                      className="btn btn-ghost text-xs flex items-center gap-1.5 border-[#D5CDBE] hover:border-[#B85C38]"
+                    >
+                      <Mail size={13} /> Gửi Thẳng Qua Email
+                    </a>
+                  )}
                   <button
                     onClick={() => {
                       setSubmitted(false);
+                      setAppointmentResult(null);
                       setFormData({
                         name: '',
                         phone: '',

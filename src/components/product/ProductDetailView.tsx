@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Download, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode } from 'lucide-react';
+import { ArrowLeft, Download, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
@@ -48,6 +48,7 @@ export default function ProductDetailView({
   const [inquiryArea, setInquiryArea] = useState('');
   const [inquiryLoading, setInquiryLoading] = useState(false);
   const [inquirySuccess, setInquirySuccess] = useState(false);
+  const [inquiryResult, setInquiryResult] = useState<{ delivered?: boolean; mailtoUrl?: string; zaloUrl?: string } | null>(null);
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -61,7 +62,7 @@ export default function ProductDetailView({
     e.preventDefault();
     setInquiryLoading(true);
     try {
-      await fetch('/api/inquiry', {
+      const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -72,6 +73,8 @@ export default function ProductDetailView({
           productName: product.name,
         }),
       });
+      const data = await res.json();
+      setInquiryResult(data.details || null);
       setInquirySuccess(true);
     } catch (err) {
       console.error('Lỗi gửi báo giá:', err);
@@ -381,28 +384,45 @@ export default function ProductDetailView({
               <div className="text-center py-6 space-y-4">
                 <CheckCircle size={44} className="text-[#B85C38] mx-auto" />
                 <h4 className="font-serif text-xl text-[#1C1B19]">
-                  Đã Gửi Yêu Cầu Báo Giá Thành Công!
+                  Đã Tiếp Nhận Yêu Cầu Báo Giá!
                 </h4>
-                <p className="text-xs text-[#1C1B19]/75 leading-relaxed max-w-sm mx-auto">
-                  Cảm ơn quý khách <strong>{inquiryName}</strong>. Yêu cầu mã gạch <strong>{product.code}</strong> đã được gửi tới chuyên viên Thường Sơn và thông báo về email{' '}
-                  <a href="mailto:nguyenhieu32005@gamil.com" className="text-[#B85C38] hover:underline font-medium">
-                    nguyenhieu32005@gamil.com
-                  </a>.
-                </p>
-                <div className="pt-3 flex items-center justify-center gap-3">
+                <div className="text-xs text-[#1C1B19]/75 leading-relaxed max-w-sm mx-auto space-y-2">
+                  <p>
+                    Cảm ơn quý khách <strong>{inquiryName}</strong>. Yêu cầu mã gạch <strong>{product.code}</strong> đã được ghi nhận vào hệ thống Thường Sơn.
+                  </p>
+                  {inquiryResult?.delivered ? (
+                    <div className="p-2.5 bg-[#FAF8F4] border border-[#3B7A57]/30 text-[#3B7A57] font-mono text-[11px] rounded">
+                      ✓ Đã gửi email thông báo trực tiếp tới nguyenhieu32005@gamil.com!
+                    </div>
+                  ) : (
+                    <p className="text-[#8B7C66] text-[11px]">
+                      Chuyên viên sẽ liên hệ ngay theo số <strong>{inquiryPhone}</strong>, hoặc quý khách có thể gửi bản vẽ/nhắn tin trực tiếp qua các kênh dưới đây:
+                    </p>
+                  )}
+                </div>
+                <div className="pt-3 flex flex-wrap items-center justify-center gap-2.5">
                   <a
-                    href="https://zalo.me/0916640316"
+                    href={inquiryResult?.zaloUrl || "https://zalo.me/0916640316"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-clay text-xs flex items-center gap-1.5"
                   >
-                    <MessageSquare size={13} /> Chat Zalo Ngay
+                    <MessageSquare size={13} /> Chat Zalo 0916 640 316
                   </a>
+                  {inquiryResult?.mailtoUrl && (
+                    <a
+                      href={inquiryResult.mailtoUrl}
+                      className="btn btn-ink text-xs flex items-center gap-1.5"
+                    >
+                      <Mail size={13} /> Gửi Trực Tiếp Qua Email
+                    </a>
+                  )}
                   <button
                     type="button"
                     onClick={() => {
                       setInquiryModalOpen(false);
                       setInquirySuccess(false);
+                      setInquiryResult(null);
                       setInquiryName('');
                       setInquiryPhone('');
                       setInquiryArea('');

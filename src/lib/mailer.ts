@@ -20,6 +20,15 @@ export interface InquiryData {
   note?: string;
 }
 
+export interface MailerResult {
+  success: boolean;
+  delivered: boolean;
+  message: string;
+  zaloUrl: string;
+  mailtoUrl: string;
+  error?: string;
+}
+
 /**
  * Tạo transporter nodemailer nếu có cấu hình SMTP
  */
@@ -44,11 +53,43 @@ function getTransporter() {
 }
 
 /**
+ * Gửi qua Resend API nếu có cấu hình RESEND_API_KEY
+ */
+async function sendViaResend(to: string, subject: string, html: string): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return false;
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: process.env.SMTP_FROM || 'Thường Sơn Ceramic <onboarding@resend.dev>',
+        to: [to],
+        subject: subject,
+        html: html
+      })
+    });
+    return res.ok;
+  } catch (err) {
+    console.error('[RESEND ERROR]', err);
+    return false;
+  }
+}
+
+/**
  * Gửi email thông báo Đặt Lịch Trải Nghiệm Showroom về nguyenhieu32005@gamil.com
  */
-export async function sendAppointmentEmail(data: AppointmentData): Promise<{ success: boolean; message: string; simulated?: boolean }> {
+export async function sendAppointmentEmail(data: AppointmentData): Promise<MailerResult> {
   const targetEmail = RECIPIENT_EMAIL;
   const subject = `[THƯỜNG SƠN CERAMIC] Khách đặt lịch xem mẫu: ${data.name} (${data.phone})`;
+
+  const bodyPlain = `Họ tên: ${data.name}\nSố điện thoại / Zalo: ${data.phone}\nKhông gian: ${data.space || 'Chưa chọn'}\nNgày hẹn: ${data.date || 'Linh hoạt'} (${data.timeSlot || 'Chưa chọn'})\nGhi chú: ${data.note || 'Không có'}`;
+  const mailtoUrl = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyPlain)}`;
+  const zaloUrl = `https://zalo.me/0916640316`;
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -99,23 +140,19 @@ export async function sendAppointmentEmail(data: AppointmentData): Promise<{ suc
             </div>
 
             <div class="field">
-              <div class="label">Thời gian dự kiến đến:</div>
-              <div class="value"><strong>${data.timeSlot || 'Trong ngày'}</strong> — Ngày: <strong>${data.date || 'Sớm nhất'}</strong></div>
+              <div class="label">Thời gian dự kiến ghé Showroom:</div>
+              <div class="value">${data.date ? `Ngày: ${data.date}` : 'Linh hoạt'} · ${data.timeSlot || 'Chưa chọn khung giờ'}</div>
             </div>
 
             ${data.note ? `
-              <div class="note-box">
-                <div class="label" style="margin-bottom: 2px;">Ghi chú / Mã gạch đang cân nhắc:</div>
-                "${data.note}"
+              <div class="field">
+                <div class="label">Ghi chú &amp; Nhu cầu của khách:</div>
+                <div class="note-box">&ldquo;${data.note}&rdquo;</div>
               </div>
             ` : ''}
 
             <div style="text-align: center; margin-top: 24px;">
-              <a href="tel:${data.phone}" class="btn-call">📞 BẤM ĐỂ GỌI KHÁCH HÀNG NGAY</a>
-              <br>
-              <a href="https://zalo.me/${data.phone.replace(/[^0-9]/g, '')}" target="_blank" style="display: inline-block; font-size: 12px; color: #1C1B19; margin-top: 8px; text-decoration: underline;">
-                Hoặc mở Chat Zalo với số ${data.phone}
-              </a>
+              <a href="tel:${data.phone}" class="btn-call">📞 GỌI CHO KHÁCH NGAY</a>
             </div>
           </div>
           <div class="footer">
@@ -127,8 +164,17 @@ export async function sendAppointmentEmail(data: AppointmentData): Promise<{ suc
     </html>
   `;
 
-  const transporter = getTransporter();
+  // 1. Thử gửi qua Resend nếu có API key
+  if (process.env.RESEND_API_KEY) {
+    const resendSuccess = await sendViaResend(targetEmail, subject, htmlContent);
+    if (resendSuccess) {
+      console.log(`[MAIL RESEND] Đã gửi thành công lịch hẹn tới ${targetEmail}`);
+      return { success: true, delivered: true, message: 'Đã gửi email thông báo thành công qua Resend.', zaloUrl, mailtoUrl };
+    }
+  }
 
+  // 2. Thử gửi qua Nodemailer SMTP nếu có cấu hình
+  const transporter = getTransporter();
   if (transporter) {
     try {
       const sender = process.env.SMTP_FROM || `"Thường Sơn Website" <${process.env.SMTP_USER || process.env.GMAIL_USER}>`;
@@ -138,29 +184,36 @@ export async function sendAppointmentEmail(data: AppointmentData): Promise<{ suc
         subject: subject,
         html: htmlContent
       });
-      console.log(`[MAIL] Đã gửi thành công email đặt lịch tới ${targetEmail}`);
-      return { success: true, message: 'Đã gửi email thông báo thành công.' };
-    } catch (err) {
-      console.error('[MAIL ERROR]', err);
-      // Fallback gracefully so customer request is never lost
-      return { success: true, message: 'Đã tiếp nhận yêu cầu.', simulated: true };
+      console.log(`[MAIL SMTP] Đã gửi thành công email đặt lịch tới ${targetEmail}`);
+      return { success: true, delivered: true, message: 'Đã gửi email thông báo trực tiếp thành công.', zaloUrl, mailtoUrl };
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      console.error('[MAIL SMTP ERROR]', errorMsg);
+      return { success: true, delivered: false, message: 'Đã tiếp nhận yêu cầu. Lỗi SMTP gửi email.', error: errorMsg, zaloUrl, mailtoUrl };
     }
-  } else {
-    // Không có SMTP credentials cấu hình sẵn, ghi log rõ ràng
-    console.log(`[MAIL SIMULATED] Cần cấu hình SMTP_USER và SMTP_PASS trong .env hoặc Vercel để chuyển tiếp thực tế. Đã ghi nhận thông tin khách:`, {
-      targetEmail,
-      data
-    });
-    return { success: true, message: 'Đã tiếp nhận thành công vào hệ thống.', simulated: true };
   }
+
+  // 3. Chưa có SMTP_PASS cấu hình
+  console.log(`[MAIL PENDING CONFIG] Yêu cầu từ ${data.name} (${data.phone}) đã ghi nhận. Cần cấu hình SMTP_PASS trong .env.local hoặc Vercel để nhận email tự động.`);
+  return { 
+    success: true, 
+    delivered: false, 
+    message: 'Đã tiếp nhận yêu cầu vào hệ thống Thường Sơn.',
+    zaloUrl,
+    mailtoUrl
+  };
 }
 
 /**
  * Gửi email thông báo Yêu Cầu Báo Giá & Mẫu Thật về nguyenhieu32005@gamil.com
  */
-export async function sendInquiryEmail(data: InquiryData): Promise<{ success: boolean; message: string; simulated?: boolean }> {
+export async function sendInquiryEmail(data: InquiryData): Promise<MailerResult> {
   const targetEmail = RECIPIENT_EMAIL;
   const subject = `[THƯỜNG SƠN CERAMIC] Yêu cầu báo giá mẫu gạch: ${data.productCode || ''} - ${data.name} (${data.phone})`;
+
+  const bodyPlain = `Khách hàng: ${data.name}\nSố điện thoại / Zalo: ${data.phone}\nMã gạch quan tâm: ${data.productCode || 'Chung'} - ${data.productName || ''}\nDiện tích dự tính: ${data.area || 'Chưa rõ'}\nGhi chú: ${data.note || 'Không có'}`;
+  const mailtoUrl = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyPlain)}`;
+  const zaloUrl = `https://zalo.me/0916640316`;
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -215,8 +268,17 @@ export async function sendInquiryEmail(data: InquiryData): Promise<{ success: bo
     </html>
   `;
 
-  const transporter = getTransporter();
+  // 1. Thử gửi qua Resend nếu có
+  if (process.env.RESEND_API_KEY) {
+    const resendSuccess = await sendViaResend(targetEmail, subject, htmlContent);
+    if (resendSuccess) {
+      console.log(`[MAIL RESEND] Đã gửi thành công yêu cầu báo giá tới ${targetEmail}`);
+      return { success: true, delivered: true, message: 'Đã gửi email thông báo thành công qua Resend.', zaloUrl, mailtoUrl };
+    }
+  }
 
+  // 2. Thử gửi qua Nodemailer SMTP
+  const transporter = getTransporter();
   if (transporter) {
     try {
       const sender = process.env.SMTP_FROM || `"Thường Sơn Website" <${process.env.SMTP_USER || process.env.GMAIL_USER}>`;
@@ -226,13 +288,22 @@ export async function sendInquiryEmail(data: InquiryData): Promise<{ success: bo
         subject: subject,
         html: htmlContent
       });
-      return { success: true, message: 'Đã gửi email thông báo thành công.' };
-    } catch (err) {
-      console.error('[MAIL ERROR]', err);
-      return { success: true, message: 'Đã tiếp nhận yêu cầu.', simulated: true };
+      console.log(`[MAIL SMTP] Đã gửi thành công yêu cầu báo giá tới ${targetEmail}`);
+      return { success: true, delivered: true, message: 'Đã gửi email thông báo thành công.', zaloUrl, mailtoUrl };
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      console.error('[MAIL SMTP ERROR]', errorMsg);
+      return { success: true, delivered: false, message: 'Đã tiếp nhận yêu cầu. Lỗi kết nối SMTP.', error: errorMsg, zaloUrl, mailtoUrl };
     }
-  } else {
-    console.log(`[MAIL SIMULATED] Nhận yêu cầu báo giá tới ${targetEmail}:`, data);
-    return { success: true, message: 'Đã tiếp nhận thành công vào hệ thống.', simulated: true };
   }
+
+  // 3. Chưa có SMTP_PASS
+  console.log(`[MAIL PENDING CONFIG] Nhận yêu cầu báo giá mã ${data.productCode} từ ${data.name} (${data.phone}) tới ${targetEmail}.`);
+  return { 
+    success: true, 
+    delivered: false, 
+    message: 'Đã tiếp nhận thành công vào hệ thống Thường Sơn.',
+    zaloUrl,
+    mailtoUrl
+  };
 }
