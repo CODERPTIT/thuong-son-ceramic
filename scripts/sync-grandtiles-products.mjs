@@ -132,10 +132,28 @@ async function sync() {
       colors.push(material === 'Marble' ? 'Trắng vân mây' : (material === 'Cement' ? 'Xám xi măng' : 'Tự nhiên'));
     }
 
-    // 11. Mô tả: lấy đúng description hoặc marketing_story từ nguồn
-    const description = (p.description && p.description.trim()) || 
-      (p.marketing_story && p.marketing_story.trim()) || 
-      `Gạch ốp lát ${brand} mã ${sku}, kích thước ${size}, bề mặt ${p.surface || surface}.`;
+    // 11. Mô tả: làm sạch text cào từ web (loại bỏ rác footer, bảng STT và chính sách bản quyền thừa)
+    const rawDesc = (p.description && p.description.trim()) || (p.marketing_story && p.marketing_story.trim()) || '';
+    let description = rawDesc;
+    const cutMarkers = [
+      'Phối cảnh sản phẩm',
+      'Thông số kỹ thuật',
+      'STT',
+      'Quy cách đóng gói',
+      'Sản phẩm tương tự',
+      'Follow Us',
+      'CHÍNH SÁCH BẢO MẬT',
+      'DEVELOPED BY',
+      '© 202',
+      'Tìm kiếm...'
+    ];
+    for (const marker of cutMarkers) {
+      const idx = description.indexOf(marker);
+      if (idx !== -1) {
+        description = description.substring(0, idx);
+      }
+    }
+    description = description.trim() || `Gạch ốp lát ${brand} mã ${sku}, kích thước ${size}, bề mặt ${p.surface || surface}.`;
 
     // 12. Thông số kỹ thuật thực tế: chỉ điền thông tin có thật từ sản phẩm
     const technicalSpecs = {

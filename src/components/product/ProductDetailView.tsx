@@ -72,6 +72,7 @@ export default function ProductDetailView({
   const [copied, setCopied] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
+  const [showFullDesc, setShowFullDesc] = useState(false);
 
   const [inquiryName, setInquiryName] = useState('');
   const [inquiryPhone, setInquiryPhone] = useState('');
@@ -243,10 +244,46 @@ export default function ProductDetailView({
                 {product.price || 'Liên hệ báo giá theo khối lượng'}
               </div>
 
-              {/* Description */}
-              <p className="text-sm text-[#1C1B19]/75 font-light leading-relaxed mb-6">
-                {product.description}
-              </p>
+              {/* Editorial Description */}
+              <div className="text-xs md:text-sm text-[#1C1B19]/80 font-light leading-relaxed mb-6 space-y-3">
+                {(() => {
+                  const paragraphs = product.description.split('\n').map(p => p.trim()).filter(Boolean);
+                  const firstParagraph = paragraphs[0] || product.description;
+                  const restParagraphs = paragraphs.slice(1);
+
+                  return (
+                    <>
+                      <p className="leading-relaxed">{firstParagraph}</p>
+                      {restParagraphs.length > 0 && (
+                        <>
+                          {showFullDesc && (
+                            <div className="space-y-3 pt-3 border-t border-[#D5CDBE]/60 text-xs font-light text-[#1C1B19]/85">
+                              {restParagraphs.map((para, pIdx) => {
+                                const isHeading = para.startsWith('Ưu Điểm') || para.startsWith('Ứng Dụng') || para.startsWith('Đặc Tính');
+                                if (isHeading) {
+                                  return (
+                                    <h4 key={pIdx} className="font-serif font-medium text-sm text-[#1C1B19] pt-2 border-b border-[#D5CDBE]/30 pb-1">
+                                      {para}
+                                    </h4>
+                                  );
+                                }
+                                return <p key={pIdx} className="leading-relaxed">{para}</p>;
+                              })}
+                            </div>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setShowFullDesc(!showFullDesc)}
+                            className="text-[#B85C38] hover:underline font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1 font-medium pt-1"
+                          >
+                            {showFullDesc ? '▲ Thu gọn mô tả' : '▼ Xem chi tiết đặc tính & ứng dụng'}
+                          </button>
+                        </>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
 
               {/* Primary Attributes Grid */}
               <div className="grid grid-cols-2 gap-4 p-4 bg-[#FAF8F4] border border-[#D5CDBE] mb-6 text-xs font-mono">
