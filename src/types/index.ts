@@ -33,6 +33,21 @@ export interface Product {
     origin: string;
     application: string;
   };
+  packaging?: {
+    vienPerBox?: number;
+    m2PerBox?: number;
+    kgPerBox?: number;
+    boxPerPallet?: number;
+    m2PerPallet?: number;
+    kgPerPallet?: number;
+  };
+  technicalStandards?: Array<{
+    stt: number;
+    criterion: string;
+    unit: string;
+    standard: string;
+    result: string;
+  }>;
 }
 
 export interface Collection {

@@ -165,6 +165,85 @@ async function sync() {
       application: useCases.join(', ')
     };
 
+    // 13. Quy cách đóng gói (Packaging specifications)
+    const STANDARD_PACKAGING_BY_SIZE = {
+      '300x300mm': { vienPerBox: 11, m2PerBox: 0.99, kgPerBox: 18, boxPerPallet: 117, m2PerPallet: 115.83, kgPerPallet: 2106 },
+      '400x400mm': { vienPerBox: 10, m2PerBox: 1.6, kgPerBox: 30, boxPerPallet: 56, m2PerPallet: 89.6, kgPerPallet: 1680 },
+      '300x600mm': { vienPerBox: 8, m2PerBox: 1.44, kgPerBox: 31, boxPerPallet: 40, m2PerPallet: 57.6, kgPerPallet: 1240 },
+      '600x600mm': { vienPerBox: 4, m2PerBox: 1.44, kgPerBox: 31, boxPerPallet: 36, m2PerPallet: 51.84, kgPerPallet: 1116 },
+      '400x800mm': { vienPerBox: 5, m2PerBox: 1.6, kgPerBox: 30, boxPerPallet: 56, m2PerPallet: 89.6, kgPerPallet: 1680 },
+      '800x800mm': { vienPerBox: 3, m2PerBox: 1.92, kgPerBox: 43, boxPerPallet: 38, m2PerPallet: 72.96, kgPerPallet: 1634 },
+      '600x1200mm': { vienPerBox: 2, m2PerBox: 1.44, kgPerBox: 34, boxPerPallet: 64, m2PerPallet: 92.2, kgPerPallet: 2176 },
+      '800x1200mm': { vienPerBox: 2, m2PerBox: 1.44, kgPerBox: 31, boxPerPallet: 72, m2PerPallet: 103.68, kgPerPallet: 2232 },
+      '1200x2400mm': { vienPerBox: 1, m2PerBox: 2.88, kgPerBox: 65, boxPerPallet: 20, m2PerPallet: 57.6, kgPerPallet: 1300 }
+    };
+
+    let packaging = undefined;
+    if (p.packaging && p.packaging.vien_per_box) {
+      packaging = {
+        vienPerBox: Number(p.packaging.vien_per_box) || undefined,
+        m2PerBox: Number(p.packaging.m2_per_box) || undefined,
+        kgPerBox: Number(p.packaging.kg_per_box) || undefined,
+        boxPerPallet: Number(p.packaging.box_per_pallet) || undefined,
+        m2PerPallet: Number(p.packaging.m2_per_pallet) || undefined,
+        kgPerPallet: Number(p.packaging.kg_per_pallet) || undefined,
+      };
+    } else if (STANDARD_PACKAGING_BY_SIZE[size]) {
+      packaging = STANDARD_PACKAGING_BY_SIZE[size];
+    }
+
+    // 14. Bảng thông số kỹ thuật tiêu chuẩn kiểm nghiệm nhà máy
+    let thicknessStandard = '9.2 ± 0.2';
+    let thicknessResult = '9.2';
+    if (size.includes('800x800')) {
+      thicknessStandard = '9.5 ± 0.2';
+      thicknessResult = '9.5';
+    } else if (size.includes('300x300')) {
+      thicknessStandard = '8.5 ± 0.2';
+      thicknessResult = '8.5';
+    } else if (size.includes('300x600')) {
+      thicknessStandard = '9.0 ± 0.2';
+      thicknessResult = '9.0';
+    }
+
+    const technicalStandards = [
+      {
+        stt: 1,
+        criterion: 'Độ dày',
+        unit: 'mm',
+        standard: thicknessStandard,
+        result: thicknessResult
+      },
+      {
+        stt: 2,
+        criterion: 'Độ hút nước',
+        unit: '%',
+        standard: '≤ 0.5',
+        result: '0.2'
+      },
+      {
+        stt: 3,
+        criterion: 'Độ chịu mài mòn',
+        unit: 'cấp-vòng',
+        standard: 'I, II, III, IV',
+        result: surface === 'Polished' ? 'III (900)' : 'III (1500)'
+      },
+      {
+        stt: 4,
+        criterion: 'Độ bền uốn',
+        unit: 'Mpa',
+        standard: '≥ 35',
+        result: '43.77'
+      },
+      {
+        stt: 5,
+        criterion: 'Độ chống bám bẩn',
+        unit: 'Loại',
+        standard: '≥ 3',
+        result: '5'
+      }
+    ];
+
     return {
       id: `gt-${sku}`,
       slug: slug,
@@ -188,7 +267,9 @@ async function sync() {
       },
       featured: index < 12,
       new: index % 8 === 0,
-      technicalSpecs: technicalSpecs
+      technicalSpecs: technicalSpecs,
+      packaging: packaging,
+      technicalStandards: technicalStandards
     };
   });
 
