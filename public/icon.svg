@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Background: Gạch xương đá màu than chì cao cấp -->
+  <rect width="48" height="48" rx="8" fill="#1C1B19" stroke="#B85C38" stroke-width="1.5" />
+  
+  <!-- Subtle ceramic texture accents -->
+  <rect x="4" y="4" width="40" height="40" rx="6" fill="none" stroke="#D5CDBE" stroke-opacity="0.2" stroke-width="1" />
+  
+  <!-- Monogram THƯỜNG SƠN (T & S) -->
+  <!-- Letter T (Kiến trúc thanh vững chãi) -->
+  <path d="M11 15H37" stroke="#F5F1EA" stroke-width="3.5" stroke-linecap="square" />
+  <path d="M24 15V35" stroke="#F5F1EA" stroke-width="3.5" stroke-linecap="square" />
+  
+  <!-- Letter S (Đường vân gốm cẩm thạch màu Terracotta uốn lượn liên kết) -->
+  <path 
+    d="M32 19C28 17 17 18 17 24C17 30 31 29 31 34C31 37.5 25 38.5 19 37.5" 
+    stroke="#B85C38" 
+    stroke-width="3" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+    fill="none" 
+  />
+  
+  <!-- Small Golden Diamond Sparkle (Tinh thể men sứ) -->
+  <circle cx="37" cy="11" r="2" fill="#D49B6A" />
+</svg>
