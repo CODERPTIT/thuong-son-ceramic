@@ -3,10 +3,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon, Sparkles } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
+import ProductPosterStudioModal from '@/components/product/ProductPosterStudioModal';
 import { validateVietnamesePhone } from '@/lib/validation';
 
 // Clean repeated brand prefixes (e.g. "Grand Ceramics Grand Ceramics 800×800" -> "Grand Ceramics 800×800")
@@ -81,6 +82,7 @@ export default function ProductDetailView({
   const [activeImage, setActiveImage] = useState(0);
   const [copied, setCopied] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [posterModalOpen, setPosterModalOpen] = useState(false);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [showFullDesc, setShowFullDesc] = useState(false);
 
@@ -506,6 +508,15 @@ export default function ProductDetailView({
                     <Share2 size={13} /> {copied ? 'Đã sao chép link!' : 'Chia sẻ mẫu'}
                   </button>
                 </div>
+
+                {/* Chế bản Poster Catalog Tool */}
+                <button
+                  onClick={() => setPosterModalOpen(true)}
+                  className="w-full mt-2.5 py-2.5 px-3 bg-[#FAF8F4] hover:bg-white border border-[#D5CDBE] hover:border-[#B85C38] text-[#1C1B19] hover:text-[#B85C38] text-[11px] font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm rounded-sm"
+                  title="Tải ảnh poster catalog lên để tự động đè QR và cắt chân trang cũ"
+                >
+                  <Sparkles size={13} className="text-[#B85C38]" /> Chế Bản Poster (Đè QR &amp; Cắt Chân Trang)
+                </button>
               </div>
             </div>
           </div>
@@ -823,6 +834,14 @@ export default function ProductDetailView({
         <ProductQRModal
           product={product}
           onClose={() => setQrModalOpen(false)}
+        />
+      )}
+
+      {/* Poster Studio Modal */}
+      {posterModalOpen && (
+        <ProductPosterStudioModal
+          product={product}
+          onClose={() => setPosterModalOpen(false)}
         />
       )}
 
