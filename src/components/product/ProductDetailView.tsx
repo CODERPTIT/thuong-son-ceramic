@@ -32,12 +32,40 @@ export default function ProductDetailView({
   collection,
 }: ProductDetailViewProps) {
   const encodedCode = product.code.replace(/ /g, '%20');
-  // Gallery images array
-  const galleryImages = [
-    { label: 'Face Gạch Thật', src: sanitizeImageUrl(product.images.fullFace) },
-    { label: 'Phối Cảnh Không Gian', src: sanitizeImageUrl(product.images.inSpace || product.images.thumbnail) },
-    { label: 'Cận Cảnh Men Sứ', src: sanitizeImageUrl(product.images.closeUp || product.images.thumbnail) },
-  ];
+  // Dynamic gallery: Chỉ lấy các ảnh THỰC TẾ có thật và KHÔNG trùng lặp
+  const galleryImages: { label: string; src: string }[] = [];
+  const addedSrcs = new Set<string>();
+
+  const addUnique = (label: string, rawSrc?: string) => {
+    if (!rawSrc) return;
+    const cleanSrc = sanitizeImageUrl(rawSrc);
+    if (!cleanSrc || addedSrcs.has(cleanSrc)) return;
+    addedSrcs.add(cleanSrc);
+    galleryImages.push({ label, src: cleanSrc });
+  };
+
+  // 1. Mặt face gạch thật
+  addUnique('Face Gạch Thật', product.images.fullFace);
+
+  // 2. Phối cảnh không gian thực tế (nếu nhà máy có chụp riêng)
+  if (product.images.inSpace) {
+    addUnique('Phối Cảnh Không Gian', product.images.inSpace);
+  }
+
+  // 3. Ảnh chụp mẫu gạch studio (nếu có và khác face gạch)
+  if (product.images.thumbnail) {
+    addUnique('Ảnh Mẫu Gạch', product.images.thumbnail);
+  }
+
+  // 4. Cận cảnh men sứ / Face 2 (nếu có và khác các ảnh trên)
+  if (product.images.closeUp) {
+    addUnique('Cận Cảnh Men Sứ', product.images.closeUp);
+  }
+
+  // Fallback nếu sản phẩm chỉ có 1 ảnh
+  if (galleryImages.length === 0) {
+    addUnique('Ảnh Sản Phẩm', product.images.fullFace || product.images.thumbnail);
+  }
 
   const [activeImage, setActiveImage] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -114,47 +142,62 @@ export default function ProductDetailView({
           {/* Left Column: Large Gallery (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
             {/* Main Active Image Display */}
-            <div className="relative aspect-[4/3] sm:aspect-[1/1] bg-[#FAF8F4] border border-[#D5CDBE] overflow-hidden group">
-              <Image
-                src={galleryImages[activeImage].src}
-                alt={`${product.name} - ${galleryImages[activeImage].label}`}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-              />
-              <div className="absolute top-4 left-4 bg-[#1C1B19]/85 text-[#F5F1EA] text-[10px] font-mono px-3 py-1 uppercase tracking-wider">
-                {galleryImages[activeImage].label}
-              </div>
-              <div className="absolute bottom-4 right-4 bg-[#1C1B19]/80 backdrop-blur-sm text-[#F5F1EA] text-[10px] font-mono px-2.5 py-1">
-                Mã: {product.code}
-              </div>
-            </div>
-
-            {/* Thumbnail selector */}
-            <div className="grid grid-cols-3 gap-3">
-              {galleryImages.map((img, idx) => (
-                <button
-                  key={img.label}
-                  onClick={() => setActiveImage(idx)}
-                  className={`relative aspect-[4/3] overflow-hidden border transition-all ${
-                    activeImage === idx
-                      ? 'border-[#B85C38] ring-1 ring-[#B85C38]'
-                      : 'border-[#D5CDBE] opacity-75 hover:opacity-100'
-                  }`}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.label}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute bottom-1 left-1 bg-[#1C1B19]/85 text-white text-[9px] font-mono px-1.5 py-0.5">
-                    {img.label}
+            {(() => {
+              const currentActive = galleryImages[activeImage] || galleryImages[0];
+              return (
+                <>
+                  <div className="relative aspect-[4/3] sm:aspect-[1/1] bg-[#FAF8F4] border border-[#D5CDBE] overflow-hidden group">
+                    <Image
+                      src={currentActive.src}
+                      alt={`${product.name} - ${currentActive.label}`}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute top-4 left-4 bg-[#1C1B19]/85 text-[#F5F1EA] text-[10px] font-mono px-3 py-1 uppercase tracking-wider">
+                      {currentActive.label}
+                    </div>
+                    <div className="absolute bottom-4 right-4 bg-[#1C1B19]/80 backdrop-blur-sm text-[#F5F1EA] text-[10px] font-mono px-2.5 py-1">
+                      Mã: {product.code}
+                    </div>
                   </div>
-                </button>
-              ))}
-            </div>
+
+                  {/* Thumbnail selector: chỉ hiển thị nếu sản phẩm có từ 2 ảnh thật khác nhau trở lên */}
+                  {galleryImages.length > 1 && (
+                    <div className={`grid gap-3 ${
+                      galleryImages.length === 2 
+                        ? 'grid-cols-2' 
+                        : galleryImages.length === 3 
+                          ? 'grid-cols-3' 
+                          : 'grid-cols-4'
+                    }`}>
+                      {galleryImages.map((img, idx) => (
+                        <button
+                          key={`${img.label}-${idx}`}
+                          onClick={() => setActiveImage(idx)}
+                          className={`relative aspect-[4/3] overflow-hidden border transition-all ${
+                            activeImage === idx
+                              ? 'border-[#B85C38] ring-1 ring-[#B85C38]'
+                              : 'border-[#D5CDBE] opacity-75 hover:opacity-100'
+                          }`}
+                        >
+                          <Image
+                            src={img.src}
+                            alt={img.label}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute bottom-1 left-1 bg-[#1C1B19]/85 text-white text-[9px] font-mono px-1.5 py-0.5">
+                            {img.label}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              );
+            })()}
 
             {/* Face verification banner */}
             <div className="p-4 bg-[#FAF8F4] border border-[#D5CDBE] flex items-center gap-3 text-xs text-[#1C1B19]/80 font-light">
