@@ -53,11 +53,21 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
 
   const productUrl = `${baseUrl}/products/${product.slug}`;
 
-  // Generate the complete printable card with Canvas locally
+  // Generate the complete printable card with Canvas locally in ultra-sharp 4K / 300+ DPI quality
   const generateCard = useCallback(async (): Promise<string> => {
+    // Scale factor for ultra-high resolution (4x supersampling -> 1800 x 2400 px, print-ready 300+ DPI)
+    const SCALE = 4;
+    const baseW = 450;
+    const baseH = 600;
+    const W = baseW * SCALE; // 1800px
+    const H = baseH * SCALE; // 2400px
+
+    const baseQrSize = 290;
+    const qrSize = baseQrSize * SCALE; // 1160px ultra crisp QR matrix
+
     // 1. Generate QR code as high-res DataURL offline via qrcode library
     const qrDataUrl = await QRCode.toDataURL(productUrl, {
-      width: 320,
+      width: qrSize,
       margin: 1,
       color: {
         dark: '#1C1B19',
@@ -69,84 +79,103 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
     const qrImg = await loadImage(qrDataUrl);
 
     // 2. Setup Canvas
-    const W = 420;
-    const H = 540;
     const canvas = document.createElement('canvas');
     canvas.width = W;
     canvas.height = H;
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error('Canvas not supported');
 
+    // Enable high quality rendering
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
     // Background
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, W, H);
 
-    // Top accent line
-    ctx.fillStyle = '#B85C38';
-    ctx.fillRect(0, 0, W, 5);
+    // Outer card border
+    ctx.strokeStyle = '#E8E3DA';
+    ctx.lineWidth = 2 * SCALE;
+    ctx.strokeRect(1 * SCALE, 1 * SCALE, W - 2 * SCALE, H - 2 * SCALE);
 
-    // Store Branding
+    // Top accent line (Terracotta luxury)
+    ctx.fillStyle = '#B85C38';
+    ctx.fillRect(0, 0, W, 7 * SCALE);
+
+    // Store Branding Header
     ctx.fillStyle = '#1C1B19';
-    ctx.font = 'bold 22px Georgia, serif';
+    ctx.font = `bold ${24 * SCALE}px Georgia, "Playfair Display", "Times New Roman", serif`;
     ctx.textAlign = 'center';
-    ctx.fillText('THƯỜNG SƠN', W / 2, 40);
+    ctx.fillText('THƯỜNG SƠN', W / 2, 48 * SCALE);
 
     ctx.fillStyle = '#8B7C66';
-    ctx.font = '10px monospace';
-    ctx.fillText('CERAMIC & SURFACE ATELIER  ·  thuongsonceramic.vn', W / 2, 58);
+    ctx.font = `600 ${10.5 * SCALE}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace`;
+    ctx.letterSpacing = `${1.5 * SCALE}px`;
+    ctx.fillText('CERAMIC & SURFACE ATELIER  ·  THUONGSONCERAMIC.VN', W / 2, 68 * SCALE);
+    ctx.letterSpacing = '0px';
 
-    // Divider
-    ctx.strokeStyle = '#E5E0D8';
-    ctx.lineWidth = 1;
+    // Divider above QR
+    ctx.strokeStyle = '#ECE8E1';
+    ctx.lineWidth = 1.5 * SCALE;
     ctx.beginPath();
-    ctx.moveTo(24, 70);
-    ctx.lineTo(W - 24, 70);
+    ctx.moveTo(32 * SCALE, 82 * SCALE);
+    ctx.lineTo(W - 32 * SCALE, 82 * SCALE);
     ctx.stroke();
 
-    // QR Image (crisp 300x300)
-    const qrSize = 300;
+    // QR Image (crisp 1160x1160 centered)
     const qrX = (W - qrSize) / 2;
-    const qrY = 82;
+    const qrY = 98 * SCALE;
     ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
     // Divider below QR
-    ctx.strokeStyle = '#E5E0D8';
+    const divider2Y = qrY + qrSize + 16 * SCALE;
+    ctx.strokeStyle = '#ECE8E1';
     ctx.beginPath();
-    ctx.moveTo(24, qrY + qrSize + 14);
-    ctx.lineTo(W - 24, qrY + qrSize + 14);
+    ctx.moveTo(32 * SCALE, divider2Y);
+    ctx.lineTo(W - 32 * SCALE, divider2Y);
     ctx.stroke();
 
-    // Product Code
-    const infoY = qrY + qrSize + 36;
+    // Product Code (Mono accent)
+    const codeY = divider2Y + 28 * SCALE;
     ctx.fillStyle = '#B85C38';
-    ctx.font = 'bold 13px monospace';
+    ctx.font = `bold ${15 * SCALE}px -apple-system, BlinkMacSystemFont, "SF Mono", Menlo, Consolas, monospace`;
     ctx.textAlign = 'center';
-    ctx.fillText(product.code, W / 2, infoY);
+    ctx.fillText(`MÃ: ${product.code}`, W / 2, codeY);
 
-    // Product Name (truncated if long)
-    const displayName = product.name.length > 40 ? product.name.slice(0, 38) + '...' : product.name;
+    // Product Name (Truncated cleanly if too long)
+    const displayName = product.name.length > 38 ? product.name.slice(0, 36) + '...' : product.name;
+    const nameY = codeY + 26 * SCALE;
     ctx.fillStyle = '#1C1B19';
-    ctx.font = '15px Georgia, serif';
-    ctx.fillText(displayName, W / 2, infoY + 22);
+    ctx.font = `bold ${18 * SCALE}px Georgia, "Playfair Display", "Times New Roman", serif`;
+    ctx.fillText(displayName, W / 2, nameY);
 
-    // Specs
-    const specs = `${product.sizes[0]}  ·  ${product.surface}  ·  ${product.material}`;
-    ctx.fillStyle = '#8B7C66';
-    ctx.font = '11px monospace';
-    ctx.fillText(specs, W / 2, infoY + 40);
+    // Specs: Dimensions · Surface · Material
+    const specsY = nameY + 24 * SCALE;
+    const specs = `${product.sizes[0] || 'Kích thước chuẩn'}   ·   ${product.surface || 'Bề mặt cao cấp'}   ·   ${product.material || 'Xương Porcelain'}`;
+    ctx.fillStyle = '#6E6254';
+    ctx.font = `500 ${12 * SCALE}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    ctx.fillText(specs, W / 2, specsY);
+
+    // Scanning hint
+    const hintY = specsY + 22 * SCALE;
+    ctx.fillStyle = '#9C9080';
+    ctx.font = `italic ${10 * SCALE}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    ctx.fillText('Quét mã để tra cứu thông số kỹ thuật & phối cảnh không gian', W / 2, hintY);
 
     // Footer Bar
-    ctx.fillStyle = '#FAF8F4';
-    ctx.fillRect(0, H - 34, W, 34);
-    ctx.strokeStyle = '#E5E0D8';
+    const footerH = 46 * SCALE;
+    ctx.fillStyle = '#FBF9F5';
+    ctx.fillRect(0, H - footerH, W, footerH);
+
+    ctx.strokeStyle = '#ECE8E1';
     ctx.beginPath();
-    ctx.moveTo(0, H - 34);
-    ctx.lineTo(W, H - 34);
+    ctx.moveTo(0, H - footerH);
+    ctx.lineTo(W, H - footerH);
     ctx.stroke();
 
-    ctx.fillStyle = '#8B7C66';
-    ctx.font = '10px monospace';
-    ctx.fillText('Hotline: 0916 640 316 · Showroom Hoằng Lộc, Thanh Hóa', W / 2, H - 14);
+    ctx.fillStyle = '#6E6254';
+    ctx.font = `500 ${10.5 * SCALE}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    ctx.fillText('Hotline: 0916 640 316  ·  Showroom Hoằng Lộc, Hoằng Hóa, Thanh Hóa', W / 2, H - 18 * SCALE);
 
     return canvas.toDataURL('image/png');
   }, [product, productUrl]);
@@ -300,7 +329,7 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
           <button
             onClick={handleDownload}
             disabled={generating}
-            className="w-full btn btn-clay text-xs py-3 flex items-center justify-center gap-2 disabled:opacity-60 shadow-sm"
+            className="w-full btn btn-clay text-xs py-3 flex items-center justify-center gap-2 disabled:opacity-60 shadow-sm font-medium tracking-wide"
           >
             {generating ? (
               <Loader2 size={15} className="animate-spin" />
@@ -309,11 +338,18 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
             ) : (
               <Download size={15} />
             )}
-            {generating ? 'Đang xuất file ảnh...' : downloaded ? 'Đã Tải / Lưu Thẻ QR!' : 'Tải Ảnh Thẻ QR (PNG)'}
+            {generating ? 'Đang xử lý ảnh sắc nét 4K...' : downloaded ? 'Đã Tải / Lưu Thẻ QR Thành Công!' : 'Tải Ảnh Thẻ QR (Ultra HD 4K)'}
           </button>
 
-          <p className="text-[10px] font-mono text-[#8B7C66] text-center mt-2.5 leading-relaxed">
-            📱 Mobile: Chạm giữ ngón tay vào ảnh trên → chọn <em>Lưu hình ảnh</em>
+          <div className="flex items-center justify-center gap-1.5 mt-2.5">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <p className="text-[10px] font-mono text-[#6E6254] text-center">
+              File ảnh 1800×2400 px · Chuẩn in ấn 300+ DPI sắc nét
+            </p>
+          </div>
+
+          <p className="text-[10px] font-mono text-[#8B7C66] text-center mt-1 leading-relaxed">
+            📱 Mobile: Chạm &amp; giữ ảnh để chọn <em>Lưu hình ảnh vào máy</em>
           </p>
         </div>
       </div>
