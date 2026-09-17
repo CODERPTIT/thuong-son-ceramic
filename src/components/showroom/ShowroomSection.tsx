@@ -60,7 +60,7 @@ export default function ShowroomSection() {
                 <Clock size={16} className="text-[#B85C38] shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-white block font-sans text-sm">Giờ mở cửa</strong>
-                  <span className="text-[#8B7C66]">Thứ Hai - Thứ Bảy: 07:30 – 18:00 · Chủ Nhật: 08:00 – 12:00</span>
+                  <span className="text-[#8B7C66]">Tất cả các ngày trong tuần · Sáng: 07:00 – 11:00 · Chiều: 14:00 – 21:00</span>
                 </div>
               </div>
 

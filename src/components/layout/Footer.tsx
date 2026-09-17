@@ -81,7 +81,7 @@ export default function Footer() {
           </div>
 
           <div className="mt-8 pt-6 border-t border-white/10 text-[11px] font-mono text-[#8B7C66]">
-            Giờ mở cửa: Thứ 2 – Thứ 7 (07:30 – 18:00) · CN (08:00 – 12:00)
+            Giờ mở cửa: Tất cả các ngày trong tuần · Sáng: 07:00 – 11:00 · Chiều: 14:00 – 21:00
           </div>
         </div>
 

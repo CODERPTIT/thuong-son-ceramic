@@ -41,7 +41,7 @@ export default function ShowroomPage() {
     phone: '',
     space: 'Phòng khách',
     date: '',
-    timeSlot: '08:30 - 10:30',
+    timeSlot: '07:00 - 09:00',
     notes: '',
   });
 
@@ -183,14 +183,17 @@ export default function ShowroomPage() {
             <h3 className="font-serif text-xl font-normal text-[#1C1B19] mb-2">
               Thời Gian Mở Cửa
             </h3>
+            <p className="text-xs font-mono text-[#B85C38] font-semibold mb-3">
+              Tất cả các ngày trong tuần (Thứ Hai – Chủ Nhật)
+            </p>
             <ul className="space-y-2 text-xs font-mono text-[#1C1B19]/80 mb-4">
               <li className="flex justify-between">
-                <span>Thứ Hai - Thứ Bảy:</span>
-                <strong>{COMPANY_INFO.openingHours.weekdays}</strong>
+                <span>Buổi sáng:</span>
+                <strong>07:00 – 11:00</strong>
               </li>
               <li className="flex justify-between">
-                <span>Chủ Nhật:</span>
-                <strong>{COMPANY_INFO.openingHours.sunday}</strong>
+                <span>Buổi chiều &amp; tối:</span>
+                <strong>14:00 – 21:00</strong>
               </li>
             </ul>
             <span className="text-[11px] text-[#8B7C66] font-mono block">
@@ -396,7 +399,7 @@ export default function ShowroomPage() {
                         phone: '',
                         space: 'Phòng khách',
                         date: '',
-                        timeSlot: '08:30 - 10:30',
+                        timeSlot: '07:00 - 09:00',
                         notes: '',
                       });
                     }}
@@ -484,10 +487,10 @@ export default function ShowroomPage() {
                       onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
                       className="w-full bg-[#FAF8F4] border border-[#D5CDBE] p-3 text-xs focus:outline-none focus:border-[#B85C38]"
                     >
-                      <option value="08:30 - 10:30">08:30 - 10:30 (Sáng)</option>
-                      <option value="10:30 - 12:00">10:30 - 12:00 (Trưa)</option>
-                      <option value="14:00 - 16:00">14:00 - 16:00 (Chiều)</option>
-                      <option value="16:00 - 18:00">16:00 - 18:00 (Cuối ngày)</option>
+                      <option value="07:00 - 09:00">07:00 - 09:00 (Sáng)</option>
+                      <option value="09:00 - 11:00">09:00 - 11:00 (Sáng)</option>
+                      <option value="14:00 - 17:30">14:00 - 17:30 (Chiều)</option>
+                      <option value="17:30 - 21:00">17:30 - 21:00 (Tối)</option>
                     </select>
                   </div>
                 </div>

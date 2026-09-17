@@ -14,8 +14,12 @@ export const COMPANY_INFO = {
   ],
   email: 'nguyenhieu32005@gamil.com',
   openingHours: {
-    weekdays: '07:30 – 18:00 (Thứ Hai - Thứ Bảy)',
-    sunday: '08:00 – 12:00 (Chủ Nhật)'
+    days: 'Tất cả các ngày trong tuần (Thứ Hai – Chủ Nhật)',
+    morning: '07:00 – 11:00 (Sáng)',
+    afternoon: '14:00 – 21:00 (Chiều & Tối)',
+    weekdays: 'Sáng: 07:00 – 11:00 · Chiều: 14:00 – 21:00',
+    sunday: 'Sáng: 07:00 – 11:00 · Chiều: 14:00 – 21:00',
+    full: 'Tất cả các ngày trong tuần · Sáng: 07:00 – 11:00 · Chiều: 14:00 – 21:00'
   },
   mapEmbedSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15014.110678631532!2d105.83495825823277!3d19.817614004728835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313659c48b4c3e87%3A0x8e254cb7629c6c1d!2zQ8O0bmcgdHkgVE5ISCBUaMaw4budbmcgU8ahbg!5e0!3m2!1svi!2s!4v1789483459858!5m2!1svi!2s',
   mapDirectionsUrl: 'https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa'
