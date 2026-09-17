@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2, Maximize2 } from 'lucide-react';
+import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2 } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import { Product } from '@/types';
@@ -293,7 +293,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     }
   }, [uploadedImageElement, renderCompositeCanvas]);
 
-  // Direct Download Button
+  // 1. Download poster directly to computer/phone
   const handleDownloadFile = async () => {
     setIsProcessing(true);
     try {
@@ -305,7 +305,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
 
       const fileName = `Poster_${product.code}_ThuongSon.png`;
 
-      // Standard download link
+      // Standard direct download
       const link = document.createElement('a');
       link.href = dataUrl;
       link.download = fileName;
@@ -315,7 +315,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
       setTimeout(() => {
         document.body.removeChild(link);
         setDownloadSuccess(true);
-      }, 400);
+      }, 300);
     } catch (err) {
       console.error('Download error:', err);
     } finally {
@@ -323,63 +323,39 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     }
   };
 
-  // Open Fullscreen Image for Easy Saving on Mobile
-  const handleOpenFullImage = () => {
+  // 2. Open Native Share Sheet (Zalo, Messenger, Save Image to Photos)
+  const handleShare = async () => {
     if (!previewDataUrl) return;
-    const win = window.open();
-    if (win) {
-      win.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Poster - ${product.code}</title>
-            <style>
-              body { margin: 0; background: #1C1B19; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 12px; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-              img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-              p { color: #FAF8F4; text-align: center; font-size: 14px; margin-top: 14px; line-height: 1.5; }
-            </style>
-          </head>
-          <body>
-            <img src="${previewDataUrl}" alt="Poster ${product.code}">
-            <p>👆 <strong>Chạm &amp; giữ ngón tay vào ảnh 1 giây</strong><br>chọn <em>"Lưu hình ảnh"</em> để lưu vào Album ảnh điện thoại</p>
-          </body>
-        </html>
-      `);
-      win.document.close();
-    }
-  };
+    setIsProcessing(true);
+    try {
+      const fileName = `Poster_${product.code}_ThuongSon.png`;
 
-  // Explicit Share to Zalo / Messenger
-  const handleShareZalo = async () => {
-    if (!canvasRef.current) return;
-    const fileName = `Poster_${product.code}_ThuongSon.png`;
+      // Convert dataUrl directly to blob & file
+      const res = await fetch(previewDataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], fileName, { type: 'image/png' });
 
-    if (typeof navigator !== 'undefined' && 'canShare' in navigator && 'share' in navigator) {
-      try {
-        const blob = await new Promise<Blob | null>((res) => canvasRef.current?.toBlob(res, 'image/png'));
-        if (blob) {
-          const file = new File([blob], fileName, { type: 'image/png' });
-          if (navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              files: [file],
-              title: `Poster ${product.code}`,
-              text: `Poster catalog ${product.code} - Thường Sơn Ceramic`,
-            });
-            return;
-          }
-        }
-      } catch (err: unknown) {
-        if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-          return;
-        }
+      if (typeof navigator !== 'undefined' && 'canShare' in navigator && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: `Poster ${product.code}`,
+          text: `Poster catalog ${product.code} - Thường Sơn Ceramic`,
+        });
+        setDownloadSuccess(true);
+      } else {
+        handleDownloadFile();
       }
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
+        return;
+      }
+      console.warn('Share error:', err);
+    } finally {
+      setIsProcessing(false);
     }
-
-    handleOpenFullImage();
   };
 
-  // Process Image Without auto-popping share dialog
+  // Process image on upload
   const processImage = async (img: HTMLImageElement) => {
     setIsProcessing(true);
 
@@ -540,18 +516,18 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
               </div>
             </div>
           ) : (
-            /* Screen 2: Result Preview & Options */
+            /* Screen 2: Result Preview & 2 Clear Buttons */
             <div className="space-y-3">
               {/* Status Pill */}
               <div className="flex items-center justify-between px-3 py-2 bg-[#044C42]/10 border border-[#044C42]/20 rounded-lg text-xs font-mono text-[#044C42]">
                 <span className="flex items-center gap-1.5 font-semibold">
                   <CheckCircle2 size={15} className="text-[#044C42]" />
-                  {downloadSuccess ? '✓ Đã tải về máy!' : `✓ Đã xử lý xong (Dạng ${detectedType})`}
+                  {downloadSuccess ? '✓ Đã tải về máy!' : `✓ Đã tạo xong (Dạng ${detectedType})`}
                 </span>
                 <span className="text-[10px] text-[#6E6254]">100% Ảnh gốc</span>
               </div>
 
-              {/* Live Image Preview: Real <img> for Long-press to Save */}
+              {/* Live Image Preview: Real <img> */}
               <div className="bg-[#1C1B19] p-2 rounded-lg flex items-center justify-center max-h-[55vh] overflow-hidden shadow-inner">
                 <canvas ref={canvasRef} className="hidden" />
                 {previewDataUrl ? (
@@ -563,19 +539,14 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                   />
                 ) : (
                   <div className="text-white/60 text-xs font-mono py-12 flex items-center gap-2">
-                    <Sparkles size={16} className="animate-spin text-[#FFB088]" /> Đang tạo bản xem trước...
+                    <Sparkles size={16} className="animate-spin text-[#FFB088]" /> Đang tạo poster...
                   </div>
                 )}
               </div>
 
-              {/* Crucial Mobile Tip */}
-              <div className="text-[11px] text-center font-mono text-[#044C42] bg-[#044C42]/8 py-2 px-3 rounded-lg border border-[#044C42]/20">
-                💡 <strong>Lưu vào Thư viện ảnh iPhone / Android nhanh nhất:</strong><br/>
-                Chạm và giữ ngón tay vào ảnh trên 1 giây ➔ chọn <strong>&ldquo;Lưu hình ảnh&rdquo;</strong> (Save Image).
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-2 pt-1">
+              {/* Action Buttons: Download + Share */}
+              <div className="space-y-2.5 pt-1">
+                {/* Button 1: Download to device */}
                 <button
                   type="button"
                   onClick={handleDownloadFile}
@@ -583,27 +554,21 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                   className="w-full py-3.5 px-4 bg-[#044C42] hover:bg-[#003831] text-white rounded-lg font-medium text-xs flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
                 >
                   <Download size={16} />
-                  {isProcessing ? 'Đang xuất poster...' : 'TẢI POSTER VỀ MÁY (GỐC 100%)'}
+                  {isProcessing ? 'Đang tải poster...' : 'TẢI POSTER VỀ MÁY (GỐC 100%)'}
                 </button>
 
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={handleOpenFullImage}
-                    className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#1C1B19] border border-[#D5CDBE] rounded-lg font-mono text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                  >
-                    <Maximize2 size={13} /> Mở ảnh để lưu
-                  </button>
+                {/* Button 2: Native Share (Opens iOS / Android Share Sheet) */}
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  disabled={isProcessing}
+                  className="w-full py-3 px-4 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42] rounded-lg font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer active:scale-[0.98]"
+                >
+                  <Share2 size={16} className="text-[#044C42]" />
+                  CHIA SẺ POSTER (ZALO, TIN NHẮN, LƯU ẢNH)
+                </button>
 
-                  <button
-                    type="button"
-                    onClick={handleShareZalo}
-                    className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42]/40 rounded-lg font-mono text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                  >
-                    <Share2 size={13} /> Gửi qua Zalo
-                  </button>
-                </div>
-
+                {/* Reset Button */}
                 <button
                   type="button"
                   onClick={() => {
@@ -611,7 +576,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                     setPreviewDataUrl(null);
                     setDownloadSuccess(false);
                   }}
-                  className="w-full py-2 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  className="w-full py-2 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer pt-0.5"
                 >
                   <RefreshCw size={12} /> Đổi ảnh poster khác
                 </button>

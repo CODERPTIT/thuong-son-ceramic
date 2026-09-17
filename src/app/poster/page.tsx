@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Upload, Download, Sparkles, CheckCircle2, RefreshCw, ExternalLink, ArrowLeft, ShieldCheck, Share2, Maximize2 } from 'lucide-react';
+import { Upload, Download, Sparkles, CheckCircle2, RefreshCw, ExternalLink, ArrowLeft, ShieldCheck, Share2 } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import productCodeMapRaw from '@/data/productCodeMap.json';
@@ -120,10 +120,8 @@ export default function StandalonePosterPage() {
           const rawQrH = maxY - minY;
           const detectedSize = Math.max(rawQrW, rawQrH);
 
-          // Classify Type 1 vs Type 2 based on QR horizontal center
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
-          // Extract product code from URL (e.g. https://grandth.duckdns.org/q/MP62003)
           let extractedCode: string | null = null;
           const match = qrCode.data.match(/\/q\/([A-Za-z0-9_-]+)/i) || qrCode.data.match(/\/products\/([A-Za-z0-9_-]+)/i);
           if (match && match[1]) {
@@ -319,7 +317,7 @@ export default function StandalonePosterPage() {
     }
   }, [uploadedImageElement, renderCompositeCanvas]);
 
-  // 1. Direct Download Button (Never opens unwanted share sheet)
+  // 1. Download poster directly to computer/phone
   const handleDownloadFile = async () => {
     setIsProcessing(true);
     try {
@@ -332,7 +330,7 @@ export default function StandalonePosterPage() {
       const codeTag = detectedResult?.extractedCode || 'Catalog';
       const fileName = `Poster_${codeTag}_ThuongSon.png`;
 
-      // Trigger standard download link
+      // Standard direct download
       const link = document.createElement('a');
       link.href = dataUrl;
       link.download = fileName;
@@ -342,7 +340,7 @@ export default function StandalonePosterPage() {
       setTimeout(() => {
         document.body.removeChild(link);
         setDownloadSuccess(true);
-      }, 400);
+      }, 300);
     } catch (err) {
       console.error('Download error:', err);
     } finally {
@@ -350,65 +348,42 @@ export default function StandalonePosterPage() {
     }
   };
 
-  // 2. Open Fullscreen Image for Easy Saving on Mobile
-  const handleOpenFullImage = () => {
+  // 2. Open Native Share Sheet (Zalo, Messenger, Save Image to Photos)
+  const handleShare = async () => {
     if (!previewDataUrl) return;
-    const win = window.open();
-    if (win) {
-      win.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Poster Thường Sơn</title>
-            <style>
-              body { margin: 0; background: #1C1B19; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 12px; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-              img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-              p { color: #FAF8F4; text-align: center; font-size: 14px; margin-top: 14px; line-height: 1.5; }
-            </style>
-          </head>
-          <body>
-            <img src="${previewDataUrl}" alt="Poster">
-            <p>👆 <strong>Chạm &amp; giữ ngón tay vào ảnh 1 giây</strong><br>chọn <em>"Lưu hình ảnh"</em> để lưu vào Album ảnh điện thoại</p>
-          </body>
-        </html>
-      `);
-      win.document.close();
-    }
-  };
+    setIsProcessing(true);
+    try {
+      const codeTag = detectedResult?.extractedCode || 'Catalog';
+      const fileName = `Poster_${codeTag}_ThuongSon.png`;
 
-  // 3. Optional Share to Zalo / Messenger (Only when user explicitly taps Share)
-  const handleShareZalo = async () => {
-    if (!canvasRef.current) return;
-    const codeTag = detectedResult?.extractedCode || 'Catalog';
-    const fileName = `Poster_${codeTag}_ThuongSon.png`;
+      // Convert dataUrl directly to blob & file
+      const res = await fetch(previewDataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], fileName, { type: 'image/png' });
 
-    if (typeof navigator !== 'undefined' && 'canShare' in navigator && 'share' in navigator) {
-      try {
-        const blob = await new Promise<Blob | null>((res) => canvasRef.current?.toBlob(res, 'image/png'));
-        if (blob) {
-          const file = new File([blob], fileName, { type: 'image/png' });
-          if (navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              files: [file],
-              title: `Poster ${codeTag}`,
-              text: `Poster catalog ${codeTag} - Thường Sơn Ceramic`,
-            });
-            return;
-          }
-        }
-      } catch (err: unknown) {
-        if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-          return;
-        }
+      if (typeof navigator !== 'undefined' && 'canShare' in navigator && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: `Poster ${codeTag}`,
+          text: `Poster catalog ${codeTag} - Thường Sơn Ceramic`,
+        });
+        setDownloadSuccess(true);
+      } else {
+        // If device does not support file sharing, trigger download
+        handleDownloadFile();
       }
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
+        // User closed share sheet normally
+        return;
+      }
+      console.warn('Share error:', err);
+    } finally {
+      setIsProcessing(false);
     }
-
-    // Fallback if share sheet not available
-    handleOpenFullImage();
   };
 
-  // Full Zero-Click Pipeline (Processes image, updates preview, WITHOUT auto-popping share dialog)
+  // Process image on upload
   const processImage = async (img: HTMLImageElement) => {
     setIsProcessing(true);
 
@@ -419,7 +394,6 @@ export default function StandalonePosterPage() {
     setQrSize(detection.qrSize);
     setCropBottom(parseFloat((100 - detection.footerYPercent).toFixed(2)));
 
-    // Render preview cleanly
     setTimeout(async () => {
       try {
         const exportCanvas = await renderCompositeCanvas(true);
@@ -427,7 +401,7 @@ export default function StandalonePosterPage() {
           const dataUrl = exportCanvas.toDataURL('image/png');
           setPreviewDataUrl(dataUrl);
 
-          // On desktop only: trigger auto download link
+          // On desktop: trigger silent auto-download
           const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
           if (!isMobile) {
             const codeTag = detection.extractedCode || 'Catalog';
@@ -576,10 +550,10 @@ export default function StandalonePosterPage() {
             </div>
           </div>
         ) : (
-          /* State 2: Preview & Clear Download/Save Options */
+          /* State 2: Preview & 2 Clear Buttons */
           <div className="bg-[#FAF8F4] border border-[#D5CDBE] rounded-2xl shadow-xl p-4 sm:p-5 space-y-3.5">
             {/* Detection Result Pill */}
-            <div className="px-3.5 py-2.5 bg-[#044C42]/10 border border-[#044C42]/20 rounded-xl text-xs font-mono space-y-1">
+            <div className="px-3.5 py-2 bg-[#044C42]/10 border border-[#044C42]/20 rounded-xl text-xs font-mono space-y-1">
               <div className="flex items-center justify-between text-[#044C42] font-semibold">
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck size={16} />
@@ -592,7 +566,7 @@ export default function StandalonePosterPage() {
                   )}
                 </span>
                 <span className="text-[10px] px-2 py-0.5 bg-[#044C42] text-white rounded font-normal">
-                  {downloadSuccess ? '✓ Đã tải về' : '✓ Đã xử lý xong'}
+                  {downloadSuccess ? '✓ Đã tải về' : '✓ Đã tạo xong'}
                 </span>
               </div>
 
@@ -610,8 +584,8 @@ export default function StandalonePosterPage() {
               )}
             </div>
 
-            {/* Poster Result: Displayed as real <img> so users can touch & hold to save to Photos */}
-            <div className="bg-[#1C1B19] p-2 rounded-xl flex items-center justify-center max-h-[58vh] overflow-hidden shadow-inner relative group">
+            {/* Poster Result: Displayed as real <img> */}
+            <div className="bg-[#1C1B19] p-2 rounded-xl flex items-center justify-center max-h-[58vh] overflow-hidden shadow-inner">
               <canvas ref={canvasRef} className="hidden" />
               {previewDataUrl ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
@@ -622,20 +596,14 @@ export default function StandalonePosterPage() {
                 />
               ) : (
                 <div className="text-white/60 text-xs font-mono py-12 flex items-center gap-2">
-                  <Sparkles size={16} className="animate-spin text-[#FFB088]" /> Đang tạo bản xem trước...
+                  <Sparkles size={16} className="animate-spin text-[#FFB088]" /> Đang tạo poster...
                 </div>
               )}
             </div>
 
-            {/* Crucial Mobile Tip: Clear & Easy */}
-            <div className="text-[11px] text-center font-mono text-[#044C42] bg-[#044C42]/8 py-2 px-3 rounded-lg border border-[#044C42]/20">
-              💡 <strong>Lưu vào Thư viện ảnh iPhone / Android nhanh nhất:</strong><br/>
-              Chạm và giữ ngón tay vào ảnh trên 1 giây ➔ chọn <strong>&ldquo;Lưu hình ảnh&rdquo;</strong> (Save Image).
-            </div>
-
-            {/* Clear Action Buttons */}
-            <div className="space-y-2 pt-1">
-              {/* Primary Download Button */}
+            {/* Clear Action Buttons: Download + Share */}
+            <div className="space-y-2.5 pt-1">
+              {/* Button 1: Download to device (works normally) */}
               <button
                 type="button"
                 onClick={handleDownloadFile}
@@ -643,28 +611,19 @@ export default function StandalonePosterPage() {
                 className="w-full py-3.5 px-4 bg-[#044C42] hover:bg-[#003831] text-white rounded-xl font-medium text-xs flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
               >
                 <Download size={16} />
-                {isProcessing ? 'Đang xuất poster...' : 'TẢI POSTER VỀ MÁY (GỐC 100%)'}
+                {isProcessing ? 'Đang tải poster...' : 'TẢI POSTER VỀ MÁY (GỐC 100%)'}
               </button>
 
-              <div className="grid grid-cols-2 gap-2">
-                {/* Fullscreen View Button */}
-                <button
-                  type="button"
-                  onClick={handleOpenFullImage}
-                  className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#1C1B19] border border-[#D5CDBE] rounded-xl font-mono text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <Maximize2 size={13} /> Mở ảnh để lưu
-                </button>
-
-                {/* Explicit Share / Zalo Button */}
-                <button
-                  type="button"
-                  onClick={handleShareZalo}
-                  className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42]/40 rounded-xl font-mono text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <Share2 size={13} /> Gửi qua Zalo
-                </button>
-              </div>
+              {/* Button 2: Native Share (Opens iOS / Android Share Sheet: Zalo, Messenger, Save Image) */}
+              <button
+                type="button"
+                onClick={handleShare}
+                disabled={isProcessing}
+                className="w-full py-3 px-4 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42] rounded-xl font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer active:scale-[0.98]"
+              >
+                <Share2 size={16} className="text-[#044C42]" />
+                CHIA SẺ POSTER (ZALO, TIN NHẮN, LƯU ẢNH)
+              </button>
 
               {/* Reset Button */}
               <button
@@ -674,7 +633,7 @@ export default function StandalonePosterPage() {
                   setPreviewDataUrl(null);
                   setDownloadSuccess(false);
                 }}
-                className="w-full py-2.5 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer pt-1"
+                className="w-full py-2 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer pt-0.5"
               >
                 <RefreshCw size={12} /> Chế poster sản phẩm khác
               </button>
