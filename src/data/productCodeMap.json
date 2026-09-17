@@ -1,0 +1,2947 @@
+{
+  "AAMP88005": {
+    "code": "AAMP88005",
+    "slug": "grand-ceramics-aamp88005",
+    "name": "Grand Ceramics Grand Ceramics 800×800"
+  },
+  "ACM-36001": {
+    "code": "ACM-36001",
+    "slug": "apodio-grand-acm-36001",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "ACM-36002": {
+    "code": "ACM-36002",
+    "slug": "apodio-grand-acm-36002",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "ACM-36005": {
+    "code": "ACM-36005",
+    "slug": "apodio-grand-acm-36005",
+    "name": "APODIO Grand Vân Ciment 300×600 Matt"
+  },
+  "ACM-36006": {
+    "code": "ACM-36006",
+    "slug": "apodio-grand-acm-36006",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "ACM-36007": {
+    "code": "ACM-36007",
+    "slug": "apodio-grand-acm-36007",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "ACM-36008": {
+    "code": "ACM-36008",
+    "slug": "apodio-grand-acm-36008",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "ACM-88001": {
+    "code": "ACM-88001",
+    "slug": "apodio-grand-acm-88001",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Matt"
+  },
+  "ACM-88002": {
+    "code": "ACM-88002",
+    "slug": "apodio-grand-acm-88002",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Matt"
+  },
+  "AMM-33004": {
+    "code": "AMM-33004",
+    "slug": "apodio-grand-amm-33004",
+    "name": "APODIO Grand Marble 300×300 Matt"
+  },
+  "AMM-36001": {
+    "code": "AMM-36001",
+    "slug": "apodio-grand-amm-36001",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "AMM-36003": {
+    "code": "AMM-36003",
+    "slug": "apodio-grand-amm-36003",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "AMM-36004": {
+    "code": "AMM-36004",
+    "slug": "apodio-grand-amm-36004",
+    "name": "APODIO Grand Gạch ốp lát 300×600 Matt"
+  },
+  "AMM-44001": {
+    "code": "AMM-44001",
+    "slug": "apodio-grand-amm-44001",
+    "name": "APODIO Grand Marble 400×400 Matt"
+  },
+  "AMM-44006": {
+    "code": "AMM-44006",
+    "slug": "apodio-grand-amm-44006",
+    "name": "APODIO Grand Marble 400×400 Matt"
+  },
+  "AMM-44008": {
+    "code": "AMM-44008",
+    "slug": "apodio-grand-amm-44008",
+    "name": "APODIO Grand Marble 400×400 Matt"
+  },
+  "AMM-48001": {
+    "code": "AMM-48001",
+    "slug": "apodio-grand-amm-48001",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Matt"
+  },
+  "AMM-48003": {
+    "code": "AMM-48003",
+    "slug": "apodio-grand-amm-48003",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Matt"
+  },
+  "AMM-48004": {
+    "code": "AMM-48004",
+    "slug": "apodio-grand-amm-48004",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Matt"
+  },
+  "AMM-61202": {
+    "code": "AMM-61202",
+    "slug": "apodio-grand-amm-61202",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Matt"
+  },
+  "AMM-61203": {
+    "code": "AMM-61203",
+    "slug": "apodio-grand-amm-61203",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Matt"
+  },
+  "AMM-61204": {
+    "code": "AMM-61204",
+    "slug": "apodio-grand-amm-61204",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Matt"
+  },
+  "AMM-66001": {
+    "code": "AMM-66001",
+    "slug": "apodio-grand-amm-66001",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Matt"
+  },
+  "AMM-66003": {
+    "code": "AMM-66003",
+    "slug": "apodio-grand-amm-66003",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Matt"
+  },
+  "AMM-66004": {
+    "code": "AMM-66004",
+    "slug": "apodio-grand-amm-66004",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Matt"
+  },
+  "AMM-88001": {
+    "code": "AMM-88001",
+    "slug": "apodio-grand-amm-88001",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Matt"
+  },
+  "AMM-88002": {
+    "code": "AMM-88002",
+    "slug": "apodio-grand-amm-88002",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Matt"
+  },
+  "AMM-88003": {
+    "code": "AMM-88003",
+    "slug": "apodio-grand-amm-88003",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Matt"
+  },
+  "AMM-88004": {
+    "code": "AMM-88004",
+    "slug": "apodio-grand-amm-88004",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Matt"
+  },
+  "AMP-36003": {
+    "code": "AMP-36003",
+    "slug": "apodio-grand-amp-36003",
+    "name": "APODIO Grand Vân đá 300×600 Bóng"
+  },
+  "AMP-36004": {
+    "code": "AMP-36004",
+    "slug": "apodio-grand-amp-36004",
+    "name": "APODIO Grand Vân đá 300×600 Bóng"
+  },
+  "AMP-48001": {
+    "code": "AMP-48001",
+    "slug": "apodio-grand-amp-48001",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP-48003": {
+    "code": "AMP-48003",
+    "slug": "apodio-grand-amp-48003",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP-48004": {
+    "code": "AMP-48004",
+    "slug": "apodio-grand-amp-48004",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP-48005": {
+    "code": "AMP-48005",
+    "slug": "apodio-grand-amp-48005",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP48005A": {
+    "code": "AMP48005A",
+    "slug": "apodio-grand-amp48005a",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP-48006": {
+    "code": "AMP-48006",
+    "slug": "apodio-grand-amp-48006",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP-48007": {
+    "code": "AMP-48007",
+    "slug": "apodio-grand-amp-48007",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP48007A": {
+    "code": "AMP48007A",
+    "slug": "apodio-grand-amp48007a",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP-48008": {
+    "code": "AMP-48008",
+    "slug": "apodio-grand-amp-48008",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Bóng"
+  },
+  "AMP-61202": {
+    "code": "AMP-61202",
+    "slug": "apodio-grand-amp-61202",
+    "name": "APODIO Grand Vân đá 600×1200 Mài bóng"
+  },
+  "AMP-61203": {
+    "code": "AMP-61203",
+    "slug": "apodio-grand-amp-61203",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Bóng"
+  },
+  "AMP-61207": {
+    "code": "AMP-61207",
+    "slug": "apodio-grand-amp-61207",
+    "name": "APODIO Grand Vân đá 600×1200 Mài bóng"
+  },
+  "AMP-61208": {
+    "code": "AMP-61208",
+    "slug": "apodio-grand-amp-61208",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Bóng"
+  },
+  "AMP-61209": {
+    "code": "AMP-61209",
+    "slug": "apodio-grand-amp-61209",
+    "name": "APODIO Grand Vân đá 600×1200 Mài bóng"
+  },
+  "AMP-66001": {
+    "code": "AMP-66001",
+    "slug": "apodio-grand-amp-66001",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Bóng"
+  },
+  "AMP-66003": {
+    "code": "AMP-66003",
+    "slug": "apodio-grand-amp-66003",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Bóng"
+  },
+  "AMP-66004": {
+    "code": "AMP-66004",
+    "slug": "apodio-grand-amp-66004",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Bóng"
+  },
+  "AMP-66005": {
+    "code": "AMP-66005",
+    "slug": "apodio-grand-amp-66005",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Bóng"
+  },
+  "AMP-88001": {
+    "code": "AMP-88001",
+    "slug": "apodio-grand-amp-88001",
+    "name": "APODIO Grand Vân đá 600×600 Mài bóng"
+  },
+  "AMP-88002": {
+    "code": "AMP-88002",
+    "slug": "apodio-grand-amp-88002",
+    "name": "APODIO Grand Vân đá 600×1200 Mài bóng"
+  },
+  "AMP-88003": {
+    "code": "AMP-88003",
+    "slug": "apodio-grand-amp-88003",
+    "name": "APODIO Grand Vân đá 600×600 Mài bóng"
+  },
+  "AMP-88004": {
+    "code": "AMP-88004",
+    "slug": "apodio-grand-amp-88004",
+    "name": "APODIO Grand Vân đá 600×600 Mài bóng"
+  },
+  "AMP-88005": {
+    "code": "AMP-88005",
+    "slug": "apodio-grand-amp-88005",
+    "name": "APODIO Grand Vân đá 600×600 Mài bóng"
+  },
+  "AMP-88008": {
+    "code": "AMP-88008",
+    "slug": "apodio-grand-amp-88008",
+    "name": "APODIO Grand Vân đá 800×800 Mài bóng"
+  },
+  "ASM-48003": {
+    "code": "ASM-48003",
+    "slug": "apodio-grand-asm-48003",
+    "name": "APODIO Grand Smart 400×800 Matt"
+  },
+  "ASM-48004": {
+    "code": "ASM-48004",
+    "slug": "apodio-grand-asm-48004",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Matt"
+  },
+  "ASM-48005": {
+    "code": "ASM-48005",
+    "slug": "apodio-grand-asm-48005",
+    "name": "APODIO Grand Gạch ốp lát 400×800 Matt"
+  },
+  "ASM-61204": {
+    "code": "ASM-61204",
+    "slug": "apodio-grand-asm-61204",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Matt"
+  },
+  "ASM-61205": {
+    "code": "ASM-61205",
+    "slug": "apodio-grand-asm-61205",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Matt"
+  },
+  "ASM-66003": {
+    "code": "ASM-66003",
+    "slug": "apodio-grand-asm-66003",
+    "name": "APODIO Grand Smart 600×600 Matt"
+  },
+  "ASM-66004": {
+    "code": "ASM-66004",
+    "slug": "apodio-grand-asm-66004",
+    "name": "APODIO Grand Gạch ốp lát 600×600 Matt"
+  },
+  "ASM-66005": {
+    "code": "ASM-66005",
+    "slug": "apodio-grand-asm-66005",
+    "name": "APODIO Grand Smart 600×600 Matt"
+  },
+  "ASM-88004": {
+    "code": "ASM-88004",
+    "slug": "apodio-grand-asm-88004",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Matt"
+  },
+  "ATG88002P": {
+    "code": "ATG88002P",
+    "slug": "viet-y-atg88002p",
+    "name": "Việt Ý Ánh Trăng 800×800 Mài bóng"
+  },
+  "ATG88003P": {
+    "code": "ATG88003P",
+    "slug": "viet-y-atg88003p",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "ATG88006P": {
+    "code": "ATG88006P",
+    "slug": "viet-y-atg88006p",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "ATS88003P": {
+    "code": "ATS88003P",
+    "slug": "viet-y-ats88003p",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "ATS88006P": {
+    "code": "ATS88006P",
+    "slug": "viet-y-ats88006p",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "ATT88002P": {
+    "code": "ATT88002P",
+    "slug": "viet-y-att88002p",
+    "name": "Việt Ý Ánh Trăng 800×800 Mài bóng"
+  },
+  "GM-3324": {
+    "code": "GM-3324",
+    "slug": "apodio-grand-gm-3324",
+    "name": "APODIO Grand Gạch lát chống trơn 300×300 Matt"
+  },
+  "GM-3326": {
+    "code": "GM-3326",
+    "slug": "apodio-grand-gm-3326",
+    "name": "APODIO Grand Gạch lát chống trơn 300×300 Matt"
+  },
+  "GM-3330": {
+    "code": "GM-3330",
+    "slug": "apodio-grand-gm-3330",
+    "name": "APODIO Grand Gạch lát chống trơn 300×300 Matt"
+  },
+  "AMM-36003-04": {
+    "code": "AMM-36003-04",
+    "slug": "apodio-grand-amm-36003-04",
+    "name": "APODIO Grand Vân đá 300×600 Matt"
+  },
+  "AMM-48009": {
+    "code": "AMM-48009",
+    "slug": "apodio-grand-amm-48009",
+    "name": "APODIO Grand Vân đá Matt 400×800"
+  },
+  "GB 3621.22.22A": {
+    "code": "GB 3621.22.22A",
+    "slug": "apodio-grand-gb-3621-22-22a",
+    "name": "APODIO Grand Gạch ốp tường bóng 300×600 Mài bóng"
+  },
+  "GB 3623.24.24A": {
+    "code": "GB 3623.24.24A",
+    "slug": "apodio-grand-gb-3623-24-24a",
+    "name": "APODIO Grand Gạch ốp tường bóng 300×600 Mài bóng"
+  },
+  "GB 3625.25A.26.26A": {
+    "code": "GB 3625.25A.26.26A",
+    "slug": "apodio-grand-gb-3625-25a-26-26a",
+    "name": "APODIO Grand Gạch ốp tường bóng 300×600 Mài bóng"
+  },
+  "GB 3627.28.28A": {
+    "code": "GB 3627.28.28A",
+    "slug": "apodio-grand-gb-3627-28-28a",
+    "name": "APODIO Grand Gạch ốp tường bóng 300×600 Mài bóng"
+  },
+  "GB 3629.30A": {
+    "code": "GB 3629.30A",
+    "slug": "apodio-grand-gb-3629-30a",
+    "name": "APODIO Grand Gạch ốp tường bóng 300×600 Mài bóng"
+  },
+  "GB3621": {
+    "code": "GB3621",
+    "slug": "apodio-grand-gb3621",
+    "name": "APODIO Grand Ốp tường 300×600 Mài bóng"
+  },
+  "GB3623": {
+    "code": "GB3623",
+    "slug": "apodio-grand-gb3623",
+    "name": "APODIO Grand Ốp tường 300×600 Mài bóng"
+  },
+  "GB3625": {
+    "code": "GB3625",
+    "slug": "apodio-grand-gb3625",
+    "name": "APODIO Grand Ốp tường 300×600 Mài bóng"
+  },
+  "GB3627": {
+    "code": "GB3627",
+    "slug": "apodio-grand-gb3627",
+    "name": "APODIO Grand Ốp tường 300×600 Mài bóng"
+  },
+  "GB3629": {
+    "code": "GB3629",
+    "slug": "apodio-grand-gb3629",
+    "name": "APODIO Grand Ốp tường 300×600 Mài bóng"
+  },
+  "AMP48005-05A": {
+    "code": "AMP48005-05A",
+    "slug": "apodio-grand-amp48005-05a",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "AMP-48009": {
+    "code": "AMP-48009",
+    "slug": "apodio-grand-amp-48009",
+    "name": "APODIO Grand Vân đá Bóng 400×800 Mài bóng"
+  },
+  "AMP-48011": {
+    "code": "AMP-48011",
+    "slug": "apodio-grand-amp-48011",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "AMP-48012": {
+    "code": "AMP-48012",
+    "slug": "apodio-grand-amp-48012",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "AMP-48015": {
+    "code": "AMP-48015",
+    "slug": "apodio-grand-amp-48015",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "AMP-48016": {
+    "code": "AMP-48016",
+    "slug": "apodio-grand-amp-48016",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "ASM-61203": {
+    "code": "ASM-61203",
+    "slug": "apodio-grand-asm-61203",
+    "name": "APODIO Grand Gạch ốp lát 600×1200 Matt"
+  },
+  "AMP-88010": {
+    "code": "AMP-88010",
+    "slug": "apodio-grand-amp-88010",
+    "name": "APODIO Grand Vân đá 800×800 Mài bóng"
+  },
+  "AMP-88011": {
+    "code": "AMP-88011",
+    "slug": "apodio-grand-amp-88011",
+    "name": "APODIO Grand Vân đá 800×800 Mài bóng"
+  },
+  "AMP-88012": {
+    "code": "AMP-88012",
+    "slug": "apodio-grand-amp-88012",
+    "name": "APODIO Grand Vân đá 800×800 Mài bóng"
+  },
+  "AMP-88013": {
+    "code": "AMP-88013",
+    "slug": "apodio-grand-amp-88013",
+    "name": "APODIO Grand Gạch ốp lát 800×800 Bóng"
+  },
+  "AMM-3600304-1": {
+    "code": "AMM-3600304-1",
+    "slug": "apodio-grand-amm-3600304-1",
+    "name": "APODIO Grand Vân đá 300×600 Matt"
+  },
+  "AMP-36003-03A": {
+    "code": "AMP-36003-03A",
+    "slug": "apodio-grand-amp-36003-03a",
+    "name": "APODIO Grand Vân đá 300×600 Mài bóng"
+  },
+  "AMM-44006-2": {
+    "code": "AMM-44006-2",
+    "slug": "apodio-grand-amm-44006-2",
+    "name": "APODIO Grand Vân đá 400×400 Matt"
+  },
+  "AMP-48003-03A": {
+    "code": "AMP-48003-03A",
+    "slug": "apodio-grand-amp-48003-03a",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "AMP48007-07A": {
+    "code": "AMP48007-07A",
+    "slug": "apodio-grand-amp48007-07a",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "AMP48007-08A": {
+    "code": "AMP48007-08A",
+    "slug": "apodio-grand-amp48007-08a",
+    "name": "APODIO Grand Vân đá 400×800 Mài bóng"
+  },
+  "ASM48003-04": {
+    "code": "ASM48003-04",
+    "slug": "apodio-grand-asm48003-04",
+    "name": "APODIO Grand Smart 400×800 Matt"
+  },
+  "ASM48003-05": {
+    "code": "ASM48003-05",
+    "slug": "apodio-grand-asm48003-05",
+    "name": "APODIO Grand Smart 400×800 Matt"
+  },
+  "ASM48004-03": {
+    "code": "ASM48004-03",
+    "slug": "apodio-grand-asm48004-03",
+    "name": "APODIO Grand Vân Stone 400×800 Matt"
+  },
+  "ASM48005-03": {
+    "code": "ASM48005-03",
+    "slug": "apodio-grand-asm48005-03",
+    "name": "APODIO Grand Vân Stone 400×800 Matt"
+  },
+  "ASM-66003-1": {
+    "code": "ASM-66003-1",
+    "slug": "apodio-grand-asm-66003-1",
+    "name": "APODIO Grand Vân Stone 600×600 Matt"
+  },
+  "C48JW807": {
+    "code": "C48JW807",
+    "slug": "classico-apodio-c48jw807",
+    "name": "Classico Apodio Mã mẫu riêng 400×800 SUPER GLOSSY"
+  },
+  "C48CD702": {
+    "code": "C48CD702",
+    "slug": "classico-apodio-c48cd702",
+    "name": "Classico Apodio Gạch ốp lát 400×800 MICRO CRYSTAL MATTE"
+  },
+  "C48CH703": {
+    "code": "C48CH703",
+    "slug": "classico-apodio-c48ch703",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Tinh thể"
+  },
+  "C48CN701": {
+    "code": "C48CN701",
+    "slug": "classico-apodio-c48cn701",
+    "name": "Classico Apodio Gạch ốp lát 400×800 MICRO CRYSTAL MATTE"
+  },
+  "C48CS704": {
+    "code": "C48CS704",
+    "slug": "classico-apodio-c48cs704",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Tinh thể"
+  },
+  "C48EB903": {
+    "code": "C48EB903",
+    "slug": "classico-apodio-c48eb903",
+    "name": "Classico Apodio Gạch ốp lát 400×800 SUPER GLOSSY"
+  },
+  "C48GB901": {
+    "code": "C48GB901",
+    "slug": "classico-apodio-c48gb901",
+    "name": "Classico Apodio Gạch ốp lát 400×800 SUPER GLOSSY"
+  },
+  "C48MA904": {
+    "code": "C48MA904",
+    "slug": "classico-apodio-c48ma904",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48MS804": {
+    "code": "C48MS804",
+    "slug": "classico-apodio-c48ms804",
+    "name": "Classico Apodio Gạch ốp lát 400×800 SUPER GLOSSY"
+  },
+  "C48MS904": {
+    "code": "C48MS904",
+    "slug": "classico-apodio-c48ms904",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48MW804": {
+    "code": "C48MW804",
+    "slug": "classico-apodio-c48mw804",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48NS805": {
+    "code": "C48NS805",
+    "slug": "classico-apodio-c48ns805",
+    "name": "Classico Apodio Gạch ốp lát 400×800 SUPER GLOSSY"
+  },
+  "C48NW905": {
+    "code": "C48NW905",
+    "slug": "classico-apodio-c48nw905",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48SG906": {
+    "code": "C48SG906",
+    "slug": "classico-apodio-c48sg906",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48SW806": {
+    "code": "C48SW806",
+    "slug": "classico-apodio-c48sw806",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48VW808": {
+    "code": "C48VW808",
+    "slug": "classico-apodio-c48vw808",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48MO902": {
+    "code": "C48MO902",
+    "slug": "classico-apodio-c48mo902",
+    "name": "Classico Apodio Crystal High Glossy 400×800 Mài bóng"
+  },
+  "C48SA806": {
+    "code": "C48SA806",
+    "slug": "classico-apodio-c48sa806",
+    "name": "Classico Apodio Crystal High Glossy 400×800 Mài bóng"
+  },
+  "C48SS906": {
+    "code": "C48SS906",
+    "slug": "classico-apodio-c48ss906",
+    "name": "Classico Apodio Crystal High Glossy 400×800 Mài bóng"
+  },
+  "C61EB903": {
+    "code": "C61EB903",
+    "slug": "classico-apodio-c61eb903",
+    "name": "Classico Apodio Gạch ốp lát 600×1200 Bóng"
+  },
+  "C61GB901": {
+    "code": "C61GB901",
+    "slug": "classico-apodio-c61gb901",
+    "name": "Classico Apodio Gạch ốp lát 600×1200 Bóng"
+  },
+  "C61MA904": {
+    "code": "C61MA904",
+    "slug": "classico-apodio-c61ma904",
+    "name": "Classico Apodio Gạch ốp lát 600×1200 Bóng"
+  },
+  "C61NS805": {
+    "code": "C61NS805",
+    "slug": "classico-apodio-c61ns805",
+    "name": "Classico Apodio Gạch ốp lát 600×1200 Bong Matt"
+  },
+  "C61SA806": {
+    "code": "C61SA806",
+    "slug": "classico-apodio-c61sa806",
+    "name": "Classico Apodio Gạch ốp lát 600×1200 Bóng"
+  },
+  "C88EB903": {
+    "code": "C88EB903",
+    "slug": "classico-apodio-c88eb903",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88GB901": {
+    "code": "C88GB901",
+    "slug": "classico-apodio-c88gb901",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88MA904": {
+    "code": "C88MA904",
+    "slug": "classico-apodio-c88ma904",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88MS804": {
+    "code": "C88MS804",
+    "slug": "classico-apodio-c88ms804",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88MS904": {
+    "code": "C88MS904",
+    "slug": "classico-apodio-c88ms904",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88NS805": {
+    "code": "C88NS805",
+    "slug": "classico-apodio-c88ns805",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88SG906": {
+    "code": "C88SG906",
+    "slug": "classico-apodio-c88sg906",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88SS906": {
+    "code": "C88SS906",
+    "slug": "classico-apodio-c88ss906",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bóng"
+  },
+  "C88SW806": {
+    "code": "C88SW806",
+    "slug": "classico-apodio-c88sw806",
+    "name": "Classico Apodio Gạch ốp lát 800×800 Bong Matt"
+  },
+  "C88JW807": {
+    "code": "C88JW807",
+    "slug": "classico-apodio-c88jw807",
+    "name": "Classico Apodio Crystal High Glossy 800×800 Mài bóng"
+  },
+  "C88MO902": {
+    "code": "C88MO902",
+    "slug": "classico-apodio-c88mo902",
+    "name": "Classico Apodio Crystal High Glossy 800×800 Mài bóng"
+  },
+  "C88MW804": {
+    "code": "C88MW804",
+    "slug": "classico-apodio-c88mw804",
+    "name": "Classico Apodio Crystal High Glossy 800×800 Mài bóng"
+  },
+  "C88NW905": {
+    "code": "C88NW905",
+    "slug": "classico-apodio-c88nw905",
+    "name": "Classico Apodio Crystal High Glossy 800×800 Mài bóng"
+  },
+  "C88SA806": {
+    "code": "C88SA806",
+    "slug": "classico-apodio-c88sa806",
+    "name": "Classico Apodio Crystal High Glossy 800×800 Mài bóng"
+  },
+  "C88VW808": {
+    "code": "C88VW808",
+    "slug": "classico-apodio-c88vw808",
+    "name": "Classico Apodio Crystal High Glossy 800×800 Mài bóng"
+  },
+  "C81NS805": {
+    "code": "C81NS805",
+    "slug": "classico-apodio-c81ns805",
+    "name": "Classico Apodio Crystal High Glossy 800×1200 Mài bóng"
+  },
+  "C44MS604": {
+    "code": "C44MS604",
+    "slug": "classico-apodio-c44ms604",
+    "name": "Classico Apodio Gạch ốp lát 400×400 Tinh thể"
+  },
+  "C44NW605": {
+    "code": "C44NW605",
+    "slug": "classico-apodio-c44nw605",
+    "name": "Classico Apodio Gạch ốp lát 400×400 MICRO CRYSTAL MATTE"
+  },
+  "C48EB903D": {
+    "code": "C48EB903D",
+    "slug": "classico-apodio-c48eb903d",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48GB901D": {
+    "code": "C48GB901D",
+    "slug": "classico-apodio-c48gb901d",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48MA904D": {
+    "code": "C48MA904D",
+    "slug": "classico-apodio-c48ma904d",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48MS904D": {
+    "code": "C48MS904D",
+    "slug": "classico-apodio-c48ms904d",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48NW905D": {
+    "code": "C48NW905D",
+    "slug": "classico-apodio-c48nw905d",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C48SG906D": {
+    "code": "C48SG906D",
+    "slug": "classico-apodio-c48sg906d",
+    "name": "Classico Apodio Gạch ốp lát 400×800 Bóng"
+  },
+  "C81EB903": {
+    "code": "C81EB903",
+    "slug": "classico-apodio-c81eb903",
+    "name": "Classico Apodio Gạch ốp lát 800×1200 Bóng"
+  },
+  "C81GB901": {
+    "code": "C81GB901",
+    "slug": "classico-apodio-c81gb901",
+    "name": "Classico Apodio Gạch ốp lát 800×1200 Bóng"
+  },
+  "C81JW807": {
+    "code": "C81JW807",
+    "slug": "classico-apodio-c81jw807",
+    "name": "Classico Apodio Gạch ốp lát 800×1200 Bóng"
+  },
+  "C81MA904": {
+    "code": "C81MA904",
+    "slug": "classico-apodio-c81ma904",
+    "name": "Classico Apodio Gạch ốp lát 800×1200 Bóng"
+  },
+  "C81MS904": {
+    "code": "C81MS904",
+    "slug": "classico-apodio-c81ms904",
+    "name": "Classico Apodio Gạch ốp lát 800×1200 Bóng"
+  },
+  "C81SA806": {
+    "code": "C81SA806",
+    "slug": "classico-apodio-c81sa806",
+    "name": "Classico Apodio Gạch ốp lát 800×1200 Bóng"
+  },
+  "C81VW808": {
+    "code": "C81VW808",
+    "slug": "classico-apodio-c81vw808",
+    "name": "Classico Apodio Gạch ốp lát 800×1200 Bóng"
+  },
+  "CCK-36001": {
+    "code": "CCK-36001",
+    "slug": "grand-ceramics-cck-36001",
+    "name": "Grand Ceramics Gạch lát 300×600 Matt"
+  },
+  "CCK-36003": {
+    "code": "CCK-36003",
+    "slug": "grand-ceramics-cck-36003",
+    "name": "Grand Ceramics Gạch lát 300×600 Matt"
+  },
+  "CSM-36003": {
+    "code": "CSM-36003",
+    "slug": "changyih-grand-csm-36003",
+    "name": "Changyih Grand Gạch lát 300×600 Matt"
+  },
+  "CSM-36004": {
+    "code": "CSM-36004",
+    "slug": "changyih-grand-csm-36004",
+    "name": "Changyih Grand Gạch lát 300×600 Matt"
+  },
+  "CSK-88008": {
+    "code": "CSK-88008",
+    "slug": "grand-ceramics-csk-88008",
+    "name": "Grand Ceramics Gạch lát 800×800 Matt"
+  },
+  "CSK-88009": {
+    "code": "CSK-88009",
+    "slug": "grand-ceramics-csk-88009",
+    "name": "Grand Ceramics Gạch lát 800×800 Matt"
+  },
+  "CSM-88001": {
+    "code": "CSM-88001",
+    "slug": "changyih-grand-csm-88001",
+    "name": "Changyih Grand Gạch lát 800×800 Matt"
+  },
+  "CSM-88003": {
+    "code": "CSM-88003",
+    "slug": "changyih-grand-csm-88003",
+    "name": "Changyih Grand Gạch lát 800×800 Matt"
+  },
+  "CSM-88004": {
+    "code": "CSM-88004",
+    "slug": "changyih-grand-csm-88004",
+    "name": "Changyih Grand Gạch lát 800×800 Matt"
+  },
+  "CSM-36001": {
+    "code": "CSM-36001",
+    "slug": "changyih-grand-csm-36001",
+    "name": "Changyih Grand Dòng CSM 300×600 Matt"
+  },
+  "CSM36001-02": {
+    "code": "CSM36001-02",
+    "slug": "changyih-grand-csm36001-02",
+    "name": "Changyih Grand Dòng CSM 300×600 Matt"
+  },
+  "CSM-36002": {
+    "code": "CSM-36002",
+    "slug": "changyih-grand-csm-36002",
+    "name": "Changyih Grand Dòng CSM 300×600 Matt"
+  },
+  "CSM36003-04": {
+    "code": "CSM36003-04",
+    "slug": "changyih-grand-csm36003-04",
+    "name": "Changyih Grand Dòng CSM 300×600 Matt"
+  },
+  "CSM-36005": {
+    "code": "CSM-36005",
+    "slug": "changyih-grand-csm-36005",
+    "name": "Changyih Grand Dòng CSM 300×600 Matt"
+  },
+  "CSM36005-06": {
+    "code": "CSM36005-06",
+    "slug": "changyih-grand-csm36005-06",
+    "name": "Changyih Grand Dòng CSM 300×600 Matt"
+  },
+  "CSM-36006": {
+    "code": "CSM-36006",
+    "slug": "changyih-grand-csm-36006",
+    "name": "Changyih Grand Dòng CSM 300×600 Matt"
+  },
+  "CSK-66009": {
+    "code": "CSK-66009",
+    "slug": "grand-ceramics-csk-66009",
+    "name": "Grand Ceramics Dòng CSK 600×600 Matt"
+  },
+  "CSM-66001": {
+    "code": "CSM-66001",
+    "slug": "changyih-grand-csm-66001",
+    "name": "Changyih Grand Dòng CSM 600×600 Matt"
+  },
+  "CSM-66002": {
+    "code": "CSM-66002",
+    "slug": "changyih-grand-csm-66002",
+    "name": "Changyih Grand Dòng CSM 600×600 Matt"
+  },
+  "CSM-66003": {
+    "code": "CSM-66003",
+    "slug": "changyih-grand-csm-66003",
+    "name": "Changyih Grand Dòng CSM 600×600 Matt"
+  },
+  "CSM-66004": {
+    "code": "CSM-66004",
+    "slug": "changyih-grand-csm-66004",
+    "name": "Changyih Grand Dòng CSM 600×600 Matt"
+  },
+  "CCK-36002": {
+    "code": "CCK-36002",
+    "slug": "grand-ceramics-cck-36002",
+    "name": "Grand Ceramics Dòng CCK 300×600 Chống trượt"
+  },
+  "CSK-66008": {
+    "code": "CSK-66008",
+    "slug": "grand-ceramics-csk-66008",
+    "name": "Grand Ceramics Dòng CSK 600×600 Matt"
+  },
+  "C61JW807": {
+    "code": "C61JW807",
+    "slug": "classico-apodio-c61jw807",
+    "name": "Classico Apodio Crystal High Glossy 600×1200 Bong Matt"
+  },
+  "C61MS804": {
+    "code": "C61MS804",
+    "slug": "classico-apodio-c61ms804",
+    "name": "Classico Apodio Crystal High Glossy 600×1200 Mài bóng"
+  },
+  "C61MS904": {
+    "code": "C61MS904",
+    "slug": "classico-apodio-c61ms904",
+    "name": "Classico Apodio Crystal High Glossy 600×1200 Bong Matt"
+  },
+  "C61VW808": {
+    "code": "C61VW808",
+    "slug": "classico-apodio-c61vw808",
+    "name": "Classico Apodio Crystal High Glossy 600×1200 Bong Matt"
+  },
+  "GA-M36002": {
+    "code": "GA-M36002",
+    "slug": "viet-y-ga-m36002",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt"
+  },
+  "GA-M36004": {
+    "code": "GA-M36004",
+    "slug": "viet-y-ga-m36004",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M36005": {
+    "code": "GA-M36005",
+    "slug": "viet-y-ga-m36005",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M36006": {
+    "code": "GA-M36006",
+    "slug": "viet-y-ga-m36006",
+    "name": "Việt Ý Ánh Trăng 300×600 Men mờ R9"
+  },
+  "GA-M36007": {
+    "code": "GA-M36007",
+    "slug": "viet-y-ga-m36007",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M36008": {
+    "code": "GA-M36008",
+    "slug": "viet-y-ga-m36008",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M36009": {
+    "code": "GA-M36009",
+    "slug": "viet-y-ga-m36009",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M36010": {
+    "code": "GA-M36010",
+    "slug": "viet-y-ga-m36010",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M36014": {
+    "code": "GA-M36014",
+    "slug": "viet-y-ga-m36014",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M36015": {
+    "code": "GA-M36015",
+    "slug": "viet-y-ga-m36015",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt Deepink"
+  },
+  "GA-M48007": {
+    "code": "GA-M48007",
+    "slug": "viet-y-ga-m48007",
+    "name": "Việt Ý Ánh Trăng 400×800 Men mờ R9"
+  },
+  "GA-M48008": {
+    "code": "GA-M48008",
+    "slug": "viet-y-ga-m48008",
+    "name": "Việt Ý Ánh Trăng 400×800 Men mờ R9"
+  },
+  "GA-M48010": {
+    "code": "GA-M48010",
+    "slug": "viet-y-ga-m48010",
+    "name": "Việt Ý Ánh Trăng 400×800 Matt Deepink"
+  },
+  "GA-M48012": {
+    "code": "GA-M48012",
+    "slug": "viet-y-ga-m48012",
+    "name": "Việt Ý Ánh Trăng 400×800 Matt Deepink"
+  },
+  "GA-M48014": {
+    "code": "GA-M48014",
+    "slug": "viet-y-ga-m48014",
+    "name": "Việt Ý Ánh Trăng 400×800 Matt Deepink"
+  },
+  "GA-M48015": {
+    "code": "GA-M48015",
+    "slug": "viet-y-ga-m48015",
+    "name": "Việt Ý Ánh Trăng 400×800 Matt Deepink"
+  },
+  "GA-M66003": {
+    "code": "GA-M66003",
+    "slug": "viet-y-ga-m66003",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66004": {
+    "code": "GA-M66004",
+    "slug": "viet-y-ga-m66004",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66005": {
+    "code": "GA-M66005",
+    "slug": "viet-y-ga-m66005",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66006": {
+    "code": "GA-M66006",
+    "slug": "viet-y-ga-m66006",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66007": {
+    "code": "GA-M66007",
+    "slug": "viet-y-ga-m66007",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66008": {
+    "code": "GA-M66008",
+    "slug": "viet-y-ga-m66008",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66009": {
+    "code": "GA-M66009",
+    "slug": "viet-y-ga-m66009",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66010": {
+    "code": "GA-M66010",
+    "slug": "viet-y-ga-m66010",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66011": {
+    "code": "GA-M66011",
+    "slug": "viet-y-ga-m66011",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GAM66012": {
+    "code": "GAM66012",
+    "slug": "viet-y-gam66012",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66013": {
+    "code": "GA-M66013",
+    "slug": "viet-y-ga-m66013",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M66014": {
+    "code": "GA-M66014",
+    "slug": "viet-y-ga-m66014",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt Deepink"
+  },
+  "GA-M88002": {
+    "code": "GA-M88002",
+    "slug": "viet-y-ga-m88002",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt Deepink"
+  },
+  "GA-M88005": {
+    "code": "GA-M88005",
+    "slug": "viet-y-ga-m88005",
+    "name": "Việt Ý Ánh Trăng 800×800 Men mờ R9"
+  },
+  "GA-M88010": {
+    "code": "GA-M88010",
+    "slug": "viet-y-ga-m88010",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt Deepink"
+  },
+  "GA-M88011": {
+    "code": "GA-M88011",
+    "slug": "viet-y-ga-m88011",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt Deepink"
+  },
+  "GA-M88012": {
+    "code": "GA-M88012",
+    "slug": "viet-y-ga-m88012",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt Deepink"
+  },
+  "GA-M88013": {
+    "code": "GA-M88013",
+    "slug": "viet-y-ga-m88013",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt Deepink"
+  },
+  "GA-M88014": {
+    "code": "GA-M88014",
+    "slug": "viet-y-ga-m88014",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt Deepink"
+  },
+  "GA-M88015": {
+    "code": "GA-M88015",
+    "slug": "viet-y-ga-m88015",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt Deepink"
+  },
+  "GA-P88050": {
+    "code": "GA-P88050",
+    "slug": "viet-y-ga-p88050",
+    "name": "Việt Ý Ánh Trăng 800×800 Men mờ R9"
+  },
+  "SKM-6610": {
+    "code": "SKM-6610",
+    "slug": "grand-ceramics-skm-6610",
+    "name": "Grand Ceramics Sao Kim 600×600 Matt"
+  },
+  "GALAXY-BLUE-C81GB901": {
+    "code": "GALAXY-BLUE-C81GB901",
+    "slug": "grand-ceramics-galaxy-blue-c81gb901",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "JUPITER-WHITE-C81JW807": {
+    "code": "JUPITER-WHITE-C81JW807",
+    "slug": "grand-ceramics-jupiter-white-c81jw807",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "MARS SUMMER-C81MS904": {
+    "code": "MARS SUMMER-C81MS904",
+    "slug": "grand-ceramics-mars-summer-c81ms904",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "NEPTUNE-SUMMER-C81NS805": {
+    "code": "NEPTUNE-SUMMER-C81NS805",
+    "slug": "grand-ceramics-neptune-summer-c81ns805",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "NEPUNE WINTER-C48NW905": {
+    "code": "NEPUNE WINTER-C48NW905",
+    "slug": "grand-ceramics-nepune-winter-c48nw905",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "PC CLASSICO 80X120": {
+    "code": "PC CLASSICO 80X120",
+    "slug": "grand-ceramics-pc-classico-80x120",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "SATURN-AUTUMN-C81SA806": {
+    "code": "SATURN-AUTUMN-C81SA806",
+    "slug": "grand-ceramics-saturn-autumn-c81sa806",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "SATURN-SPRING-C81SG906": {
+    "code": "SATURN-SPRING-C81SG906",
+    "slug": "grand-ceramics-saturn-spring-c81sg906",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "VENUS-WHITE-C81VW808": {
+    "code": "VENUS-WHITE-C81VW808",
+    "slug": "grand-ceramics-venus-white-c81vw808",
+    "name": "Grand Ceramics 800×1200"
+  },
+  "SMP-88010_R": {
+    "code": "SMP-88010_R",
+    "slug": "grand-ceramics-smp-88010-r",
+    "name": "Grand Ceramics Dòng SMP VID 800×800 Mài bóng"
+  },
+  "SMP-88020_R": {
+    "code": "SMP-88020_R",
+    "slug": "grand-ceramics-smp-88020-r",
+    "name": "Grand Ceramics Dòng SMP VID 800×800 Mài bóng"
+  },
+  "SMP-88025_R": {
+    "code": "SMP-88025_R",
+    "slug": "grand-ceramics-smp-88025-r",
+    "name": "Grand Ceramics Dòng SMP VID 800×800 Mài bóng"
+  },
+  "SMP-88027_R": {
+    "code": "SMP-88027_R",
+    "slug": "grand-ceramics-smp-88027-r",
+    "name": "Grand Ceramics Dòng SMP VID 800×800 Mài bóng"
+  },
+  "SMP-88028_R": {
+    "code": "SMP-88028_R",
+    "slug": "grand-ceramics-smp-88028-r",
+    "name": "Grand Ceramics Dòng SMP VID 800×800 Mài bóng"
+  },
+  "VB-617": {
+    "code": "VB-617",
+    "slug": "grand-ceramics-vb-617",
+    "name": "Grand Ceramics 600×600 Mài bóng"
+  },
+  "MATT TOPCOAT": {
+    "code": "MATT TOPCOAT",
+    "slug": "grand-ceramics-matt-topcoat",
+    "name": "Grand Ceramics 600×600"
+  },
+  "50X50": {
+    "code": "50X50",
+    "slug": "grand-ceramics-50x50",
+    "name": "Grand Ceramics 500×500"
+  },
+  "60X60": {
+    "code": "60X60",
+    "slug": "grand-ceramics-60x60",
+    "name": "Grand Ceramics 600×600"
+  },
+  "MM48001": {
+    "code": "MM48001",
+    "slug": "monalisa-mm48001",
+    "name": "Monalisa AUREO PIETRA 400×800 Matt Microcid"
+  },
+  "MM48002": {
+    "code": "MM48002",
+    "slug": "monalisa-mm48002",
+    "name": "Monalisa AUREO PIETRA 400×800 Matt Microcid"
+  },
+  "MM48003": {
+    "code": "MM48003",
+    "slug": "monalisa-mm48003",
+    "name": "Monalisa PIETRA TOSCANA 400×800 Matt Microcid"
+  },
+  "MM48013": {
+    "code": "MM48013",
+    "slug": "monalisa-mm48013",
+    "name": "Monalisa VALTELLINA 400×800 Matt Microcid"
+  },
+  "MM48021": {
+    "code": "MM48021",
+    "slug": "monalisa-mm48021",
+    "name": "Monalisa ANTICA CALCARE 400×800 Matt Microcid"
+  },
+  "MM48022": {
+    "code": "MM48022",
+    "slug": "monalisa-mm48022",
+    "name": "Monalisa ANTICA CALCARE 400×800 Matt Microcid"
+  },
+  "MM48023": {
+    "code": "MM48023",
+    "slug": "monalisa-mm48023",
+    "name": "Monalisa ANTICA CALCARE 400×800 Matt Microcid"
+  },
+  "MM48031": {
+    "code": "MM48031",
+    "slug": "monalisa-mm48031",
+    "name": "Monalisa ROMA ANTICA 400×800 Matt Microcid"
+  },
+  "MM48033": {
+    "code": "MM48033",
+    "slug": "monalisa-mm48033",
+    "name": "Monalisa ROMA ANTICA 400×800 Matt Microcid"
+  },
+  "MM48043": {
+    "code": "MM48043",
+    "slug": "monalisa-mm48043",
+    "name": "Monalisa ONICE ROMAN 400×800 Matt Microcid"
+  },
+  "MP48001": {
+    "code": "MP48001",
+    "slug": "monalisa-mp48001",
+    "name": "Monalisa PIETRA TOSCANA 400×800 Polished"
+  },
+  "MP48002": {
+    "code": "MP48002",
+    "slug": "monalisa-mp48002",
+    "name": "Monalisa PIETRA TOSCANA 400×800 Polished"
+  },
+  "MP48003": {
+    "code": "MP48003",
+    "slug": "monalisa-mp48003",
+    "name": "Monalisa PIETRA TOSCANA 400×800 Polished"
+  },
+  "MP48013": {
+    "code": "MP48013",
+    "slug": "monalisa-mp48013",
+    "name": "Monalisa ONICE LINEARE 400×800 Polished"
+  },
+  "MP48014": {
+    "code": "MP48014",
+    "slug": "monalisa-mp48014",
+    "name": "Monalisa ONICE LINEARE 400×800 Polished"
+  },
+  "MP48032": {
+    "code": "MP48032",
+    "slug": "monalisa-mp48032",
+    "name": "Monalisa ROMA ANTICA 400×800 Polished"
+  },
+  "MP48033": {
+    "code": "MP48033",
+    "slug": "monalisa-mp48033",
+    "name": "Monalisa ROMA ANTICA 400×800 Polished"
+  },
+  "MP48043": {
+    "code": "MP48043",
+    "slug": "monalisa-mp48043",
+    "name": "Monalisa ONICE ROMAN 400×800 Polished"
+  },
+  "MM62001": {
+    "code": "MM62001",
+    "slug": "monalisa-mm62001",
+    "name": "Monalisa AUREO PIETRA 600×1200 Matt"
+  },
+  "MM62002": {
+    "code": "MM62002",
+    "slug": "monalisa-mm62002",
+    "name": "Monalisa AUREO PIETRA 600×1200 Matt"
+  },
+  "MM62003": {
+    "code": "MM62003",
+    "slug": "monalisa-mm62003",
+    "name": "Monalisa PIETRA TOSCANA 600×1200 Matt"
+  },
+  "MM62012": {
+    "code": "MM62012",
+    "slug": "monalisa-mm62012",
+    "name": "Monalisa VALTELLINA 600×1200 Matt"
+  },
+  "MM62013": {
+    "code": "MM62013",
+    "slug": "monalisa-mm62013",
+    "name": "Monalisa VALTELLINA 600×1200 Matt"
+  },
+  "MM62031": {
+    "code": "MM62031",
+    "slug": "monalisa-mm62031",
+    "name": "Monalisa ROMA ANTICA 600×1200 Matt"
+  },
+  "MM62033": {
+    "code": "MM62033",
+    "slug": "monalisa-mm62033",
+    "name": "Monalisa ROMA ANTICA 600×1200 Matt"
+  },
+  "MM62063": {
+    "code": "MM62063",
+    "slug": "monalisa-mm62063",
+    "name": "Monalisa 62063 Ivory Vein 600×1200 Matt"
+  },
+  "MP62001": {
+    "code": "MP62001",
+    "slug": "monalisa-mp62001",
+    "name": "Monalisa PIETRA TOSCANA 600×1200 Polished"
+  },
+  "MP62002": {
+    "code": "MP62002",
+    "slug": "monalisa-mp62002",
+    "name": "Monalisa PIETRA TOSCANA 600×1200 Polished"
+  },
+  "MP62003": {
+    "code": "MP62003",
+    "slug": "monalisa-mp62003",
+    "name": "Monalisa PIETRA TOSCANA 600×1200 Polished"
+  },
+  "MP62014": {
+    "code": "MP62014",
+    "slug": "monalisa-mp62014",
+    "name": "Monalisa ONICE LINEARE 600×1200 Polished"
+  },
+  "MP62022": {
+    "code": "MP62022",
+    "slug": "monalisa-mp62022",
+    "name": "Monalisa LUNA GRIGIA 600×1200 Polished"
+  },
+  "MP62032": {
+    "code": "MP62032",
+    "slug": "monalisa-mp62032",
+    "name": "Monalisa ROMA ANTICA 600×1200 Polished"
+  },
+  "MP62033": {
+    "code": "MP62033",
+    "slug": "monalisa-mp62033",
+    "name": "Monalisa ROMA ANTICA 600×1200 Polished"
+  },
+  "MP62043": {
+    "code": "MP62043",
+    "slug": "monalisa-mp62043",
+    "name": "Monalisa ONICE ROMAN 600×1200 Polished"
+  },
+  "MP62063": {
+    "code": "MP62063",
+    "slug": "monalisa-mp62063",
+    "name": "Monalisa 62063 Ivory Vein 600×1200 Polished"
+  },
+  "MM88001": {
+    "code": "MM88001",
+    "slug": "monalisa-mm88001",
+    "name": "Monalisa AUREO PIETRA 800×800 Matt Microcid"
+  },
+  "MM88002": {
+    "code": "MM88002",
+    "slug": "monalisa-mm88002",
+    "name": "Monalisa AUREO PIETRA 800×800 Matt Microcid"
+  },
+  "MM88012": {
+    "code": "MM88012",
+    "slug": "monalisa-mm88012",
+    "name": "Monalisa VALTELLINA 800×800 Matt Microcid"
+  },
+  "MM88013": {
+    "code": "MM88013",
+    "slug": "monalisa-mm88013",
+    "name": "Monalisa VALTELLINA 800×800 Matt Microcid"
+  },
+  "MM88021": {
+    "code": "MM88021",
+    "slug": "monalisa-mm88021",
+    "name": "Monalisa ANTICA CALCARE 800×800 Matt Microcid"
+  },
+  "MM88022": {
+    "code": "MM88022",
+    "slug": "monalisa-mm88022",
+    "name": "Monalisa ANTICA CALCARE 800×800 Matt Microcid"
+  },
+  "MM88023": {
+    "code": "MM88023",
+    "slug": "monalisa-mm88023",
+    "name": "Monalisa ANTICA CALCARE 800×800 Matt Microcid"
+  },
+  "MM88031": {
+    "code": "MM88031",
+    "slug": "monalisa-mm88031",
+    "name": "Monalisa ROMA ANTICA 800×800 Matt Microcid"
+  },
+  "MM88033": {
+    "code": "MM88033",
+    "slug": "monalisa-mm88033",
+    "name": "Monalisa ROMA ANTICA 800×800 Matt Microcid"
+  },
+  "MP88001": {
+    "code": "MP88001",
+    "slug": "monalisa-mp88001",
+    "name": "Monalisa PIETRA TOSCANA 800×800 Polished"
+  },
+  "MP88002": {
+    "code": "MP88002",
+    "slug": "monalisa-mp88002",
+    "name": "Monalisa PIETRA TOSCANA 800×800 Polished"
+  },
+  "MP88003": {
+    "code": "MP88003",
+    "slug": "monalisa-mp88003",
+    "name": "Monalisa PIETRA TOSCANA 800×800 Polished"
+  },
+  "MP88013": {
+    "code": "MP88013",
+    "slug": "monalisa-mp88013",
+    "name": "Monalisa ONICE LINEARE 800×800 Polished"
+  },
+  "MP88014": {
+    "code": "MP88014",
+    "slug": "monalisa-mp88014",
+    "name": "Monalisa ONICE LINEARE 800×800 Polished"
+  },
+  "MP88022": {
+    "code": "MP88022",
+    "slug": "monalisa-mp88022",
+    "name": "Monalisa LUNA GRIGIA 800×800 Polished"
+  },
+  "MP88032": {
+    "code": "MP88032",
+    "slug": "monalisa-mp88032",
+    "name": "Monalisa ROMA ANTICA 800×800 Polished"
+  },
+  "MP88033": {
+    "code": "MP88033",
+    "slug": "monalisa-mp88033",
+    "name": "Monalisa ROMA ANTICA 800×800 Polished"
+  },
+  "MP88043": {
+    "code": "MP88043",
+    "slug": "monalisa-mp88043",
+    "name": "Monalisa ONICE ROMAN 800×800 Polished"
+  },
+  "BM-048001P": {
+    "code": "BM-048001P",
+    "slug": "viet-y-bm-048001p",
+    "name": "Việt Ý Bình Minh 400×800"
+  },
+  "BM-C88001P": {
+    "code": "BM-C88001P",
+    "slug": "viet-y-bm-c88001p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BM-C88003P": {
+    "code": "BM-C88003P",
+    "slug": "viet-y-bm-c88003p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMB88001P": {
+    "code": "BMB88001P",
+    "slug": "viet-y-bmb88001p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMB88020P1": {
+    "code": "BMB88020P1",
+    "slug": "viet-y-bmb88020p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMG88005P1": {
+    "code": "BMG88005P1",
+    "slug": "viet-y-bmg88005p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMI88001P1": {
+    "code": "BMI88001P1",
+    "slug": "viet-y-bmi88001p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMI88003P1": {
+    "code": "BMI88003P1",
+    "slug": "viet-y-bmi88003p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMI88005P1": {
+    "code": "BMI88005P1",
+    "slug": "viet-y-bmi88005p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMM88001P1": {
+    "code": "BMM88001P1",
+    "slug": "viet-y-bmm88001p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMT88023P1": {
+    "code": "BMT88023P1",
+    "slug": "viet-y-bmt88023p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMT88025P1": {
+    "code": "BMT88025P1",
+    "slug": "viet-y-bmt88025p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMT88031P1": {
+    "code": "BMT88031P1",
+    "slug": "viet-y-bmt88031p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BMT88033P1": {
+    "code": "BMT88033P1",
+    "slug": "viet-y-bmt88033p1",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "IN.ORI.6012.AB612P3": {
+    "code": "IN.ORI.6012.AB612P3",
+    "slug": "grand-ceramics-in-ori-6012-ab612p3",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.ORI.6012.AG612M10": {
+    "code": "IN.ORI.6012.AG612M10",
+    "slug": "grand-ceramics-in-ori-6012-ag612m10",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.ORI.6012.CP612P3": {
+    "code": "IN.ORI.6012.CP612P3",
+    "slug": "grand-ceramics-in-ori-6012-cp612p3",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.VER.1010.EC11P3": {
+    "code": "IN.VER.1010.EC11P3",
+    "slug": "grand-ceramics-in-ver-1010-ec11p3",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.ORI.6012.FB612M1": {
+    "code": "IN.ORI.6012.FB612M1",
+    "slug": "grand-ceramics-in-ori-6012-fb612m1",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.ORI.6012.FG612M8": {
+    "code": "IN.ORI.6012.FG612M8",
+    "slug": "grand-ceramics-in-ori-6012-fg612m8",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.VER.1010.HCW11P3": {
+    "code": "IN.VER.1010.HCW11P3",
+    "slug": "grand-ceramics-in-ver-1010-hcw11p3",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.ORI.6012.MB612MS3": {
+    "code": "IN.ORI.6012.MB612MS3",
+    "slug": "grand-ceramics-in-ori-6012-mb612ms3",
+    "name": "Grand Ceramics Gạch nhập khẩu 600×1200"
+  },
+  "IN.ORI.6012.MB612P3": {
+    "code": "IN.ORI.6012.MB612P3",
+    "slug": "grand-ceramics-in-ori-6012-mb612p3",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.ORI.1010.MG11M8": {
+    "code": "IN.ORI.1010.MG11M8",
+    "slug": "grand-ceramics-in-ori-1010-mg11m8",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.NBLW11P1": {
+    "code": "IN.VER.1010.NBLW11P1",
+    "slug": "grand-ceramics-in-ver-1010-nblw11p1",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.OOCW11P3": {
+    "code": "IN.VER.1010.OOCW11P3",
+    "slug": "grand-ceramics-in-ver-1010-oocw11p3",
+    "name": "Grand Ceramics Gạch nhập khẩu 1000×1000"
+  },
+  "IN.ORI.6012.DOC612M3": {
+    "code": "IN.ORI.6012.DOC612M3",
+    "slug": "grand-ceramics-in-ori-6012-doc612m3",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.ORI.6012.DOC612P3": {
+    "code": "IN.ORI.6012.DOC612P3",
+    "slug": "grand-ceramics-in-ori-6012-doc612p3",
+    "name": "Grand Ceramics Gạch nhập khẩu 600×1200"
+  },
+  "IN.ORI.6012.DOG612P8": {
+    "code": "IN.ORI.6012.DOG612P8",
+    "slug": "grand-ceramics-in-ori-6012-dog612p8",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.ORI.6012.DOW612P1": {
+    "code": "IN.ORI.6012.DOW612P1",
+    "slug": "grand-ceramics-in-ori-6012-dow612p1",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.VER.1010.VDG11M8": {
+    "code": "IN.VER.1010.VDG11M8",
+    "slug": "grand-ceramics-in-ver-1010-vdg11m8",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.VGC11P8": {
+    "code": "IN.VER.1010.VGC11P8",
+    "slug": "grand-ceramics-in-ver-1010-vgc11p8",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.VLG11P10": {
+    "code": "IN.VER.1010.VLG11P10",
+    "slug": "grand-ceramics-in-ver-1010-vlg11p10",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.1000311P3": {
+    "code": "IN.VER.1010.1000311P3",
+    "slug": "grand-ceramics-in-ver-1010-1000311p3",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.10019W11P1": {
+    "code": "IN.VER.1010.10019W11P1",
+    "slug": "grand-ceramics-in-ver-1010-10019w11p1",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.600311P10": {
+    "code": "IN.VER.1010.600311P10",
+    "slug": "grand-ceramics-in-ver-1010-600311p10",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.6006LW11P10": {
+    "code": "IN.VER.1010.6006LW11P10",
+    "slug": "grand-ceramics-in-ver-1010-6006lw11p10",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.VER.1010.6006D11P8": {
+    "code": "IN.VER.1010.6006D11P8",
+    "slug": "grand-ceramics-in-ver-1010-6006d11p8",
+    "name": "Grand Ceramics Grand Ceramics 1000×1000"
+  },
+  "IN.ORI.6012.YB612M1": {
+    "code": "IN.ORI.6012.YB612M1",
+    "slug": "grand-ceramics-in-ori-6012-yb612m1",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "IN.ORI.6012.YG612M10": {
+    "code": "IN.ORI.6012.YG612M10",
+    "slug": "grand-ceramics-in-ori-6012-yg612m10",
+    "name": "Grand Ceramics Grand Ceramics 600×1200"
+  },
+  "SKM-3610": {
+    "code": "SKM-3610",
+    "slug": "grand-ceramics-skm-3610",
+    "name": "Grand Ceramics Sao Kim 300×600 Matt"
+  },
+  "SKM-3611": {
+    "code": "SKM-3611",
+    "slug": "grand-ceramics-skm-3611",
+    "name": "Grand Ceramics Sao Kim 300×600 Matt"
+  },
+  "SKM-3612": {
+    "code": "SKM-3612",
+    "slug": "grand-ceramics-skm-3612",
+    "name": "Grand Ceramics Sao Kim 300×600 Matt"
+  },
+  "SKM-3613": {
+    "code": "SKM-3613",
+    "slug": "grand-ceramics-skm-3613",
+    "name": "Grand Ceramics Sao Kim 300×600 Matt"
+  },
+  "SKM-6613": {
+    "code": "SKM-6613",
+    "slug": "grand-ceramics-skm-6613",
+    "name": "Grand Ceramics Sao Kim 600×600 Matt"
+  },
+  "SMD-48021": {
+    "code": "SMD-48021",
+    "slug": "grand-ceramics-smd-48021",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt hiệu ứng"
+  },
+  "SMD-48022": {
+    "code": "SMD-48022",
+    "slug": "grand-ceramics-smd-48022",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt hiệu ứng"
+  },
+  "SMM-36017": {
+    "code": "SMM-36017",
+    "slug": "grand-ceramics-smm-36017",
+    "name": "Grand Ceramics Vân đá Matt 300×600 Matt Topcoat"
+  },
+  "SMM-36018": {
+    "code": "SMM-36018",
+    "slug": "grand-ceramics-smm-36018",
+    "name": "Grand Ceramics Vân đá Matt 300×600 Matt Topcoat"
+  },
+  "SMM-66018": {
+    "code": "SMM-66018",
+    "slug": "grand-ceramics-smm-66018",
+    "name": "Grand Ceramics Vân đá Matt 600×600 Matt Topcoat"
+  },
+  "K5601": {
+    "code": "K5601",
+    "slug": "grand-ceramics-k5601",
+    "name": "Grand Ceramics Kanetiles Outdoor 500×500 Matt"
+  },
+  "K5602": {
+    "code": "K5602",
+    "slug": "grand-ceramics-k5602",
+    "name": "Grand Ceramics 500×500"
+  },
+  "K5603": {
+    "code": "K5603",
+    "slug": "grand-ceramics-k5603",
+    "name": "Grand Ceramics Kanetiles Outdoor 500×500 Matt"
+  },
+  "K5604": {
+    "code": "K5604",
+    "slug": "grand-ceramics-k5604",
+    "name": "Grand Ceramics Kanetiles Outdoor 500×500 Matt"
+  },
+  "K5605": {
+    "code": "K5605",
+    "slug": "grand-ceramics-k5605",
+    "name": "Grand Ceramics 500×500"
+  },
+  "SMP-66010": {
+    "code": "SMP-66010",
+    "slug": "grand-ceramics-smp-66010",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 600×600 Bóng"
+  },
+  "SMP-66017": {
+    "code": "SMP-66017",
+    "slug": "grand-ceramics-smp-66017",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 600×600 Bóng"
+  },
+  "SMP-66018": {
+    "code": "SMP-66018",
+    "slug": "grand-ceramics-smp-66018",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 600×600 Bóng"
+  },
+  "SMP-66019": {
+    "code": "SMP-66019",
+    "slug": "grand-ceramics-smp-66019",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 600×600 Bóng"
+  },
+  "SMP-66020": {
+    "code": "SMP-66020",
+    "slug": "grand-ceramics-smp-66020",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 600×600 Bóng"
+  },
+  "VGM-66001": {
+    "code": "VGM-66001",
+    "slug": "grand-ceramics-vgm-66001",
+    "name": "Grand Ceramics Gạch xương đồng chất 600×600 Matt"
+  },
+  "VGM-66002": {
+    "code": "VGM-66002",
+    "slug": "grand-ceramics-vgm-66002",
+    "name": "Grand Ceramics Gạch xương đồng chất 600×600 Matt"
+  },
+  "VGM-66003": {
+    "code": "VGM-66003",
+    "slug": "grand-ceramics-vgm-66003",
+    "name": "Grand Ceramics Gạch xương đồng chất 600×600 Matt"
+  },
+  "SMP-88018": {
+    "code": "SMP-88018",
+    "slug": "grand-ceramics-smp-88018",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 800×800 Bóng"
+  },
+  "SMP-88019": {
+    "code": "SMP-88019",
+    "slug": "grand-ceramics-smp-88019",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 800×800 Bóng"
+  },
+  "SMP-88020": {
+    "code": "SMP-88020",
+    "slug": "grand-ceramics-smp-88020",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 800×800 Bóng"
+  },
+  "SMP-88025": {
+    "code": "SMP-88025",
+    "slug": "grand-ceramics-smp-88025",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 800×800 Bóng"
+  },
+  "SMP-88027": {
+    "code": "SMP-88027",
+    "slug": "grand-ceramics-smp-88027",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 800×800 Bóng"
+  },
+  "SMP-88029": {
+    "code": "SMP-88029",
+    "slug": "grand-ceramics-smp-88029",
+    "name": "Grand Ceramics Premium 800×800 Mài bóng"
+  },
+  "SMP-88026": {
+    "code": "SMP-88026",
+    "slug": "grand-ceramics-smp-88026",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 800×800 Bóng"
+  },
+  "SMP-88028": {
+    "code": "SMP-88028",
+    "slug": "grand-ceramics-smp-88028",
+    "name": "Grand Ceramics Premium 800×800 Mài bóng"
+  },
+  "VNA-36001": {
+    "code": "VNA-36001",
+    "slug": "viet-y-vna-36001",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36002": {
+    "code": "VNA-36002",
+    "slug": "viet-y-vna-36002",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36003": {
+    "code": "VNA-36003",
+    "slug": "viet-y-vna-36003",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36004": {
+    "code": "VNA-36004",
+    "slug": "viet-y-vna-36004",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36005": {
+    "code": "VNA-36005",
+    "slug": "viet-y-vna-36005",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36006": {
+    "code": "VNA-36006",
+    "slug": "viet-y-vna-36006",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "BMM48001P1": {
+    "code": "BMM48001P1",
+    "slug": "viet-y-bmm48001p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMM48003P1": {
+    "code": "BMM48003P1",
+    "slug": "viet-y-bmm48003p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMO48001P": {
+    "code": "BMO48001P",
+    "slug": "viet-y-bmo48001p",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMS48001M1": {
+    "code": "BMS48001M1",
+    "slug": "viet-y-bms48001m1",
+    "name": "Việt Ý Bình Minh 400×800 Deepink"
+  },
+  "BMS48003M1": {
+    "code": "BMS48003M1",
+    "slug": "viet-y-bms48003m1",
+    "name": "Việt Ý Bình Minh 400×800 Deepink"
+  },
+  "BMS48005M1": {
+    "code": "BMS48005M1",
+    "slug": "viet-y-bms48005m1",
+    "name": "Việt Ý Bình Minh 400×800 Deepink"
+  },
+  "BMS48006M1": {
+    "code": "BMS48006M1",
+    "slug": "viet-y-bms48006m1",
+    "name": "Việt Ý Bình Minh 400×800 Deepink"
+  },
+  "BMT48001P1": {
+    "code": "BMT48001P1",
+    "slug": "viet-y-bmt48001p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMT48002P1": {
+    "code": "BMT48002P1",
+    "slug": "viet-y-bmt48002p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMT48005P1": {
+    "code": "BMT48005P1",
+    "slug": "viet-y-bmt48005p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMT48006P1": {
+    "code": "BMT48006P1",
+    "slug": "viet-y-bmt48006p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMT48015P1": {
+    "code": "BMT48015P1",
+    "slug": "viet-y-bmt48015p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BMT48016P1": {
+    "code": "BMT48016P1",
+    "slug": "viet-y-bmt48016p1",
+    "name": "Việt Ý Bình Minh 400×800 Polished"
+  },
+  "BM-B61201P1": {
+    "code": "BM-B61201P1",
+    "slug": "viet-y-bm-b61201p1",
+    "name": "Việt Ý Bình Minh 600×1200 Polished"
+  },
+  "BM-C61201M1": {
+    "code": "BM-C61201M1",
+    "slug": "viet-y-bm-c61201m1",
+    "name": "Việt Ý Bình Minh 600×1200 Matt Deepink"
+  },
+  "BM-C61203M1": {
+    "code": "BM-C61203M1",
+    "slug": "viet-y-bm-c61203m1",
+    "name": "Việt Ý Bình Minh 600×1200 Matt Deepink"
+  },
+  "BM-G61203P1": {
+    "code": "BM-G61203P1",
+    "slug": "viet-y-bm-g61203p1",
+    "name": "Việt Ý Bình Minh 600×1200 Polished"
+  },
+  "BM-G61205P1": {
+    "code": "BM-G61205P1",
+    "slug": "viet-y-bm-g61205p1",
+    "name": "Việt Ý Bình Minh 600×1200 Polished"
+  },
+  "BM-T61201P1": {
+    "code": "BM-T61201P1",
+    "slug": "viet-y-bm-t61201p1",
+    "name": "Việt Ý Bình Minh 600×1200 Polished"
+  },
+  "BM-T61211P1": {
+    "code": "BM-T61211P1",
+    "slug": "viet-y-bm-t61211p1",
+    "name": "Việt Ý Bình Minh 600×1200 Polished"
+  },
+  "BM-O88001P": {
+    "code": "BM-O88001P",
+    "slug": "viet-y-bm-o88001p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BM-T88001P": {
+    "code": "BM-T88001P",
+    "slug": "viet-y-bm-t88001p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BM-T88005P": {
+    "code": "BM-T88005P",
+    "slug": "viet-y-bm-t88005p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BM-T88011P": {
+    "code": "BM-T88011P",
+    "slug": "viet-y-bm-t88011p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "BM-T88015P": {
+    "code": "BM-T88015P",
+    "slug": "viet-y-bm-t88015p",
+    "name": "Việt Ý Bình Minh 800×800 Mài bóng"
+  },
+  "SMM-36007": {
+    "code": "SMM-36007",
+    "slug": "grand-ceramics-smm-36007",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36008": {
+    "code": "SMM-36008",
+    "slug": "grand-ceramics-smm-36008",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36011": {
+    "code": "SMM-36011",
+    "slug": "grand-ceramics-smm-36011",
+    "name": "Grand Ceramics Gạch ốp lát 300×600 Matt"
+  },
+  "SMM-36012": {
+    "code": "SMM-36012",
+    "slug": "grand-ceramics-smm-36012",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36013": {
+    "code": "SMM-36013",
+    "slug": "grand-ceramics-smm-36013",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36014": {
+    "code": "SMM-36014",
+    "slug": "grand-ceramics-smm-36014",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36015": {
+    "code": "SMM-36015",
+    "slug": "grand-ceramics-smm-36015",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36016": {
+    "code": "SMM-36016",
+    "slug": "grand-ceramics-smm-36016",
+    "name": "Grand Ceramics Gạch ốp lát 300×600 Matt"
+  },
+  "SMM-48005": {
+    "code": "SMM-48005",
+    "slug": "grand-ceramics-smm-48005",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt"
+  },
+  "SMM-48006": {
+    "code": "SMM-48006",
+    "slug": "grand-ceramics-smm-48006",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt"
+  },
+  "SMM-48007": {
+    "code": "SMM-48007",
+    "slug": "grand-ceramics-smm-48007",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt"
+  },
+  "SMM-48008": {
+    "code": "SMM-48008",
+    "slug": "grand-ceramics-smm-48008",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt"
+  },
+  "SMM-48001": {
+    "code": "SMM-48001",
+    "slug": "grand-ceramics-smm-48001",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt"
+  },
+  "SMM-48002": {
+    "code": "SMM-48002",
+    "slug": "grand-ceramics-smm-48002",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt"
+  },
+  "SMM-48003": {
+    "code": "SMM-48003",
+    "slug": "grand-ceramics-smm-48003",
+    "name": "Grand Ceramics Gạch ốp lát 400×800 Matt"
+  },
+  "SMM-66001": {
+    "code": "SMM-66001",
+    "slug": "grand-ceramics-smm-66001",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66002": {
+    "code": "SMM-66002",
+    "slug": "grand-ceramics-smm-66002",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66003": {
+    "code": "SMM-66003",
+    "slug": "grand-ceramics-smm-66003",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66004": {
+    "code": "SMM-66004",
+    "slug": "grand-ceramics-smm-66004",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66005": {
+    "code": "SMM-66005",
+    "slug": "grand-ceramics-smm-66005",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66006": {
+    "code": "SMM-66006",
+    "slug": "grand-ceramics-smm-66006",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66007": {
+    "code": "SMM-66007",
+    "slug": "grand-ceramics-smm-66007",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66008": {
+    "code": "SMM-66008",
+    "slug": "grand-ceramics-smm-66008",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66009": {
+    "code": "SMM-66009",
+    "slug": "grand-ceramics-smm-66009",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66010": {
+    "code": "SMM-66010",
+    "slug": "grand-ceramics-smm-66010",
+    "name": "Grand Ceramics Sao Mộc 600×600 Matt Topcoat"
+  },
+  "SMM-66011": {
+    "code": "SMM-66011",
+    "slug": "grand-ceramics-smm-66011",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-66012": {
+    "code": "SMM-66012",
+    "slug": "grand-ceramics-smm-66012",
+    "name": "Grand Ceramics Gạch ốp lát 600×600 Matt"
+  },
+  "SMM-88003": {
+    "code": "SMM-88003",
+    "slug": "grand-ceramics-smm-88003",
+    "name": "Grand Ceramics Gạch ốp lát 800×800 Matt"
+  },
+  "SMM-88006": {
+    "code": "SMM-88006",
+    "slug": "grand-ceramics-smm-88006",
+    "name": "Grand Ceramics Gạch ốp lát 800×800 Matt"
+  },
+  "SMM-88009": {
+    "code": "SMM-88009",
+    "slug": "grand-ceramics-smm-88009",
+    "name": "Grand Ceramics Sao Mộc 800×800 Matt Topcoat"
+  },
+  "SMP-88010": {
+    "code": "SMP-88010",
+    "slug": "grand-ceramics-smp-88010",
+    "name": "Grand Ceramics Gạch ốp lát (Sao Mộc) 800×800 Bóng"
+  },
+  "ATG48003M1": {
+    "code": "ATG48003M1",
+    "slug": "viet-y-atg48003m1",
+    "name": "Việt Ý Ánh Trăng 400×800 Men mờ R9"
+  },
+  "ATS48007M1": {
+    "code": "ATS48007M1",
+    "slug": "viet-y-ats48007m1",
+    "name": "Việt Ý Ánh Trăng 400×800 Men mờ R9"
+  },
+  "BM-T48001P": {
+    "code": "BM-T48001P",
+    "slug": "viet-y-bm-t48001p",
+    "name": "Việt Ý Bình Minh 400×800 Siêu bóng"
+  },
+  "BM-T48002P": {
+    "code": "BM-T48002P",
+    "slug": "viet-y-bm-t48002p",
+    "name": "Việt Ý Bình Minh 400×800 Siêu bóng"
+  },
+  "BM-T48005P": {
+    "code": "BM-T48005P",
+    "slug": "viet-y-bm-t48005p",
+    "name": "Việt Ý Bình Minh 400×800 Siêu bóng"
+  },
+  "BM-T48006P": {
+    "code": "BM-T48006P",
+    "slug": "viet-y-bm-t48006p",
+    "name": "Việt Ý Bình Minh 400×800 Siêu bóng"
+  },
+  "BM-T48015P": {
+    "code": "BM-T48015P",
+    "slug": "viet-y-bm-t48015p",
+    "name": "Việt Ý Bình Minh 400×800 Siêu bóng"
+  },
+  "BM-T48016P": {
+    "code": "BM-T48016P",
+    "slug": "viet-y-bm-t48016p",
+    "name": "Việt Ý Bình Minh 400×800 Siêu bóng"
+  },
+  "GA-M360": {
+    "code": "GA-M360",
+    "slug": "viet-y-ga-m360",
+    "name": "Việt Ý Ánh Trăng 300×600 Matt"
+  },
+  "GA-M48008-07": {
+    "code": "GA-M48008-07",
+    "slug": "viet-y-ga-m48008-07",
+    "name": "Việt Ý Ánh Trăng 400×800 Matt"
+  },
+  "GA-M880": {
+    "code": "GA-M880",
+    "slug": "viet-y-ga-m880",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt"
+  },
+  "GA-P88051": {
+    "code": "GA-P88051",
+    "slug": "viet-y-ga-p88051",
+    "name": "Việt Ý Ánh Trăng 800×800 Men mờ R9"
+  },
+  "GAM66015": {
+    "code": "GAM66015",
+    "slug": "viet-y-gam66015",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt"
+  },
+  "GAM66016": {
+    "code": "GAM66016",
+    "slug": "viet-y-gam66016",
+    "name": "Việt Ý Ánh Trăng 600×600 Matt"
+  },
+  "GA-M88004": {
+    "code": "GA-M88004",
+    "slug": "viet-y-ga-m88004",
+    "name": "Việt Ý Ánh Trăng 800×800 Matt"
+  },
+  "SMM-36001": {
+    "code": "SMM-36001",
+    "slug": "grand-ceramics-smm-36001",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36002": {
+    "code": "SMM-36002",
+    "slug": "grand-ceramics-smm-36002",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36005": {
+    "code": "SMM-36005",
+    "slug": "grand-ceramics-smm-36005",
+    "name": "Grand Ceramics Sao Mộc 300×600 Matt Topcoat"
+  },
+  "SMM-36006": {
+    "code": "SMM-36006",
+    "slug": "grand-ceramics-smm-36006",
+    "name": "Grand Ceramics Gạch ốp lát 300×600 Matt"
+  },
+  "VY1-M36001": {
+    "code": "VY1-M36001",
+    "slug": "viet-y-vy1-m36001",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36002": {
+    "code": "VY1-M36002",
+    "slug": "viet-y-vy1-m36002",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36002A": {
+    "code": "VY1-M36002A",
+    "slug": "viet-y-vy1-m36002a",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36003": {
+    "code": "VY1-M36003",
+    "slug": "viet-y-vy1-m36003",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36005": {
+    "code": "VY1-M36005",
+    "slug": "viet-y-vy1-m36005",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36006": {
+    "code": "VY1-M36006",
+    "slug": "viet-y-vy1-m36006",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36007": {
+    "code": "VY1-M36007",
+    "slug": "viet-y-vy1-m36007",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36008": {
+    "code": "VY1-M36008",
+    "slug": "viet-y-vy1-m36008",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36008A": {
+    "code": "VY1-M36008A",
+    "slug": "viet-y-vy1-m36008a",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36011": {
+    "code": "VY1-M36011",
+    "slug": "viet-y-vy1-m36011",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36012": {
+    "code": "VY1-M36012",
+    "slug": "viet-y-vy1-m36012",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36013": {
+    "code": "VY1-M36013",
+    "slug": "viet-y-vy1-m36013",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36014": {
+    "code": "VY1-M36014",
+    "slug": "viet-y-vy1-m36014",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36015": {
+    "code": "VY1-M36015",
+    "slug": "viet-y-vy1-m36015",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36016": {
+    "code": "VY1-M36016",
+    "slug": "viet-y-vy1-m36016",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36016A": {
+    "code": "VY1-M36016A",
+    "slug": "viet-y-vy1-m36016a",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36017": {
+    "code": "VY1-M36017",
+    "slug": "viet-y-vy1-m36017",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36018": {
+    "code": "VY1-M36018",
+    "slug": "viet-y-vy1-m36018",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M36018A": {
+    "code": "VY1-M36018A",
+    "slug": "viet-y-vy1-m36018a",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M48001": {
+    "code": "VY1-M48001",
+    "slug": "viet-y-vy1-m48001",
+    "name": "Việt Ý Sao Mai 400×800 Men matt"
+  },
+  "VY1-M48002": {
+    "code": "VY1-M48002",
+    "slug": "viet-y-vy1-m48002",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "VY1-M48003": {
+    "code": "VY1-M48003",
+    "slug": "viet-y-vy1-m48003",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M48004": {
+    "code": "VY1-M48004",
+    "slug": "viet-y-vy1-m48004",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M48005": {
+    "code": "VY1-M48005",
+    "slug": "viet-y-vy1-m48005",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M48006": {
+    "code": "VY1-M48006",
+    "slug": "viet-y-vy1-m48006",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M48007": {
+    "code": "VY1-M48007",
+    "slug": "viet-y-vy1-m48007",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M48008": {
+    "code": "VY1-M48008",
+    "slug": "viet-y-vy1-m48008",
+    "name": "Việt Ý Sao Mai 400×800 Men matt"
+  },
+  "VY1-G66031": {
+    "code": "VY1-G66031",
+    "slug": "viet-y-vy1-g66031",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-G66032": {
+    "code": "VY1-G66032",
+    "slug": "viet-y-vy1-g66032",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-G66033": {
+    "code": "VY1-G66033",
+    "slug": "viet-y-vy1-g66033",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-G66034": {
+    "code": "VY1-G66034",
+    "slug": "viet-y-vy1-g66034",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66001": {
+    "code": "VY1-M66001",
+    "slug": "viet-y-vy1-m66001",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66002": {
+    "code": "VY1-M66002",
+    "slug": "viet-y-vy1-m66002",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66003": {
+    "code": "VY1-M66003",
+    "slug": "viet-y-vy1-m66003",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66004": {
+    "code": "VY1-M66004",
+    "slug": "viet-y-vy1-m66004",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66005": {
+    "code": "VY1-M66005",
+    "slug": "viet-y-vy1-m66005",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66006": {
+    "code": "VY1-M66006",
+    "slug": "viet-y-vy1-m66006",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66007": {
+    "code": "VY1-M66007",
+    "slug": "viet-y-vy1-m66007",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66008": {
+    "code": "VY1-M66008",
+    "slug": "viet-y-vy1-m66008",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66009": {
+    "code": "VY1-M66009",
+    "slug": "viet-y-vy1-m66009",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66010": {
+    "code": "VY1-M66010",
+    "slug": "viet-y-vy1-m66010",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66011": {
+    "code": "VY1-M66011",
+    "slug": "viet-y-vy1-m66011",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66012": {
+    "code": "VY1-M66012",
+    "slug": "viet-y-vy1-m66012",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66015": {
+    "code": "VY1-M66015",
+    "slug": "viet-y-vy1-m66015",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66016": {
+    "code": "VY1-M66016",
+    "slug": "viet-y-vy1-m66016",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "SMM-88011": {
+    "code": "SMM-88011",
+    "slug": "grand-ceramics-smm-88011",
+    "name": "Grand Ceramics Sao Mộc 800×800 Matt Topcoat"
+  },
+  "SMM-88021": {
+    "code": "SMM-88021",
+    "slug": "grand-ceramics-smm-88021",
+    "name": "Grand Ceramics Sao Mộc 800×800 Matt Topcoat"
+  },
+  "SMM-88022": {
+    "code": "SMM-88022",
+    "slug": "grand-ceramics-smm-88022",
+    "name": "Grand Ceramics Sao Mộc 800×800 Matt Topcoat"
+  },
+  "SMM-88023": {
+    "code": "SMM-88023",
+    "slug": "grand-ceramics-smm-88023",
+    "name": "Grand Ceramics Gạch ốp lát 800×800 Matt hiệu ứng"
+  },
+  "SMM-88024": {
+    "code": "SMM-88024",
+    "slug": "grand-ceramics-smm-88024",
+    "name": "Grand Ceramics Sao Mộc 800×800 Matt Deepink"
+  },
+  "VY1-KN801": {
+    "code": "VY1-KN801",
+    "slug": "viet-y-vy1-kn801",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "VY1-KN802": {
+    "code": "VY1-KN802",
+    "slug": "viet-y-vy1-kn802",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "VY1-KN803": {
+    "code": "VY1-KN803",
+    "slug": "viet-y-vy1-kn803",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "VY1-KN804": {
+    "code": "VY1-KN804",
+    "slug": "viet-y-vy1-kn804",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "VY1-KN805": {
+    "code": "VY1-KN805",
+    "slug": "viet-y-vy1-kn805",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "VY1-KN806": {
+    "code": "VY1-KN806",
+    "slug": "viet-y-vy1-kn806",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "VY1-M88007": {
+    "code": "VY1-M88007",
+    "slug": "viet-y-vy1-m88007",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88008": {
+    "code": "VY1-M88008",
+    "slug": "viet-y-vy1-m88008",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88009": {
+    "code": "VY1-M88009",
+    "slug": "viet-y-vy1-m88009",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88011": {
+    "code": "VY1-M88011",
+    "slug": "viet-y-vy1-m88011",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88015": {
+    "code": "VY1-M88015",
+    "slug": "viet-y-vy1-m88015",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88016": {
+    "code": "VY1-M88016",
+    "slug": "viet-y-vy1-m88016",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88021": {
+    "code": "VY1-M88021",
+    "slug": "viet-y-vy1-m88021",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88022": {
+    "code": "VY1-M88022",
+    "slug": "viet-y-vy1-m88022",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88023": {
+    "code": "VY1-M88023",
+    "slug": "viet-y-vy1-m88023",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M88024": {
+    "code": "VY1-M88024",
+    "slug": "viet-y-vy1-m88024",
+    "name": "Việt Ý Sao Mai 800×800 Men mờ R9"
+  },
+  "VY1-M88025": {
+    "code": "VY1-M88025",
+    "slug": "viet-y-vy1-m88025",
+    "name": "Việt Ý Sao Mai 800×800 Men mờ R9"
+  },
+  "VY1-M36013-14": {
+    "code": "VY1-M36013-14",
+    "slug": "viet-y-vy1-m36013-14",
+    "name": "Việt Ý Sao Mai 300×600 Matt"
+  },
+  "VY1-M66033": {
+    "code": "VY1-M66033",
+    "slug": "viet-y-vy1-m66033",
+    "name": "Việt Ý Sao Mai 600×600 Matt"
+  },
+  "VY1-M66034": {
+    "code": "VY1-M66034",
+    "slug": "viet-y-vy1-m66034",
+    "name": "Việt Ý Sao Mai 600×600 Men mờ R9"
+  },
+  "SMB48010P1": {
+    "code": "SMB48010P1",
+    "slug": "viet-y-smb48010p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMG48011P1": {
+    "code": "SMG48011P1",
+    "slug": "viet-y-smg48011p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMG48013P1": {
+    "code": "SMG48013P1",
+    "slug": "viet-y-smg48013p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMG48015P1": {
+    "code": "SMG48015P1",
+    "slug": "viet-y-smg48015p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMT48011P1": {
+    "code": "SMT48011P1",
+    "slug": "viet-y-smt48011p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMT48012P1": {
+    "code": "SMT48012P1",
+    "slug": "viet-y-smt48012p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMT48014P1": {
+    "code": "SMT48014P1",
+    "slug": "viet-y-smt48014p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMT48016P1": {
+    "code": "SMT48016P1",
+    "slug": "viet-y-smt48016p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SMB88010P1": {
+    "code": "SMB88010P1",
+    "slug": "viet-y-smb88010p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SMD88016P1": {
+    "code": "SMD88016P1",
+    "slug": "viet-y-smd88016p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SMM88013P1": {
+    "code": "SMM88013P1",
+    "slug": "viet-y-smm88013p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SMT88016P1": {
+    "code": "SMT88016P1",
+    "slug": "viet-y-smt88016p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SMM-36007-08": {
+    "code": "SMM-36007-08",
+    "slug": "grand-ceramics-smm-36007-08",
+    "name": "Grand Ceramics Vân đá Matt 300×600 Matt Topcoat"
+  },
+  "SMM-36011-12": {
+    "code": "SMM-36011-12",
+    "slug": "grand-ceramics-smm-36011-12",
+    "name": "Grand Ceramics Vân đá Matt 300×600 Matt Topcoat"
+  },
+  "SMM48005-06": {
+    "code": "SMM48005-06",
+    "slug": "grand-ceramics-smm48005-06",
+    "name": "Grand Ceramics Vân đá Matt 400×800 Matt Topcoat"
+  },
+  "VNA2-DP4801": {
+    "code": "VNA2-DP4801",
+    "slug": "viet-y-vna2-dp4801",
+    "name": "Việt Ý Chưa xác định 400×800 Men mờ R9"
+  },
+  "VNA2-DP4802": {
+    "code": "VNA2-DP4802",
+    "slug": "viet-y-vna2-dp4802",
+    "name": "Việt Ý Chưa xác định 400×800 Men mờ R9"
+  },
+  "VNA2-DP4803": {
+    "code": "VNA2-DP4803",
+    "slug": "viet-y-vna2-dp4803",
+    "name": "Việt Ý Chưa xác định 400×800 Men mờ R9"
+  },
+  "VNA2-DP801": {
+    "code": "VNA2-DP801",
+    "slug": "viet-y-vna2-dp801",
+    "name": "Việt Ý Chưa xác định 800×800 Men mờ R9"
+  },
+  "VNA2-DP802": {
+    "code": "VNA2-DP802",
+    "slug": "viet-y-vna2-dp802",
+    "name": "Việt Ý Chưa xác định 800×800 Men mờ R9"
+  },
+  "VNA2-M36001": {
+    "code": "VNA2-M36001",
+    "slug": "viet-y-vna2-m36001",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M36002": {
+    "code": "VNA2-M36002",
+    "slug": "viet-y-vna2-m36002",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M36003": {
+    "code": "VNA2-M36003",
+    "slug": "viet-y-vna2-m36003",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M36004": {
+    "code": "VNA2-M36004",
+    "slug": "viet-y-vna2-m36004",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M36005": {
+    "code": "VNA2-M36005",
+    "slug": "viet-y-vna2-m36005",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M36006": {
+    "code": "VNA2-M36006",
+    "slug": "viet-y-vna2-m36006",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M36007": {
+    "code": "VNA2-M36007",
+    "slug": "viet-y-vna2-m36007",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M36008": {
+    "code": "VNA2-M36008",
+    "slug": "viet-y-vna2-m36008",
+    "name": "Việt Ý Chưa xác định 300×600 men mờ R9"
+  },
+  "VNA2-M48001": {
+    "code": "VNA2-M48001",
+    "slug": "viet-y-vna2-m48001",
+    "name": "Việt Ý Chưa xác định 400×800 Men mờ R9"
+  },
+  "VNA2-M48002": {
+    "code": "VNA2-M48002",
+    "slug": "viet-y-vna2-m48002",
+    "name": "Việt Ý Chưa xác định 400×800 Men mờ R9"
+  },
+  "VNA2-M6600": {
+    "code": "VNA2-M6600",
+    "slug": "viet-y-vna2-m6600",
+    "name": "Việt Ý Chưa xác định 600×600 Matt"
+  },
+  "VNA2-M66001": {
+    "code": "VNA2-M66001",
+    "slug": "viet-y-vna2-m66001",
+    "name": "Việt Ý Chưa xác định 600×600 men mờ R9"
+  },
+  "VNA2-M66002": {
+    "code": "VNA2-M66002",
+    "slug": "viet-y-vna2-m66002",
+    "name": "Việt Ý Chưa xác định 600×600 men mờ R9"
+  },
+  "VNA2-M66003": {
+    "code": "VNA2-M66003",
+    "slug": "viet-y-vna2-m66003",
+    "name": "Việt Ý Chưa xác định 600×600 men mờ R9"
+  },
+  "VNA2-M66004": {
+    "code": "VNA2-M66004",
+    "slug": "viet-y-vna2-m66004",
+    "name": "Việt Ý Chưa xác định 600×600 men mờ R9"
+  },
+  "VNA2-M66007": {
+    "code": "VNA2-M66007",
+    "slug": "viet-y-vna2-m66007",
+    "name": "Việt Ý Chưa xác định 600×600 Men mờ R9"
+  },
+  "VNA2-M88001": {
+    "code": "VNA2-M88001",
+    "slug": "viet-y-vna2-m88001",
+    "name": "Việt Ý Chưa xác định 800×800 men mờ R9"
+  },
+  "VNA2-M88003": {
+    "code": "VNA2-M88003",
+    "slug": "viet-y-vna2-m88003",
+    "name": "Việt Ý Chưa xác định 800×800 men mờ R9"
+  },
+  "VNA2-M88004": {
+    "code": "VNA2-M88004",
+    "slug": "viet-y-vna2-m88004",
+    "name": "Việt Ý Chưa xác định 800×800 men mờ R9"
+  },
+  "VNA2-M88007": {
+    "code": "VNA2-M88007",
+    "slug": "viet-y-vna2-m88007",
+    "name": "Việt Ý Chưa xác định 800×800 men mờ R9"
+  },
+  "VNA2-M88010": {
+    "code": "VNA2-M88010",
+    "slug": "viet-y-vna2-m88010",
+    "name": "Việt Ý Chưa xác định 800×800 men mờ R9"
+  },
+  "VNA-36007": {
+    "code": "VNA-36007",
+    "slug": "viet-y-vna-36007",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36008": {
+    "code": "VNA-36008",
+    "slug": "viet-y-vna-36008",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36009": {
+    "code": "VNA-36009",
+    "slug": "viet-y-vna-36009",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "VNA-36010": {
+    "code": "VNA-36010",
+    "slug": "viet-y-vna-36010",
+    "name": "Việt Ý Chưa xác định 300×600 Matt"
+  },
+  "SM-D48016P1": {
+    "code": "SM-D48016P1",
+    "slug": "viet-y-sm-d48016p1",
+    "name": "Việt Ý Sao Mai 400×800 Mài bóng"
+  },
+  "SM-G88011P1": {
+    "code": "SM-G88011P1",
+    "slug": "viet-y-sm-g88011p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SM-G88013P1": {
+    "code": "SM-G88013P1",
+    "slug": "viet-y-sm-g88013p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SM-G88015P1": {
+    "code": "SM-G88015P1",
+    "slug": "viet-y-sm-g88015p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SM-T88011P1": {
+    "code": "SM-T88011P1",
+    "slug": "viet-y-sm-t88011p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SM-T88012P1": {
+    "code": "SM-T88012P1",
+    "slug": "viet-y-sm-t88012p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "SM-T88014P1": {
+    "code": "SM-T88014P1",
+    "slug": "viet-y-sm-t88014p1",
+    "name": "Việt Ý Sao Mai 800×800 Mài bóng"
+  },
+  "ATB48001P1": {
+    "code": "ATB48001P1",
+    "slug": "viet-y-atb48001p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Mài bóng"
+  },
+  "AT-B48010P1": {
+    "code": "AT-B48010P1",
+    "slug": "viet-y-at-b48010p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Siêu bóng"
+  },
+  "ATG48001P1": {
+    "code": "ATG48001P1",
+    "slug": "viet-y-atg48001p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Mài bóng"
+  },
+  "ATG48003P1": {
+    "code": "ATG48003P1",
+    "slug": "viet-y-atg48003p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Mài bóng"
+  },
+  "ATS48001P1": {
+    "code": "ATS48001P1",
+    "slug": "viet-y-ats48001p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Mài bóng"
+  },
+  "ATS48003P1": {
+    "code": "ATS48003P1",
+    "slug": "viet-y-ats48003p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Mài bóng"
+  },
+  "ATS48005P1": {
+    "code": "ATS48005P1",
+    "slug": "viet-y-ats48005p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Mài bóng"
+  },
+  "ATS48007P1": {
+    "code": "ATS48007P1",
+    "slug": "viet-y-ats48007p1",
+    "name": "Việt Ý Ánh Trăng 400×800 Mài bóng"
+  },
+  "AT-B88001P": {
+    "code": "AT-B88001P",
+    "slug": "viet-y-at-b88001p",
+    "name": "Việt Ý Ánh Trăng 800×800 Mài bóng"
+  },
+  "AT-G88011P1": {
+    "code": "AT-G88011P1",
+    "slug": "viet-y-at-g88011p1",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "AT-G88013P1": {
+    "code": "AT-G88013P1",
+    "slug": "viet-y-at-g88013p1",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "AT-G88015P1": {
+    "code": "AT-G88015P1",
+    "slug": "viet-y-at-g88015p1",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "AT-G88021P1": {
+    "code": "AT-G88021P1",
+    "slug": "viet-y-at-g88021p1",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "AT-G88023P1": {
+    "code": "AT-G88023P1",
+    "slug": "viet-y-at-g88023p1",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "AT-G88026P1": {
+    "code": "AT-G88026P1",
+    "slug": "viet-y-at-g88026p1",
+    "name": "Việt Ý Ánh Trăng 800×800 Polished"
+  },
+  "AT-I88001P": {
+    "code": "AT-I88001P",
+    "slug": "viet-y-at-i88001p",
+    "name": "Việt Ý Ánh Trăng 800×800 Mài bóng"
+  },
+  "VYG03-A1": {
+    "code": "VYG03-A1",
+    "slug": "viet-y-vyg03-a1",
+    "name": "Ngói sóng Việt Ý màu Coban"
+  }
+}
