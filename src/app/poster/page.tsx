@@ -366,15 +366,14 @@ export default function StandalonePosterPage() {
     }
   };
 
-  // 2. Open Native Share Sheet (Zalo, Messenger, Save Image to Photos)
-  // CRITICAL: Must be NON-async. iOS Safari invalidates user gesture activation
-  // the moment the handler yields to a microtask (i.e. the first `await`).
-  // We call navigator.share() synchronously in the same event tick.
+  // 2. Open Native Share Sheet — works on iOS Safari + Android Chrome
+  // CRITICAL: NON-async. iOS Safari kills the user-gesture activation token
+  // at the very first microtask yield (i.e. first `await` / async keyword).
+  // navigator.share() MUST be called synchronously inside the event handler.
   const handleShare = () => {
     if (!previewDataUrl) return;
 
-    // Build File synchronously (dataUrlToBlobAndFile uses only sync Uint8Array ops)
-    // so we never yield before calling navigator.share().
+    // Build File synchronously — zero async ops before navigator.share()
     let cached = fileCacheRef.current;
     if (!cached) {
       const codeTag = detectedResult?.extractedCode || 'Catalog';
@@ -385,43 +384,65 @@ export default function StandalonePosterPage() {
 
     const { file, blob } = cached;
 
-    // Call navigator.share() SYNCHRONOUSLY — no await before this line
-    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+    // --- iOS Safari & Android Chrome: Web Share API with file ---
+    // Check canShare({files}) so we don't call share() when the browser
+    // has navigator.share but doesn't support image files (e.g. some WebViews).
+    const supportsFileShare =
+      typeof navigator !== 'undefined' &&
+      typeof navigator.share === 'function' &&
+      (typeof navigator.canShare === 'function'
+        ? navigator.canShare({ files: [file] })
+        : true); // if canShare absent, attempt anyway and let catch handle it
+
+    if (supportsFileShare) {
       navigator.share({ files: [file] })
-        .then(() => {
-          // Share sheet opened & user completed sharing
-        })
+        .then(() => { /* success */ })
         .catch((err: unknown) => {
           if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-            return; // User just dismissed the share sheet — normal behaviour
+            return; // user dismissed share sheet — completely normal
           }
-          console.warn('Native share error:', err);
-          // If share actually failed (not cancelled), fall back to clipboard
+          console.warn('navigator.share error:', err);
           handleShareFallback(blob);
-        });
-      return; // navigator.share() is now running; handler returns immediately
-    }
-
-    // Device does not support Web Share API at all → clipboard / notice
-    handleShareFallback(blob);
-  };
-
-  // Fallback used when Web Share API is unavailable or truly fails
-  const handleShareFallback = (blob: Blob) => {
-    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
-      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-        .then(() => {
-          setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Bạn có thể dán (Ctrl + V) trực tiếp vào Zalo hoặc Messenger.');
-          setTimeout(() => setShareNotice(null), 5000);
-        })
-        .catch(() => {
-          setShareNotice('Bảng chia sẻ chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome). Trên máy tính hãy dùng nút TẢI POSTER VỀ MÁY.');
-          setTimeout(() => setShareNotice(null), 6000);
         });
       return;
     }
-    setShareNotice('Bảng chia sẻ (Zalo, Tin nhắn) chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome).');
-    setTimeout(() => setShareNotice(null), 6000);
+
+    // --- Fallback for in-app browsers (Zalo, WeChat, FB) that block Web Share ---
+    handleShareFallback(blob);
+  };
+
+  // Fallback: open image in new tab (mobile) or copy to clipboard (desktop)
+  const handleShareFallback = (blob: Blob) => {
+    const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // Open the image in a new browser tab.
+      // On mobile, the user can long-press the image → "Save Image" / "Share".
+      const objectUrl = URL.createObjectURL(blob);
+      window.open(objectUrl, '_blank');
+      // Revoke after delay to let the tab load
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 30000);
+      setShareNotice('📱 Ảnh đã mở trên tab mới. Nhấn giữ vào ảnh → chọn "Lưu ảnh" hoặc "Chia sẻ".');
+      setTimeout(() => setShareNotice(null), 8000);
+      return;
+    }
+
+    // Desktop: try clipboard
+    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+        .then(() => {
+          setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Dán (Ctrl + V) trực tiếp vào Zalo, Messenger hoặc Zalo PC.');
+          setTimeout(() => setShareNotice(null), 6000);
+        })
+        .catch(() => {
+          setShareNotice('Trình duyệt không hỗ trợ bảng chia sẻ. Hãy dùng nút TẢI POSTER VỀ MÁY rồi chia sẻ từ thư mục tải về.');
+          setTimeout(() => setShareNotice(null), 7000);
+        });
+      return;
+    }
+
+    setShareNotice('Hãy dùng nút TẢI POSTER VỀ MÁY rồi chia sẻ tệp từ thư mục tải về.');
+    setTimeout(() => setShareNotice(null), 7000);
   };
 
   // Process image on upload

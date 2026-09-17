@@ -341,31 +341,46 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     }
   };
 
-  // Fallback when Web Share API unavailable (desktop etc.)
+  // Fallback: open image in new tab (mobile) or copy to clipboard (desktop)
   const handleShareFallback = (blob: Blob) => {
+    const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // Open the image in a new browser tab.
+      // On mobile, the user can long-press the image → "Save Image" / "Share".
+      const objectUrl = URL.createObjectURL(blob);
+      window.open(objectUrl, '_blank');
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 30000);
+      setShareNotice('📱 Ảnh đã mở trên tab mới. Nhấn giữ vào ảnh → chọn "Lưu ảnh" hoặc "Chia sẻ".');
+      setTimeout(() => setShareNotice(null), 8000);
+      return;
+    }
+
+    // Desktop: try clipboard
     if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
       navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
         .then(() => {
-          setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Bạn có thể dán (Ctrl + V) trực tiếp vào Zalo hoặc Messenger.');
-          setTimeout(() => setShareNotice(null), 5000);
+          setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Dán (Ctrl + V) trực tiếp vào Zalo, Messenger hoặc Zalo PC.');
+          setTimeout(() => setShareNotice(null), 6000);
         })
         .catch(() => {
-          setShareNotice('Bảng chia sẻ chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome). Trên máy tính hãy dùng nút TẢI POSTER VỀ MÁY.');
-          setTimeout(() => setShareNotice(null), 6000);
+          setShareNotice('Trình duyệt không hỗ trợ bảng chia sẻ. Hãy dùng nút TẢI POSTER VỀ MÁY rồi chia sẻ từ thư mục tải về.');
+          setTimeout(() => setShareNotice(null), 7000);
         });
       return;
     }
-    setShareNotice('Bảng chia sẻ (Zalo, Tin nhắn) chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome).');
-    setTimeout(() => setShareNotice(null), 6000);
+
+    setShareNotice('Hãy dùng nút TẢI POSTER VỀ MÁY rồi chia sẻ tệp từ thư mục tải về.');
+    setTimeout(() => setShareNotice(null), 7000);
   };
 
-  // 2. Open Native Share Sheet (Zalo, Messenger, Save Image to Photos)
-  // CRITICAL: Must be NON-async. iOS Safari invalidates user gesture activation
-  // the moment the handler yields to a microtask (i.e. the first `await`).
+  // 2. Open Native Share Sheet — works on iOS Safari + Android Chrome
+  // CRITICAL: NON-async. iOS Safari kills the user-gesture activation token
+  // at the very first microtask yield.
   const handleShare = () => {
     if (!previewDataUrl) return;
 
-    // Build File synchronously — never yield before navigator.share()
+    // Build File synchronously — zero async ops before navigator.share()
     let cached = fileCacheRef.current;
     if (!cached) {
       const fileName = `Poster_${product.code}_ThuongSon.png`;
@@ -375,17 +390,22 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
 
     const { file, blob } = cached;
 
-    // Call navigator.share() SYNCHRONOUSLY — no await before this line
-    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+    // Check canShare({files}) so we don't call share() when files aren't supported
+    const supportsFileShare =
+      typeof navigator !== 'undefined' &&
+      typeof navigator.share === 'function' &&
+      (typeof navigator.canShare === 'function'
+        ? navigator.canShare({ files: [file] })
+        : true);
+
+    if (supportsFileShare) {
       navigator.share({ files: [file] })
-        .then(() => {
-          // Share sheet opened & user completed sharing
-        })
+        .then(() => { /* success */ })
         .catch((err: unknown) => {
           if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-            return; // User dismissed share sheet — normal
+            return; // user dismissed — normal
           }
-          console.warn('Native share error:', err);
+          console.warn('navigator.share error:', err);
           handleShareFallback(blob);
         });
       return;
