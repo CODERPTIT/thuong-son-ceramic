@@ -275,7 +275,8 @@ export default function StandalonePosterPage() {
     try {
       const qrDataUrl = await QRCode.toDataURL(targetProductUrl, {
         width: 1024,
-        margin: 1,
+        // margin: 4 modules quiet zone — required by QR spec for reliable detection
+        margin: 4,
         color: {
           dark: '#000000',
           light: '#FFFFFF',
@@ -294,20 +295,21 @@ export default function StandalonePosterPage() {
       const qy = (srcH * qrY) / 100;
       const qs = (finalW * qrSize) / 100;
 
-      // Smart padding to fully mask quiet zone of the previous QR code
-      const pad = Math.round(qs * 0.04);
+      // Generous white quiet zone (15% of QR size each side):
+      // QR spec requires 4 quiet modules; too-thin zones cause scan failures in Zalo.
+      const pad = Math.round(qs * 0.15);
       const maskX = qx - pad;
       const maskY = qy - pad;
       const maskSize = qs + pad * 2;
 
-      // Pure clean white container mask
+      // Pure clean white container mask (covers old QR + quiet zone)
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(maskX, maskY, maskSize, maskSize);
 
-      // Draw the new Thường Sơn product QR
+      // Draw the new Thường Sơn product QR (inside the white zone)
       ctx.drawImage(qrImg, qx, qy, qs, qs);
 
-      // Fine hairline border around the QR container
+      // Fine hairline border around the white container
       ctx.strokeStyle = '#D5CDBE';
       ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
       ctx.strokeRect(maskX, maskY, maskSize, maskSize);
@@ -462,17 +464,21 @@ export default function StandalonePosterPage() {
       try {
         const exportCanvas = await renderCompositeCanvas(true);
         if (exportCanvas) {
+          // Preview uses PNG for lossless display quality
           const dataUrl = exportCanvas.toDataURL('image/png');
           setPreviewDataUrl(dataUrl);
 
           const codeTag = detection.extractedCode || 'Catalog';
-          const fileName = `Poster_${codeTag}_ThuongSon.png`;
+
+          // Share cache: JPEG 90% — keeps file under ~2MB so Zalo can detect QR.
+          // PNG posters can be 8–15 MB; Zalo skips QR scanning on oversized images.
+          const shareFileName = `Poster_${codeTag}_ThuongSon.jpg`;
           exportCanvas.toBlob((blob) => {
             if (blob) {
-              const file = new File([blob], fileName, { type: 'image/png' });
+              const file = new File([blob], shareFileName, { type: 'image/jpeg' });
               fileCacheRef.current = { blob, file };
             }
-          }, 'image/png');
+          }, 'image/jpeg', 0.90);
         }
       } catch (err) {
         console.error('Process error:', err);
