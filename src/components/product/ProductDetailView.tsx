@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon, Sparkles } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon, Sparkles, FileImage } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
@@ -500,23 +500,25 @@ export default function ProductDetailView({
                     <QrCode size={13} /> Tải Mã QR Sản Phẩm
                   </button>
 
-                  {/* Share button */}
-                  <button
-                    onClick={handleShare}
-                    className="text-xs font-mono uppercase text-[#8B7C66] hover:text-[#B85C38] flex items-center gap-1.5"
-                  >
-                    <Share2 size={13} /> {copied ? 'Đã sao chép link!' : 'Chia sẻ mẫu'}
-                  </button>
-                </div>
+                  <div className="flex items-center gap-3">
+                    {/* Chế bản Poster — icon only */}
+                    <button
+                      onClick={() => setPosterModalOpen(true)}
+                      title="Chế bản poster catalog (đè QR & cắt chân trang)"
+                      className="w-7 h-7 flex items-center justify-center rounded-full bg-[#FAF8F4] border border-[#D5CDBE] hover:border-[#B85C38] hover:bg-white text-[#8B7C66] hover:text-[#B85C38] transition-all shadow-sm"
+                    >
+                      <FileImage size={13} />
+                    </button>
 
-                {/* Chế bản Poster Catalog Tool */}
-                <button
-                  onClick={() => setPosterModalOpen(true)}
-                  className="w-full mt-2.5 py-2.5 px-3 bg-[#FAF8F4] hover:bg-white border border-[#D5CDBE] hover:border-[#B85C38] text-[#1C1B19] hover:text-[#B85C38] text-[11px] font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm rounded-sm"
-                  title="Tải ảnh poster catalog lên để tự động đè QR và cắt chân trang cũ"
-                >
-                  <Sparkles size={13} className="text-[#B85C38]" /> Chế Bản Poster (Đè QR &amp; Cắt Chân Trang)
-                </button>
+                    {/* Share button */}
+                    <button
+                      onClick={handleShare}
+                      className="text-xs font-mono uppercase text-[#8B7C66] hover:text-[#B85C38] flex items-center gap-1.5 transition-colors"
+                    >
+                      <Share2 size={13} /> {copied ? 'Đã sao chép link!' : 'Chia sẻ mẫu'}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
