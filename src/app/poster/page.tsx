@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Upload, Download, Sparkles, CheckCircle2, RefreshCw, ExternalLink, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { Upload, Download, Sparkles, CheckCircle2, RefreshCw, ExternalLink, ArrowLeft, ShieldCheck, Share2 } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import productCodeMapRaw from '@/data/productCodeMap.json';
@@ -41,6 +41,7 @@ export default function StandalonePosterPage() {
   }, []);
 
   const [uploadedImageElement, setUploadedImageElement] = useState<HTMLImageElement | null>(null);
+  const [previewDataUrl, setPreviewDataUrl] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
@@ -303,25 +304,71 @@ export default function StandalonePosterPage() {
     return canvas;
   }, [uploadedImageElement, cropBottom, qrX, qrY, qrSize, targetProductUrl]);
 
-  // Update canvas on parameter change
+  // Update canvas on parameter change & sync preview Data URL
   useEffect(() => {
     if (uploadedImageElement) {
-      renderCompositeCanvas(false);
+      renderCompositeCanvas(false).then((c) => {
+        if (c) {
+          try {
+            setPreviewDataUrl(c.toDataURL('image/png'));
+          } catch (e) {
+            console.warn('Canvas toDataURL failed:', e);
+          }
+        }
+      });
     }
   }, [uploadedImageElement, renderCompositeCanvas]);
 
-  // Execute export and download
+  // Execute export and download (Universal Mobile & Desktop Support)
   const triggerDownloadFile = async (customCanvas?: HTMLCanvasElement, codeName?: string) => {
     const canvasToExport = customCanvas || (await renderCompositeCanvas(true));
     if (!canvasToExport) return;
 
+    let dataUrl = '';
+    try {
+      dataUrl = canvasToExport.toDataURL('image/png');
+      setPreviewDataUrl(dataUrl);
+    } catch (e) {
+      console.warn('Preview generation failed:', e);
+    }
+
     return new Promise<void>((resolve) => {
-      canvasToExport.toBlob((blob) => {
+      canvasToExport.toBlob(async (blob) => {
         if (!blob) {
           resolve();
-        } else {
-          const codeTag = codeName || detectedResult?.extractedCode || 'Catalog';
-          const fileName = `Poster_${codeTag}_ThuongSon.png`;
+          return;
+        }
+
+        const codeTag = codeName || detectedResult?.extractedCode || 'Catalog';
+        const fileName = `Poster_${codeTag}_ThuongSon.png`;
+
+        const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        // 1. Mobile Native Share API ("Lưu hình ảnh" directly into iOS Photos / Android Gallery)
+        if (isMobile && typeof navigator !== 'undefined' && 'canShare' in navigator && 'share' in navigator) {
+          try {
+            const file = new File([blob], fileName, { type: 'image/png' });
+            if (navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: `Poster ${codeTag}`,
+                text: `Poster catalog ${codeTag} - Thường Sơn Ceramic`,
+              });
+              setDownloadSuccess(true);
+              resolve();
+              return;
+            }
+          } catch (err: unknown) {
+            if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
+              setDownloadSuccess(true);
+              resolve();
+              return;
+            }
+          }
+        }
+
+        // 2. Standard direct download for desktop / Android
+        try {
           const blobUrl = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = blobUrl;
@@ -334,7 +381,14 @@ export default function StandalonePosterPage() {
             URL.revokeObjectURL(blobUrl);
             setDownloadSuccess(true);
             resolve();
-          }, 300);
+          }, 350);
+        } catch (e) {
+          console.warn('Direct download link failed:', e);
+          if (isMobile && dataUrl) {
+            window.open(dataUrl, '_blank');
+          }
+          setDownloadSuccess(true);
+          resolve();
         }
       }, 'image/png', 1.0);
     });
@@ -528,13 +582,27 @@ export default function StandalonePosterPage() {
               )}
             </div>
 
-            {/* Live Canvas Preview */}
+            {/* Live Result: Uses <img> on Mobile so user can Touch & Hold (Long-press) to save directly */}
             <div className="bg-[#1C1B19] p-2 rounded-xl flex items-center justify-center max-h-[58vh] overflow-hidden shadow-inner">
-              <canvas
-                ref={canvasRef}
-                className="max-h-[55vh] max-w-full w-auto h-auto object-contain block rounded"
-              />
+              <canvas ref={canvasRef} className="hidden" />
+              {previewDataUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={previewDataUrl}
+                  alt="Poster hoàn thiện"
+                  className="max-h-[55vh] max-w-full w-auto h-auto object-contain block rounded shadow"
+                />
+              ) : (
+                <div className="text-white/60 text-xs font-mono py-12 flex items-center gap-2">
+                  <Sparkles size={16} className="animate-spin text-[#FFB088]" /> Đang tạo bản xem trước...
+                </div>
+              )}
             </div>
+
+            {/* Mobile Helpful Tip */}
+            <p className="text-[11px] text-center font-mono text-[#8B7C66] leading-relaxed bg-[#F5F1EA] py-1.5 px-3 rounded-lg border border-[#D5CDBE]/60">
+              📱 <strong>Mẹo trên điện thoại:</strong> Bấm nút xanh để tải vào Thư viện ảnh, hoặc <strong>chạm giữ vào ảnh 1 giây</strong> ➔ chọn <em>&ldquo;Lưu hình ảnh&rdquo;</em> (Save Image).
+            </p>
 
             {/* Action Buttons */}
             <div className="space-y-2 pt-1">
@@ -545,13 +613,14 @@ export default function StandalonePosterPage() {
                 className="w-full py-3.5 px-4 bg-[#044C42] hover:bg-[#003831] text-white rounded-xl font-medium text-xs flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
               >
                 <Download size={16} />
-                {isProcessing ? 'Đang xuất poster 4K...' : 'TẢI LẠI POSTER VỀ MÁY (GỐC 100%)'}
+                {isProcessing ? 'Đang xuất poster...' : 'LƯU POSTER VÀO ĐIỆN THOẠI (GỐC 100%)'}
               </button>
 
               <button
                 type="button"
                 onClick={() => {
                   setUploadedImageElement(null);
+                  setPreviewDataUrl(null);
                   setDownloadSuccess(false);
                 }}
                 className="w-full py-2.5 px-4 bg-white hover:bg-[#F5F1EA] text-[#1C1B19] border border-[#D5CDBE] rounded-xl font-mono text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
