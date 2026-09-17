@@ -27,6 +27,20 @@ interface DetectionResult {
   matchedProduct: ProductInfo | null;
 }
 
+function dataUrlToBlobAndFile(dataUrl: string, fileName: string): { blob: Blob; file: File } {
+  const parts = dataUrl.split(',');
+  const mime = parts[0].match(/:(.*?);/)?.[1] || 'image/png';
+  const bstr = atob(parts[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  const blob = new Blob([u8arr], { type: mime });
+  const file = new File([blob], fileName, { type: mime });
+  return { blob, file };
+}
+
 export default function StandalonePosterPage() {
   const [baseUrl, setBaseUrl] = useState('https://thuong-son-ceramic.vercel.app');
   useEffect(() => {
@@ -44,6 +58,8 @@ export default function StandalonePosterPage() {
   const [previewDataUrl, setPreviewDataUrl] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const [shareNotice, setShareNotice] = useState<string | null>(null);
+  const fileCacheRef = useRef<{ file: File; blob: Blob } | null>(null);
 
   // Calibration state
   const [qrX, setQrX] = useState<number>(84.67);
@@ -321,14 +337,16 @@ export default function StandalonePosterPage() {
   const handleDownloadFile = async () => {
     setIsProcessing(true);
     try {
-      const canvasToExport = await renderCompositeCanvas(true);
-      if (!canvasToExport) return;
-
-      const dataUrl = canvasToExport.toDataURL('image/png');
-      setPreviewDataUrl(dataUrl);
-
       const codeTag = detectedResult?.extractedCode || 'Catalog';
       const fileName = `Poster_${codeTag}_ThuongSon.png`;
+
+      let dataUrl = previewDataUrl;
+      if (!dataUrl) {
+        const canvasToExport = await renderCompositeCanvas(true);
+        if (!canvasToExport) return;
+        dataUrl = canvasToExport.toDataURL('image/png');
+        setPreviewDataUrl(dataUrl);
+      }
 
       // Standard direct download
       const link = document.createElement('a');
@@ -351,39 +369,58 @@ export default function StandalonePosterPage() {
   // 2. Open Native Share Sheet (Zalo, Messenger, Save Image to Photos)
   const handleShare = async () => {
     if (!previewDataUrl) return;
-    setIsProcessing(true);
-    try {
+
+    // Get pre-cached File or convert synchronously (zero async lag, preserves user gesture on iOS Safari)
+    let cached = fileCacheRef.current;
+    if (!cached) {
       const codeTag = detectedResult?.extractedCode || 'Catalog';
       const fileName = `Poster_${codeTag}_ThuongSon.png`;
+      cached = dataUrlToBlobAndFile(previewDataUrl, fileName);
+      fileCacheRef.current = cached;
+    }
 
-      // Convert dataUrl directly to blob & file
-      const res = await fetch(previewDataUrl);
-      const blob = await res.blob();
-      const file = new File([blob], fileName, { type: 'image/png' });
+    const { file, blob } = cached;
 
-      if (typeof navigator !== 'undefined' && 'canShare' in navigator && navigator.canShare({ files: [file] })) {
+    // Direct Web Share API (Safari iOS, Chrome Android)
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      try {
         await navigator.share({
           files: [file],
         });
-        setDownloadSuccess(true);
-      } else {
-        // If device does not support file sharing, trigger download
-        handleDownloadFile();
+        return; // Opened native share sheet successfully
+      } catch (err: unknown) {
+        if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
+          return; // User dismissed share sheet
+        }
+        console.warn('Native share failed or unsupported files:', err);
       }
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-        // User closed share sheet normally
+    }
+
+    // FALLBACK: NEVER call handleDownloadFile()!
+    // Try copying image directly to clipboard on desktop/browser
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': blob }),
+        ]);
+        setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Bạn có thể dán (Ctrl + V) trực tiếp vào Zalo hoặc Messenger.');
+        setTimeout(() => setShareNotice(null), 5000);
         return;
       }
-      console.warn('Share error:', err);
-    } finally {
-      setIsProcessing(false);
+    } catch (clipErr) {
+      console.warn('Clipboard write error:', clipErr);
     }
+
+    // Friendly notice on devices without native file sharing
+    setShareNotice('Bảng chia sẻ (Zalo, Tin nhắn) chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome). Trên máy tính, bạn hãy bấm nút "TẢI POSTER VỀ MÁY" ở trên.');
+    setTimeout(() => setShareNotice(null), 6000);
   };
 
   // Process image on upload
   const processImage = async (img: HTMLImageElement) => {
     setIsProcessing(true);
+    setShareNotice(null);
+    fileCacheRef.current = null;
 
     const detection = autoDetectAndConfigure(img);
     setDetectedResult(detection);
@@ -399,18 +436,14 @@ export default function StandalonePosterPage() {
           const dataUrl = exportCanvas.toDataURL('image/png');
           setPreviewDataUrl(dataUrl);
 
-          // On desktop: trigger silent auto-download
-          const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-          if (!isMobile) {
-            const codeTag = detection.extractedCode || 'Catalog';
-            const link = document.createElement('a');
-            link.href = dataUrl;
-            link.download = `Poster_${codeTag}_ThuongSon.png`;
-            document.body.appendChild(link);
-            link.click();
-            setTimeout(() => document.body.removeChild(link), 300);
-            setDownloadSuccess(true);
-          }
+          const codeTag = detection.extractedCode || 'Catalog';
+          const fileName = `Poster_${codeTag}_ThuongSon.png`;
+          exportCanvas.toBlob((blob) => {
+            if (blob) {
+              const file = new File([blob], fileName, { type: 'image/png' });
+              fileCacheRef.current = { blob, file };
+            }
+          }, 'image/png');
         }
       } catch (err) {
         console.error('Process error:', err);
@@ -623,6 +656,13 @@ export default function StandalonePosterPage() {
                 CHIA SẺ POSTER (ZALO, TIN NHẮN, LƯU ẢNH)
               </button>
 
+              {/* Share feedback notice */}
+              {shareNotice && (
+                <div className="p-3 bg-[#044C42]/10 border border-[#044C42]/30 rounded-xl text-xs font-mono text-[#044C42] text-center leading-relaxed">
+                  {shareNotice}
+                </div>
+              )}
+
               {/* Reset Button */}
               <button
                 type="button"
@@ -630,6 +670,8 @@ export default function StandalonePosterPage() {
                   setUploadedImageElement(null);
                   setPreviewDataUrl(null);
                   setDownloadSuccess(false);
+                  setShareNotice(null);
+                  fileCacheRef.current = null;
                 }}
                 className="w-full py-2 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer pt-0.5"
               >
