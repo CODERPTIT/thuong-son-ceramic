@@ -364,8 +364,6 @@ export default function StandalonePosterPage() {
       if (typeof navigator !== 'undefined' && 'canShare' in navigator && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: `Poster ${codeTag}`,
-          text: `Poster catalog ${codeTag} - Thường Sơn Ceramic`,
         });
         setDownloadSuccess(true);
       } else {

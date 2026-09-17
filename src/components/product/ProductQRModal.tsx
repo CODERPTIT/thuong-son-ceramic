@@ -208,8 +208,6 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
             if (navigator.canShare({ files: [file] })) {
               await navigator.share({
                 files: [file],
-                title: `Thẻ QR ${product.name}`,
-                text: `Mã QR sản phẩm ${product.name} - Thường Sơn Ceramic`,
               });
               shared = true;
               setDownloaded(true);
