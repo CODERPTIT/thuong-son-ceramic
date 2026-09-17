@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw } from 'lucide-react';
+import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2, Maximize2 } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import { Product } from '@/types';
@@ -293,81 +293,94 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     }
   }, [uploadedImageElement, renderCompositeCanvas]);
 
-  // Execute export and download (Universal Mobile & Desktop Support)
-  const triggerDownloadFile = async (customCanvas?: HTMLCanvasElement) => {
-    const canvasToExport = customCanvas || (await renderCompositeCanvas(true));
-    if (!canvasToExport) return;
-
-    let dataUrl = '';
+  // Direct Download Button
+  const handleDownloadFile = async () => {
+    setIsProcessing(true);
     try {
-      dataUrl = canvasToExport.toDataURL('image/png');
+      const canvasToExport = await renderCompositeCanvas(true);
+      if (!canvasToExport) return;
+
+      const dataUrl = canvasToExport.toDataURL('image/png');
       setPreviewDataUrl(dataUrl);
-    } catch (e) {
-      console.warn('Preview generation failed:', e);
+
+      const fileName = `Poster_${product.code}_ThuongSon.png`;
+
+      // Standard download link
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+
+      setTimeout(() => {
+        document.body.removeChild(link);
+        setDownloadSuccess(true);
+      }, 400);
+    } catch (err) {
+      console.error('Download error:', err);
+    } finally {
+      setIsProcessing(false);
     }
-
-    return new Promise<void>((resolve) => {
-      canvasToExport.toBlob(async (blob) => {
-        if (!blob) {
-          resolve();
-          return;
-        }
-
-        const fileName = `Poster_${product.code}_ThuongSon.png`;
-        const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        // 1. Mobile Native Share API ("Lưu hình ảnh" directly into iOS Photos / Android Gallery)
-        if (isMobile && typeof navigator !== 'undefined' && 'canShare' in navigator && 'share' in navigator) {
-          try {
-            const file = new File([blob], fileName, { type: 'image/png' });
-            if (navigator.canShare({ files: [file] })) {
-              await navigator.share({
-                files: [file],
-                title: `Poster ${product.code}`,
-                text: `Poster catalog ${product.code} - Thường Sơn Ceramic`,
-              });
-              setDownloadSuccess(true);
-              resolve();
-              return;
-            }
-          } catch (err: unknown) {
-            if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-              setDownloadSuccess(true);
-              resolve();
-              return;
-            }
-          }
-        }
-
-        // 2. Standard direct download for desktop / Android
-        try {
-          const blobUrl = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = blobUrl;
-          link.download = fileName;
-          document.body.appendChild(link);
-          link.click();
-
-          setTimeout(() => {
-            document.body.removeChild(link);
-            URL.revokeObjectURL(blobUrl);
-            setDownloadSuccess(true);
-            resolve();
-          }, 350);
-        } catch (e) {
-          console.warn('Direct download link failed:', e);
-          if (isMobile && dataUrl) {
-            window.open(dataUrl, '_blank');
-          }
-          setDownloadSuccess(true);
-          resolve();
-        }
-      }, 'image/png', 1.0);
-    });
   };
 
-  // Full Zero-Click Pipeline
-  const processImageAndAutoDownload = async (img: HTMLImageElement) => {
+  // Open Fullscreen Image for Easy Saving on Mobile
+  const handleOpenFullImage = () => {
+    if (!previewDataUrl) return;
+    const win = window.open();
+    if (win) {
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Poster - ${product.code}</title>
+            <style>
+              body { margin: 0; background: #1C1B19; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 12px; box-sizing: border-box; font-family: -apple-system, sans-serif; }
+              img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+              p { color: #FAF8F4; text-align: center; font-size: 14px; margin-top: 14px; line-height: 1.5; }
+            </style>
+          </head>
+          <body>
+            <img src="${previewDataUrl}" alt="Poster ${product.code}">
+            <p>👆 <strong>Chạm &amp; giữ ngón tay vào ảnh 1 giây</strong><br>chọn <em>"Lưu hình ảnh"</em> để lưu vào Album ảnh điện thoại</p>
+          </body>
+        </html>
+      `);
+      win.document.close();
+    }
+  };
+
+  // Explicit Share to Zalo / Messenger
+  const handleShareZalo = async () => {
+    if (!canvasRef.current) return;
+    const fileName = `Poster_${product.code}_ThuongSon.png`;
+
+    if (typeof navigator !== 'undefined' && 'canShare' in navigator && 'share' in navigator) {
+      try {
+        const blob = await new Promise<Blob | null>((res) => canvasRef.current?.toBlob(res, 'image/png'));
+        if (blob) {
+          const file = new File([blob], fileName, { type: 'image/png' });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: `Poster ${product.code}`,
+              text: `Poster catalog ${product.code} - Thường Sơn Ceramic`,
+            });
+            return;
+          }
+        }
+      } catch (err: unknown) {
+        if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
+          return;
+        }
+      }
+    }
+
+    handleOpenFullImage();
+  };
+
+  // Process Image Without auto-popping share dialog
+  const processImage = async (img: HTMLImageElement) => {
     setIsProcessing(true);
 
     const detection = autoDetectAndConfigure(img);
@@ -377,19 +390,30 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     setQrSize(detection.qrSize);
     setCropBottom(parseFloat((100 - detection.footerYPercent).toFixed(2)));
 
-    // Small timeout to allow canvas render
     setTimeout(async () => {
       try {
         const exportCanvas = await renderCompositeCanvas(true);
         if (exportCanvas) {
-          await triggerDownloadFile(exportCanvas);
+          const dataUrl = exportCanvas.toDataURL('image/png');
+          setPreviewDataUrl(dataUrl);
+
+          const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+          if (!isMobile) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = `Poster_${product.code}_ThuongSon.png`;
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => document.body.removeChild(link), 300);
+            setDownloadSuccess(true);
+          }
         }
       } catch (err) {
-        console.error('Auto download error:', err);
+        console.error('Process error:', err);
       } finally {
         setIsProcessing(false);
       }
-    }, 250);
+    }, 200);
   };
 
   // Handle file input
@@ -403,7 +427,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
       const img = new Image();
       img.onload = () => {
         setUploadedImageElement(img);
-        processImageAndAutoDownload(img);
+        processImage(img);
       };
       img.src = src;
     };
@@ -416,7 +440,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     img.crossOrigin = 'anonymous';
     img.onload = () => {
       setUploadedImageElement(img);
-      processImageAndAutoDownload(img);
+      processImage(img);
     };
     img.src = url;
   };
@@ -516,18 +540,18 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
               </div>
             </div>
           ) : (
-            /* Screen 2: Result Preview + 1-Tap Download */
+            /* Screen 2: Result Preview & Options */
             <div className="space-y-3">
               {/* Status Pill */}
               <div className="flex items-center justify-between px-3 py-2 bg-[#044C42]/10 border border-[#044C42]/20 rounded-lg text-xs font-mono text-[#044C42]">
                 <span className="flex items-center gap-1.5 font-semibold">
                   <CheckCircle2 size={15} className="text-[#044C42]" />
-                  {downloadSuccess ? `Đã lưu poster (Dạng ${detectedType}) về máy!` : 'Đang xử lý ảnh...'}
+                  {downloadSuccess ? '✓ Đã tải về máy!' : `✓ Đã xử lý xong (Dạng ${detectedType})`}
                 </span>
                 <span className="text-[10px] text-[#6E6254]">100% Ảnh gốc</span>
               </div>
 
-              {/* Live Result: Uses <img> on Mobile so user can Touch & Hold to save directly */}
+              {/* Live Image Preview: Real <img> for Long-press to Save */}
               <div className="bg-[#1C1B19] p-2 rounded-lg flex items-center justify-center max-h-[55vh] overflow-hidden shadow-inner">
                 <canvas ref={canvasRef} className="hidden" />
                 {previewDataUrl ? (
@@ -535,7 +559,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                   <img
                     src={previewDataUrl}
                     alt="Poster hoàn thiện"
-                    className="max-h-[52vh] max-w-full w-auto h-auto object-contain block rounded shadow"
+                    className="max-h-[52vh] max-w-full w-auto h-auto object-contain block rounded shadow select-none"
                   />
                 ) : (
                   <div className="text-white/60 text-xs font-mono py-12 flex items-center gap-2">
@@ -544,22 +568,41 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                 )}
               </div>
 
-              {/* Mobile Helpful Tip */}
-              <p className="text-[11px] text-center font-mono text-[#8B7C66] leading-relaxed bg-[#FAF8F4] py-1.5 px-3 rounded-lg border border-[#D5CDBE]/60">
-                📱 <strong>Mẹo trên điện thoại:</strong> Bấm nút xanh để tải vào Thư viện ảnh, hoặc <strong>chạm giữ vào ảnh 1 giây</strong> ➔ chọn <em>&ldquo;Lưu hình ảnh&rdquo;</em>.
-              </p>
+              {/* Crucial Mobile Tip */}
+              <div className="text-[11px] text-center font-mono text-[#044C42] bg-[#044C42]/8 py-2 px-3 rounded-lg border border-[#044C42]/20">
+                💡 <strong>Lưu vào Thư viện ảnh iPhone / Android nhanh nhất:</strong><br/>
+                Chạm và giữ ngón tay vào ảnh trên 1 giây ➔ chọn <strong>&ldquo;Lưu hình ảnh&rdquo;</strong> (Save Image).
+              </div>
 
-              {/* Mobile Action Buttons */}
+              {/* Action Buttons */}
               <div className="space-y-2 pt-1">
                 <button
                   type="button"
-                  onClick={() => triggerDownloadFile()}
+                  onClick={handleDownloadFile}
                   disabled={isProcessing}
                   className="w-full py-3.5 px-4 bg-[#044C42] hover:bg-[#003831] text-white rounded-lg font-medium text-xs flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
                 >
                   <Download size={16} />
-                  {isProcessing ? 'Đang xuất poster...' : 'LƯU POSTER VÀO ĐIỆN THOẠI (GỐC 100%)'}
+                  {isProcessing ? 'Đang xuất poster...' : 'TẢI POSTER VỀ MÁY (GỐC 100%)'}
                 </button>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={handleOpenFullImage}
+                    className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#1C1B19] border border-[#D5CDBE] rounded-lg font-mono text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    <Maximize2 size={13} /> Mở ảnh để lưu
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleShareZalo}
+                    className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42]/40 rounded-lg font-mono text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    <Share2 size={13} /> Gửi qua Zalo
+                  </button>
+                </div>
 
                 <button
                   type="button"
@@ -568,9 +611,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                     setPreviewDataUrl(null);
                     setDownloadSuccess(false);
                   }}
-                  className="w-full py-2.5 px-4 bg-white hover:bg-[#F5F1EA] text-[#1C1B19] border border-[#D5CDBE] rounded-lg font-mono text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className="w-full py-2 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                 >
-                  <RefreshCw size={13} /> Đổi ảnh poster khác
+                  <RefreshCw size={12} /> Đổi ảnh poster khác
                 </button>
               </div>
             </div>
