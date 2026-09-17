@@ -367,10 +367,14 @@ export default function StandalonePosterPage() {
   };
 
   // 2. Open Native Share Sheet (Zalo, Messenger, Save Image to Photos)
-  const handleShare = async () => {
+  // CRITICAL: Must be NON-async. iOS Safari invalidates user gesture activation
+  // the moment the handler yields to a microtask (i.e. the first `await`).
+  // We call navigator.share() synchronously in the same event tick.
+  const handleShare = () => {
     if (!previewDataUrl) return;
 
-    // Get pre-cached File or convert synchronously (zero async lag, preserves user gesture on iOS Safari)
+    // Build File synchronously (dataUrlToBlobAndFile uses only sync Uint8Array ops)
+    // so we never yield before calling navigator.share().
     let cached = fileCacheRef.current;
     if (!cached) {
       const codeTag = detectedResult?.extractedCode || 'Catalog';
@@ -381,38 +385,42 @@ export default function StandalonePosterPage() {
 
     const { file, blob } = cached;
 
-    // Direct Web Share API (Safari iOS, Chrome Android)
+    // Call navigator.share() SYNCHRONOUSLY — no await before this line
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
-      try {
-        await navigator.share({
-          files: [file],
+      navigator.share({ files: [file] })
+        .then(() => {
+          // Share sheet opened & user completed sharing
+        })
+        .catch((err: unknown) => {
+          if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
+            return; // User just dismissed the share sheet — normal behaviour
+          }
+          console.warn('Native share error:', err);
+          // If share actually failed (not cancelled), fall back to clipboard
+          handleShareFallback(blob);
         });
-        return; // Opened native share sheet successfully
-      } catch (err: unknown) {
-        if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-          return; // User dismissed share sheet
-        }
-        console.warn('Native share failed or unsupported files:', err);
-      }
+      return; // navigator.share() is now running; handler returns immediately
     }
 
-    // FALLBACK: NEVER call handleDownloadFile()!
-    // Try copying image directly to clipboard on desktop/browser
-    try {
-      if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
-        await navigator.clipboard.write([
-          new ClipboardItem({ 'image/png': blob }),
-        ]);
-        setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Bạn có thể dán (Ctrl + V) trực tiếp vào Zalo hoặc Messenger.');
-        setTimeout(() => setShareNotice(null), 5000);
-        return;
-      }
-    } catch (clipErr) {
-      console.warn('Clipboard write error:', clipErr);
-    }
+    // Device does not support Web Share API at all → clipboard / notice
+    handleShareFallback(blob);
+  };
 
-    // Friendly notice on devices without native file sharing
-    setShareNotice('Bảng chia sẻ (Zalo, Tin nhắn) chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome). Trên máy tính, bạn hãy bấm nút "TẢI POSTER VỀ MÁY" ở trên.');
+  // Fallback used when Web Share API is unavailable or truly fails
+  const handleShareFallback = (blob: Blob) => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+        .then(() => {
+          setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Bạn có thể dán (Ctrl + V) trực tiếp vào Zalo hoặc Messenger.');
+          setTimeout(() => setShareNotice(null), 5000);
+        })
+        .catch(() => {
+          setShareNotice('Bảng chia sẻ chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome). Trên máy tính hãy dùng nút TẢI POSTER VỀ MÁY.');
+          setTimeout(() => setShareNotice(null), 6000);
+        });
+      return;
+    }
+    setShareNotice('Bảng chia sẻ (Zalo, Tin nhắn) chỉ hoạt động trên trình duyệt điện thoại (Safari, Chrome).');
     setTimeout(() => setShareNotice(null), 6000);
   };
 
