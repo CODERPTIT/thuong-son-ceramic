@@ -64,7 +64,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
   const [qrY, setQrY] = useState<number>(79.35);
   const [qrSize, setQrSize] = useState<number>(9.20);
   const [cropBottom, setCropBottom] = useState<number>(7.71);
-  const [footerMode, setFooterMode] = useState<'replace' | 'append'>('replace');
+  const [footerMode, setFooterMode] = useState<'replace' | 'append'>('append');
   const [showAdjust, setShowAdjust] = useState<boolean>(false);
   const [detectedType, setDetectedType] = useState<1 | 2>(1);
 
@@ -262,9 +262,67 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     // 1. Draw base poster image
     ctx.drawImage(imgElem, 0, 0, srcW, srcH, 0, 0, finalW, srcH);
 
-    // 2. Replace Footer bar with clean Thường Sơn info (NO "THE ART OF LIVING SPACES", NO "THUONGSONCERAMIC.VN")
+    // 2. Footer position:
+    // When 'append': sits at the end of original poster (footerY = srcH)
+    // When 'replace': sits at the very bottom (footerY = srcH - footerBarHeightPx)
     const footerY = activeMode === 'append' ? srcH : srcH - footerBarHeightPx;
 
+    // 3. Generate & Draw System QR Code covering old QR location
+    // CRITICAL: We clamp QR container so it NEVER penetrates or touches footerY!
+    try {
+      const qrDataUrl = await QRCode.toDataURL(productUrl, {
+        width: 1024,
+        margin: 4,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF',
+        },
+        errorCorrectionLevel: 'H',
+      });
+
+      const qrImg = await new Promise<HTMLImageElement>((res, rej) => {
+        const i = new Image();
+        i.onload = () => res(i);
+        i.onerror = () => rej();
+        i.src = qrDataUrl;
+      });
+
+      const qx = (finalW * activeQrX) / 100;
+      let qy = (srcH * activeQrY) / 100;
+      const qs = (finalW * activeQrSize) / 100;
+
+      // Generous white quiet zone (15% of QR size each side):
+      const pad = Math.round(qs * 0.15);
+      const maskSize = qs + pad * 2;
+      const maskX = qx - pad;
+      let maskY = qy - pad;
+
+      // Anti-collision clamp: QR white box MUST NOT touch or cross footer bar
+      // Leaves at least 4px breathing room above footerY
+      const maxSafeBottom = footerY - 4;
+      if (maskY + maskSize > maxSafeBottom) {
+        const shift = (maskY + maskSize) - maxSafeBottom;
+        maskY -= shift;
+        qy -= shift;
+      }
+
+      // Pure clean white container mask (covers old QR + quiet zone)
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(maskX, maskY, maskSize, maskSize);
+
+      // Draw the new Thường Sơn product QR (inside the white zone)
+      ctx.drawImage(qrImg, qx, qy, qs, qs);
+
+      // Fine hairline border around the white container
+      ctx.strokeStyle = '#D5CDBE';
+      ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
+      ctx.strokeRect(maskX, maskY, maskSize, maskSize);
+    } catch (err) {
+      console.error('QR overlay error:', err);
+    }
+
+    // 4. Draw Footer bar with clean Thường Sơn info AFTER QR code
+    // Guaranteed to be 100% crisp, solid, and never overlapped by the QR container!
     // Deep Emerald Green matching Monalisa catalog top bar
     ctx.fillStyle = '#044C42';
     ctx.fillRect(0, footerY, finalW, footerBarHeightPx);
@@ -287,7 +345,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
     ctx.fillText('Nhà Phân Phối Gạch Kiến Trúc & Bề Mặt Cao Cấp', Math.round(finalW * 0.04), footerY + footerBarHeightPx * 0.72);
 
-    // Right: Showroom & Hotline (Clean, separated, no collision)
+    // Right: Showroom & Hotline (Clean, separated, zero collision)
     ctx.textAlign = 'right';
     ctx.fillStyle = '#FFFFFF';
     const showroomText = 'SHOWROOM: SN 01 ĐƯỜNG ĐÔI TL510, ĐÌNH BẢNG, XÃ HOẰNG LỘC, THANH HÓA';
@@ -304,52 +362,6 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     ctx.fillStyle = '#F5F1EA';
     ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
     ctx.fillText('HOTLINE: 0916 640 316 - 0912 958 578', Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.72);
-
-    // 3. Generate & Draw System QR Code covering old QR location
-    try {
-      const qrDataUrl = await QRCode.toDataURL(productUrl, {
-        width: 1024,
-        // margin: 4 modules quiet zone — required by QR spec for reliable detection
-        margin: 4,
-        color: {
-          dark: '#000000',
-          light: '#FFFFFF',
-        },
-        errorCorrectionLevel: 'H',
-      });
-
-      const qrImg = await new Promise<HTMLImageElement>((res, rej) => {
-        const i = new Image();
-        i.onload = () => res(i);
-        i.onerror = () => rej();
-        i.src = qrDataUrl;
-      });
-
-      const qx = (finalW * activeQrX) / 100;
-      const qy = (srcH * activeQrY) / 100;
-      const qs = (finalW * activeQrSize) / 100;
-
-      // Generous white quiet zone (15% of QR size each side):
-      // QR spec requires 4 quiet modules; too-thin zones cause scan failures in Zalo.
-      const pad = Math.round(qs * 0.15);
-      const maskX = qx - pad;
-      const maskY = qy - pad;
-      const maskSize = qs + pad * 2;
-
-      // Pure clean white container mask (covers old QR + quiet zone)
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(maskX, maskY, maskSize, maskSize);
-
-      // Draw the new Thường Sơn product QR (inside the white zone)
-      ctx.drawImage(qrImg, qx, qy, qs, qs);
-
-      // Fine hairline border around the white container
-      ctx.strokeStyle = '#D5CDBE';
-      ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
-      ctx.strokeRect(maskX, maskY, maskSize, maskSize);
-    } catch (err) {
-      console.error('QR overlay error:', err);
-    }
 
     return canvas;
   }, [uploadedImageElement, cropBottom, qrX, qrY, qrSize, productUrl, footerMode]);
