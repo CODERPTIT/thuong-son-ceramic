@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Upload, Download, Sparkles, CheckCircle2, RefreshCw, ExternalLink, ArrowLeft, ShieldCheck, Share2 } from 'lucide-react';
+import { Upload, Download, Sparkles, CheckCircle2, RefreshCw, ExternalLink, ArrowLeft, ShieldCheck, Share2, Sliders } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import productCodeMapRaw from '@/data/productCodeMap.json';
@@ -66,6 +66,7 @@ export default function StandalonePosterPage() {
   const [qrY, setQrY] = useState<number>(79.35);
   const [qrSize, setQrSize] = useState<number>(9.20);
   const [cropBottom, setCropBottom] = useState<number>(7.71);
+  const [showAdjust, setShowAdjust] = useState<boolean>(false);
   const [detectedResult, setDetectedResult] = useState<DetectionResult | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -186,22 +187,61 @@ export default function StandalonePosterPage() {
         };
       }
 
-      // 3. Detect exact footer bar start (Green bar)
+      // 3. Universal Multi-Color Footer Boundary Detection
+      // Detects the horizontal dividing line or start of bottom distributor footer
+      // Works accurately across ALL footer colors (green, black, dark gray, navy, red, white, brown)
       try {
-        for (let y = Math.round(H * 0.88); y < H; y += 2) {
-          let rSum = 0, gSum = 0;
+        const startScanY = Math.round(H * 0.83);
+        const endScanY = Math.round(H * 0.96);
+
+        let bestBoundaryY: number | null = null;
+        let maxEdgeScore = 0;
+        let prevRowAvg: { r: number; g: number; b: number; bright: number } | null = null;
+
+        for (let y = startScanY; y < endScanY; y += 2) {
+          let rSum = 0, gSum = 0, bSum = 0;
           let samples = 0;
-          for (let x = 40; x < W - 40; x += 30) {
+          // Sample across middle 80% of width to avoid frame padding
+          for (let x = Math.round(W * 0.1); x < Math.round(W * 0.9); x += 15) {
             const pIdx = (y * W + x) * 4;
             rSum += imgData.data[pIdx];
             gSum += imgData.data[pIdx + 1];
+            bSum += imgData.data[pIdx + 2];
             samples++;
           }
-          const avgR = rSum / samples;
-          const avgG = gSum / samples;
-          if (avgG > avgR * 1.5 && avgG > 40) {
-            result.footerYPercent = (y / H) * 100;
-            break;
+          const r = rSum / samples;
+          const g = gSum / samples;
+          const b = bSum / samples;
+          const bright = (r + g + b) / 3;
+
+          if (prevRowAvg !== null) {
+            const diff =
+              Math.abs(bright - prevRowAvg.bright) * 1.5 +
+              Math.abs(r - prevRowAvg.r) +
+              Math.abs(g - prevRowAvg.g) +
+              Math.abs(b - prevRowAvg.b);
+
+            if (diff > 30 && diff > maxEdgeScore) {
+              maxEdgeScore = diff;
+              bestBoundaryY = y;
+            }
+          }
+          prevRowAvg = { r, g, b, bright };
+        }
+
+        if (bestBoundaryY !== null) {
+          // Add 2px safety padding to cleanly eliminate the dividing border line
+          const cleanY = Math.max(Math.round(H * 0.80), bestBoundaryY - 2);
+          result.footerYPercent = (cleanY / H) * 100;
+        } else {
+          // Aspect-ratio aware adaptive default
+          const ratio = H / W;
+          if (ratio > 1.6) {
+            result.footerYPercent = 91.5; // ~8.5% for 9:16 tall vertical
+          } else if (ratio < 1.25) {
+            result.footerYPercent = 88.5; // ~11.5% for square / wider posters
+          } else {
+            result.footerYPercent = 90.5; // ~9.5% for standard catalog
           }
         }
       } catch (err) {
@@ -213,13 +253,32 @@ export default function StandalonePosterPage() {
   };
 
   // Render composite canvas
-  const renderCompositeCanvas = useCallback(async (isExport = false): Promise<HTMLCanvasElement | null> => {
-    if (!uploadedImageElement) return null;
+  const renderCompositeCanvas = useCallback(async (
+    isExport = false,
+    overrideImg?: HTMLImageElement,
+    overrideCropBottom?: number,
+    overrideQrX?: number,
+    overrideQrY?: number,
+    overrideQrSize?: number,
+    overrideTargetUrl?: string
+  ): Promise<HTMLCanvasElement | null> => {
+    const imgElem = overrideImg || uploadedImageElement;
+    if (!imgElem) return null;
 
-    const srcW = uploadedImageElement.naturalWidth;
-    const srcH = uploadedImageElement.naturalHeight;
+    const srcW = imgElem.naturalWidth;
+    const srcH = imgElem.naturalHeight;
 
-    const footerBarHeightPx = Math.round((srcH * cropBottom) / 100);
+    const activeCropBottom = overrideCropBottom !== undefined ? overrideCropBottom : cropBottom;
+    const activeQrX = overrideQrX !== undefined ? overrideQrX : qrX;
+    const activeQrY = overrideQrY !== undefined ? overrideQrY : qrY;
+    const activeQrSize = overrideQrSize !== undefined ? overrideQrSize : qrSize;
+    const activeTargetUrl = overrideTargetUrl || targetProductUrl;
+
+    // Aspect-ratio aware footer height calculation:
+    // Ensures footer is always tall enough for 2 text rows even on wide or square posters
+    const rawFooterHeight = (srcH * activeCropBottom) / 100;
+    const minFooterHeight = Math.round(srcW * 0.072);
+    const footerBarHeightPx = Math.round(Math.max(rawFooterHeight, minFooterHeight));
     const finalW = srcW;
     const finalH = srcH;
 
@@ -234,7 +293,7 @@ export default function StandalonePosterPage() {
     ctx.imageSmoothingQuality = 'high';
 
     // 1. Draw base poster image
-    ctx.drawImage(uploadedImageElement, 0, 0, srcW, finalH, 0, 0, finalW, finalH);
+    ctx.drawImage(imgElem, 0, 0, srcW, finalH, 0, 0, finalW, finalH);
 
     // 2. Replace Footer bar with clean Thường Sơn info
     const footerY = srcH - footerBarHeightPx;
@@ -281,7 +340,7 @@ export default function StandalonePosterPage() {
 
     // 3. Generate & Draw System QR Code covering old QR location
     try {
-      const qrDataUrl = await QRCode.toDataURL(targetProductUrl, {
+      const qrDataUrl = await QRCode.toDataURL(activeTargetUrl, {
         width: 1024,
         // margin: 4 modules quiet zone — required by QR spec for reliable detection
         margin: 4,
@@ -299,9 +358,9 @@ export default function StandalonePosterPage() {
         i.src = qrDataUrl;
       });
 
-      const qx = (finalW * qrX) / 100;
-      const qy = (srcH * qrY) / 100;
-      const qs = (finalW * qrSize) / 100;
+      const qx = (finalW * activeQrX) / 100;
+      const qy = (srcH * activeQrY) / 100;
+      const qs = (finalW * activeQrSize) / 100;
 
       // Generous white quiet zone (15% of QR size each side):
       // QR spec requires 4 quiet modules; too-thin zones cause scan failures in Zalo.
@@ -462,38 +521,52 @@ export default function StandalonePosterPage() {
     fileCacheRef.current = null;
 
     const detection = autoDetectAndConfigure(img);
+    const computedCrop = parseFloat((100 - detection.footerYPercent).toFixed(2));
+
     setDetectedResult(detection);
     setQrX(detection.qrX);
     setQrY(detection.qrY);
     setQrSize(detection.qrSize);
-    setCropBottom(parseFloat((100 - detection.footerYPercent).toFixed(2)));
+    setCropBottom(computedCrop);
 
-    setTimeout(async () => {
-      try {
-        const exportCanvas = await renderCompositeCanvas(true);
-        if (exportCanvas) {
-          // Preview uses PNG for lossless display quality
-          const dataUrl = exportCanvas.toDataURL('image/png');
-          setPreviewDataUrl(dataUrl);
+    const computedTargetUrl = detection.matchedProduct
+      ? `${baseUrl}/products/${detection.matchedProduct.slug}`
+      : detection.extractedCode
+      ? `${baseUrl}/catalog?search=${encodeURIComponent(detection.extractedCode)}`
+      : `${baseUrl}/catalog`;
 
-          const codeTag = detection.extractedCode || 'Catalog';
+    try {
+      // Direct render with current image & newly detected parameters — eliminates React state lag
+      const exportCanvas = await renderCompositeCanvas(
+        true,
+        img,
+        computedCrop,
+        detection.qrX,
+        detection.qrY,
+        detection.qrSize,
+        computedTargetUrl
+      );
+      if (exportCanvas) {
+        // Preview uses PNG for lossless display quality
+        const dataUrl = exportCanvas.toDataURL('image/png');
+        setPreviewDataUrl(dataUrl);
 
-          // Share cache: JPEG 90% — keeps file under ~2MB so Zalo can detect QR.
-          // PNG posters can be 8–15 MB; Zalo skips QR scanning on oversized images.
-          const shareFileName = `Poster_${codeTag}_ThuongSon.jpg`;
-          exportCanvas.toBlob((blob) => {
-            if (blob) {
-              const file = new File([blob], shareFileName, { type: 'image/jpeg' });
-              fileCacheRef.current = { blob, file };
-            }
-          }, 'image/jpeg', 0.90);
-        }
-      } catch (err) {
-        console.error('Process error:', err);
-      } finally {
-        setIsProcessing(false);
+        const codeTag = detection.extractedCode || 'Catalog';
+
+        // Share cache: JPEG 90% — keeps file under ~2MB so Zalo can detect QR.
+        const shareFileName = `Poster_${codeTag}_ThuongSon.jpg`;
+        exportCanvas.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], shareFileName, { type: 'image/jpeg' });
+            fileCacheRef.current = { blob, file };
+          }
+        }, 'image/jpeg', 0.90);
       }
-    }, 200);
+    } catch (err) {
+      console.error('Process error:', err);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   // Handle file input
@@ -671,6 +744,73 @@ export default function StandalonePosterPage() {
               ) : (
                 <div className="text-white/60 text-xs font-mono py-12 flex items-center gap-2">
                   <Sparkles size={16} className="animate-spin text-[#FFB088]" /> Đang tạo poster...
+                </div>
+              )}
+            </div>
+
+            {/* Footer Fine-Tuning Bar (Auto-detected + Manual Slider) */}
+            <div className="bg-white border border-[#D5CDBE] rounded-xl overflow-hidden shadow-sm">
+              <button
+                type="button"
+                onClick={() => setShowAdjust(!showAdjust)}
+                className="w-full px-3.5 py-2.5 flex items-center justify-between text-xs font-mono text-[#1C1B19] hover:bg-[#FAF8F4] transition-colors cursor-pointer"
+              >
+                <span className="flex items-center gap-2">
+                  <Sliders size={14} className="text-[#B85C38]" />
+                  <span>Độ phủ chân trang Thường Sơn: <strong>{cropBottom}%</strong></span>
+                </span>
+                <span className="text-[11px] text-[#B85C38] flex items-center gap-1 font-semibold">
+                  {showAdjust ? 'Ẩn điều chỉnh ▲' : 'Tùy chỉnh độ cao ▼'}
+                </span>
+              </button>
+
+              {showAdjust && (
+                <div className="p-3.5 pt-1.5 border-t border-[#D5CDBE]/60 bg-[#FAF8F4] space-y-2.5">
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-[#6E6254]">Kéo để cắt sâu hơn / tăng độ dày chân trang:</span>
+                    <span className="font-bold text-[#044C42]">{cropBottom}%</span>
+                  </div>
+
+                  <input
+                    type="range"
+                    min="5"
+                    max="22"
+                    step="0.5"
+                    value={cropBottom}
+                    onChange={(e) => {
+                      const val = parseFloat(e.target.value);
+                      setCropBottom(val);
+                      fileCacheRef.current = null;
+                    }}
+                    className="w-full accent-[#044C42] cursor-pointer"
+                  />
+
+                  {/* Quick preset chips */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5 text-[11px] font-mono">
+                    <span className="text-[#8B7C66]">Mức mẫu:</span>
+                    {[
+                      { label: 'Gọn (7.5%)', val: 7.5 },
+                      { label: 'Chuẩn (9.5%)', val: 9.5 },
+                      { label: 'Vừa (12%)', val: 12.0 },
+                      { label: 'Lớn (15%)', val: 15.0 },
+                    ].map((preset) => (
+                      <button
+                        key={preset.label}
+                        type="button"
+                        onClick={() => {
+                          setCropBottom(preset.val);
+                          fileCacheRef.current = null;
+                        }}
+                        className={`px-2 py-0.5 rounded border transition-colors cursor-pointer ${
+                          Math.abs(cropBottom - preset.val) < 0.3
+                            ? 'bg-[#044C42] text-white border-[#044C42] font-bold'
+                            : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]'
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
