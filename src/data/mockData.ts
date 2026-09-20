@@ -7,7 +7,7 @@ export const COMPANY_INFO = {
   name: 'Công ty TNHH Thường Sơn',
   brandName: 'Thường Sơn Ceramic',
   tagline: 'The Art of Surface — Bề mặt định hình không gian',
-  address: 'Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa',
+  address: 'Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa',
   phones: [
     { label: 'Hotline & Zalo 1', number: '0916 640 316', raw: '0916640316', zaloUrl: 'https://zalo.me/0916640316' },
     { label: 'Hotline & Zalo 2', number: '0912 958 578', raw: '0912958578', zaloUrl: 'https://zalo.me/0912958578' }

@@ -264,8 +264,16 @@ export default function StandalonePosterPage() {
     // Right: Showroom & Hotline (Clean, separated, no collision)
     ctx.textAlign = 'right';
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = `bold ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    ctx.fillText('SHOWROOM: SỐ 01 ĐÌNH BẢNG, HOẰNG LỘC, THANH HÓA', Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.40);
+    const showroomText = 'SHOWROOM: SN 01 ĐƯỜNG ĐÔI TL510, ĐÌNH BẢNG, XÃ HOẰNG LỘC, THANH HÓA';
+    let addrFontSize = fontSizeSub;
+    ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    const maxAddrW = finalW * 0.58;
+    const textW = ctx.measureText(showroomText).width;
+    if (textW > maxAddrW) {
+      addrFontSize = Math.floor(addrFontSize * (maxAddrW / textW));
+      ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    }
+    ctx.fillText(showroomText, Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.40);
 
     ctx.fillStyle = '#F5F1EA';
     ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;

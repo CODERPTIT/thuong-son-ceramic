@@ -165,7 +165,7 @@ export async function sendAppointmentEmail(data: AppointmentData): Promise<Maile
           </div>
           <div class="footer">
             Email gửi tự động từ hệ thống Website Công ty TNHH Thường Sơn<br>
-            Showroom: Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa
+            Showroom: Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa
           </div>
         </div>
       </body>

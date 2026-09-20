@@ -253,7 +253,7 @@ export default function Header() {
               { label: 'Bộ Sưu Tập Kiến Trúc', href: '/collections', subtitle: 'The Quiet Stone, Lumina Carrara, Apodio Ciment' },
               { label: 'Giải Pháp Phòng Tắm', href: '/#giai-phap', subtitle: 'Thiết bị vệ sinh, sen vòi, nước nóng' },
               { label: 'Cẩm Nang Chọn Gạch', href: '/journal', subtitle: 'Tư vấn tỷ lệ, ánh sáng và bề mặt' },
-              { label: 'Showroom Hoằng Lộc', href: '/showroom', subtitle: 'Số 01 Đình Bảng, Hoằng Lộc, Thanh Hóa' },
+              { label: 'Showroom Hoằng Lộc', href: '/showroom', subtitle: 'Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa' },
             ].map((item) => (
               <Link
                 key={item.label}
@@ -325,7 +325,7 @@ export default function Header() {
                   className="text-[#B85C38] hover:underline flex items-center gap-1 text-[11px]"
                   title="Mở Google Maps chỉ đường"
                 >
-                  📍 Số 01 Đình Bảng, Hoằng Lộc, Thanh Hóa ↗
+                  📍 Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa ↗
                 </a>
               </div>
             </div>

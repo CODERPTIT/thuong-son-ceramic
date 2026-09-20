@@ -53,7 +53,7 @@ export default function Footer() {
                 title="Mở bản đồ Google Maps chỉ đường"
               >
                 <MapPin size={15} className="text-[#B85C38] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                <span className="group-hover:underline">Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa ↗</span>
+                <span className="group-hover:underline">Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa ↗</span>
               </a>
               <div className="flex items-center gap-2.5">
                 <Phone size={15} className="text-[#B85C38] shrink-0" />
@@ -183,7 +183,7 @@ export default function Footer() {
             className="hover:text-[#B85C38] hover:underline transition-colors"
             title="Mở bản đồ Google Maps chỉ đường"
           >
-            Số 01, thôn Đình Bảng, Xã Hoằng Lộc, tỉnh Thanh Hóa.
+            Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa.
           </a>
         </div>
         <div className="flex items-center gap-4">

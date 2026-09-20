@@ -174,8 +174,16 @@ export default function ProductQRModal({ product, onClose }: ProductQRModalProps
     ctx.stroke();
 
     ctx.fillStyle = '#6E6254';
-    ctx.font = `500 ${10.5 * SCALE}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    ctx.fillText('Hotline: 0916 640 316  ·  Showroom Hoằng Lộc, Hoằng Hóa, Thanh Hóa', W / 2, H - 18 * SCALE);
+    const qrFooterText = 'Hotline: 0916 640 316  ·  Showroom: Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa';
+    let qrFooterFontSize = 10.5 * SCALE;
+    ctx.font = `500 ${qrFooterFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    const maxQrFooterW = W * 0.92;
+    const qrFooterTextW = ctx.measureText(qrFooterText).width;
+    if (qrFooterTextW > maxQrFooterW) {
+      qrFooterFontSize = Math.floor(qrFooterFontSize * (maxQrFooterW / qrFooterTextW));
+      ctx.font = `500 ${qrFooterFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    }
+    ctx.fillText(qrFooterText, W / 2, H - 18 * SCALE);
 
     return canvas.toDataURL('image/png');
   }, [product, productUrl]);
