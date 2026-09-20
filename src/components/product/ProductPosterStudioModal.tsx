@@ -64,6 +64,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
   const [qrY, setQrY] = useState<number>(79.35);
   const [qrSize, setQrSize] = useState<number>(9.20);
   const [cropBottom, setCropBottom] = useState<number>(7.71);
+  const [footerMode, setFooterMode] = useState<'replace' | 'append'>('replace');
   const [showAdjust, setShowAdjust] = useState<boolean>(false);
   const [detectedType, setDetectedType] = useState<1 | 2>(1);
 
@@ -163,21 +164,22 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         };
       }
 
-      // 3. Universal Multi-Color Footer Boundary Detection
-      // Detects the horizontal dividing line or start of bottom distributor footer
-      // Works accurately across ALL footer colors (green, black, dark gray, navy, red, white, brown)
+      // 3. Safe Universal Footer Boundary Detection
+      // Calculates minimum safe boundary so footer NEVER cuts into product swatches or QR code
       try {
-        const startScanY = Math.round(H * 0.83);
-        const endScanY = Math.round(H * 0.96);
+        const qrBottomPct = result.qrY + result.qrSize * 1.15;
+        // In catalog posters, swatches & QR code reside above 91.8%.
+        // The footer bar must strictly be placed at or below minSafeY.
+        const minSafeY = Math.max(Math.round(H * 0.918), Math.round((H * (qrBottomPct + 1.2)) / 100));
+        const maxScanY = Math.round(H * 0.96);
 
-        let bestBoundaryY: number | null = null;
+        let detectedFooterY = Math.round(H * 0.9229);
         let maxEdgeScore = 0;
         let prevRowAvg: { r: number; g: number; b: number; bright: number } | null = null;
 
-        for (let y = startScanY; y < endScanY; y += 2) {
+        for (let y = minSafeY; y < maxScanY; y += 2) {
           let rSum = 0, gSum = 0, bSum = 0;
           let samples = 0;
-          // Sample across middle 80% of width to avoid frame padding
           for (let x = Math.round(W * 0.1); x < Math.round(W * 0.9); x += 15) {
             const pIdx = (y * W + x) * 4;
             rSum += imgData.data[pIdx];
@@ -197,31 +199,18 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
               Math.abs(g - prevRowAvg.g) +
               Math.abs(b - prevRowAvg.b);
 
-            if (diff > 30 && diff > maxEdgeScore) {
+            if (diff > 25 && diff > maxEdgeScore) {
               maxEdgeScore = diff;
-              bestBoundaryY = y;
+              detectedFooterY = y;
             }
           }
           prevRowAvg = { r, g, b, bright };
         }
 
-        if (bestBoundaryY !== null) {
-          // Add 2px safety padding to cleanly eliminate the dividing border line
-          const cleanY = Math.max(Math.round(H * 0.80), bestBoundaryY - 2);
-          result.footerYPercent = (cleanY / H) * 100;
-        } else {
-          // Aspect-ratio aware adaptive default
-          const ratio = H / W;
-          if (ratio > 1.6) {
-            result.footerYPercent = 91.5; // ~8.5% for 9:16 tall vertical
-          } else if (ratio < 1.25) {
-            result.footerYPercent = 88.5; // ~11.5% for square / wider posters
-          } else {
-            result.footerYPercent = 90.5; // ~9.5% for standard catalog
-          }
-        }
+        result.footerYPercent = Math.max(91.8, (detectedFooterY / H) * 100);
       } catch (err) {
         console.warn('Footer scan error:', err);
+        result.footerYPercent = 92.29;
       }
     }
 
@@ -235,7 +224,8 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     overrideCropBottom?: number,
     overrideQrX?: number,
     overrideQrY?: number,
-    overrideQrSize?: number
+    overrideQrSize?: number,
+    overrideMode?: 'replace' | 'append'
   ): Promise<HTMLCanvasElement | null> => {
     const imgElem = overrideImg || uploadedImageElement;
     if (!imgElem) return null;
@@ -247,14 +237,17 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     const activeQrX = overrideQrX !== undefined ? overrideQrX : qrX;
     const activeQrY = overrideQrY !== undefined ? overrideQrY : qrY;
     const activeQrSize = overrideQrSize !== undefined ? overrideQrSize : qrSize;
+    const activeMode = overrideMode || footerMode;
 
     // Aspect-ratio aware footer height calculation:
     // Ensures footer is always tall enough for 2 text rows even on wide or square posters
     const rawFooterHeight = (srcH * activeCropBottom) / 100;
     const minFooterHeight = Math.round(srcW * 0.072);
     const footerBarHeightPx = Math.round(Math.max(rawFooterHeight, minFooterHeight));
+
+    // When mode is 'append', we extend canvas height so NO original pixels are covered
     const finalW = srcW;
-    const finalH = srcH;
+    const finalH = activeMode === 'append' ? srcH + footerBarHeightPx : srcH;
 
     const canvas = isExport ? document.createElement('canvas') : (canvasRef.current || document.createElement('canvas'));
     canvas.width = finalW;
@@ -267,10 +260,10 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     ctx.imageSmoothingQuality = 'high';
 
     // 1. Draw base poster image
-    ctx.drawImage(imgElem, 0, 0, srcW, finalH, 0, 0, finalW, finalH);
+    ctx.drawImage(imgElem, 0, 0, srcW, srcH, 0, 0, finalW, srcH);
 
     // 2. Replace Footer bar with clean Thường Sơn info (NO "THE ART OF LIVING SPACES", NO "THUONGSONCERAMIC.VN")
-    const footerY = srcH - footerBarHeightPx;
+    const footerY = activeMode === 'append' ? srcH : srcH - footerBarHeightPx;
 
     // Deep Emerald Green matching Monalisa catalog top bar
     ctx.fillStyle = '#044C42';
@@ -359,7 +352,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     }
 
     return canvas;
-  }, [uploadedImageElement, cropBottom, qrX, qrY, qrSize, productUrl]);
+  }, [uploadedImageElement, cropBottom, qrX, qrY, qrSize, productUrl, footerMode]);
 
   // Update canvas on parameter change & sync preview Data URL
   useEffect(() => {
@@ -504,7 +497,8 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         computedCrop,
         detection.qrX,
         detection.qrY,
-        detection.qrSize
+        detection.qrSize,
+        footerMode
       );
       if (exportCanvas) {
         // Preview uses PNG for lossless display quality
@@ -679,33 +673,80 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                 )}
               </div>
 
-              {/* Footer Fine-Tuning Bar (Auto-detected + Manual Slider) */}
-              <div className="bg-white border border-[#D5CDBE] rounded-lg overflow-hidden shadow-sm">
-                <button
-                  type="button"
-                  onClick={() => setShowAdjust(!showAdjust)}
-                  className="w-full px-3.5 py-2.5 flex items-center justify-between text-xs font-mono text-[#1C1B19] hover:bg-[#FAF8F4] transition-colors cursor-pointer"
-                >
-                  <span className="flex items-center gap-2">
-                    <Sliders size={14} className="text-[#B85C38]" />
-                    <span>Độ phủ chân trang Thường Sơn: <strong>{cropBottom}%</strong></span>
-                  </span>
-                  <span className="text-[11px] text-[#B85C38] flex items-center gap-1 font-semibold">
-                    {showAdjust ? 'Ẩn điều chỉnh ▲' : 'Tùy chỉnh độ cao ▼'}
-                  </span>
-                </button>
+              {/* Footer Mode & Fine-Tuning Bar */}
+              <div className="bg-white border border-[#D5CDBE] rounded-xl overflow-hidden shadow-sm">
+                <div className="p-3 bg-[#FAF8F4] border-b border-[#D5CDBE]/60 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-semibold text-[#1C1B19] flex items-center gap-1.5">
+                      <Sliders size={14} className="text-[#044C42]" />
+                      Chân trang Thường Sơn Ceramic:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowAdjust(!showAdjust)}
+                      className="text-[11px] font-mono text-[#044C42] hover:underline font-semibold cursor-pointer"
+                    >
+                      {showAdjust ? 'Thu gọn ▲' : 'Chỉnh độ cao ▼'}
+                    </button>
+                  </div>
+
+                  {/* 2 Mode Selector Buttons */}
+                  <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFooterMode('replace');
+                        fileCacheRef.current = null;
+                      }}
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                        footerMode === 'replace'
+                          ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
+                          : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold">✓ Cắt đè chân trang</span>
+                      </div>
+                      <span className={`text-[10px] block mt-0.5 leading-tight ${footerMode === 'replace' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
+                        Cắt dải cũ sát đáy ({cropBottom}%), an toàn dưới ô gạch
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFooterMode('append');
+                        fileCacheRef.current = null;
+                      }}
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                        footerMode === 'append'
+                          ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
+                          : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold">+ Nối dài vào cuối poster</span>
+                      </div>
+                      <span className={`text-[10px] block mt-0.5 leading-tight ${footerMode === 'append' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
+                        Nối tiếp xuống đáy, giữ trọn vẹn 100% ảnh gốc
+                      </span>
+                    </button>
+                  </div>
+                </div>
 
                 {showAdjust && (
-                  <div className="p-3.5 pt-1.5 border-t border-[#D5CDBE]/60 bg-[#FAF8F4] space-y-2.5">
+                  <div className="p-3.5 pt-2 bg-white space-y-2.5 border-t border-[#D5CDBE]/40">
                     <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-[#6E6254]">Kéo để cắt sâu hơn / tăng độ dày chân trang:</span>
+                      <span className="text-[#6E6254]">
+                        {footerMode === 'append' ? 'Độ dày dải chân trang nối thêm:' : 'Độ cao phủ chân trang Thường Sơn:'}
+                      </span>
                       <span className="font-bold text-[#044C42]">{cropBottom}%</span>
                     </div>
 
                     <input
                       type="range"
                       min="5"
-                      max="22"
+                      max={footerMode === 'replace' ? '12' : '18'}
                       step="0.5"
                       value={cropBottom}
                       onChange={(e) => {
@@ -721,9 +762,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                       <span className="text-[#8B7C66]">Mức mẫu:</span>
                       {[
                         { label: 'Gọn (7.5%)', val: 7.5 },
-                        { label: 'Chuẩn (9.5%)', val: 9.5 },
-                        { label: 'Vừa (12%)', val: 12.0 },
-                        { label: 'Lớn (15%)', val: 15.0 },
+                        { label: 'Chuẩn (7.8%)', val: 7.8 },
+                        { label: 'Vừa (9.0%)', val: 9.0 },
+                        { label: 'Dày (11%)', val: 11.0 },
                       ].map((preset) => (
                         <button
                           key={preset.label}
@@ -735,13 +776,19 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                           className={`px-2 py-0.5 rounded border transition-colors cursor-pointer ${
                             Math.abs(cropBottom - preset.val) < 0.3
                               ? 'bg-[#044C42] text-white border-[#044C42] font-bold'
-                              : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]'
+                              : 'bg-[#FAF8F4] text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]'
                           }`}
                         >
                           {preset.label}
                         </button>
                       ))}
                     </div>
+
+                    <p className="text-[11px] font-mono text-[#8B7C66] pt-1 leading-relaxed">
+                      {footerMode === 'append'
+                        ? '💡 Chế độ "Nối dài vào cuối poster" sẽ mở rộng chiều cao canvas và ghép nối chân trang Thường Sơn liền mạch vào đuôi ảnh, 100% các ô màu và mã sản phẩm gốc được giữ nguyên trọn vẹn.'
+                        : '💡 Chế độ "Cắt đè chân trang" được khóa vùng quét an toàn ở đáy (y ≥ 91.8%), bảo đảm chân trang luôn nằm dưới ô màu gạch và mã QR mới.'}
+                    </p>
                   </div>
                 )}
               </div>
