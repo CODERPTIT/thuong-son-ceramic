@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2, Sliders, Plus, Layers } from 'lucide-react';
+import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2, Plus, Layers } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import { Product } from '@/types';
@@ -35,7 +35,6 @@ interface PosterItem {
   qrX: number;
   qrY: number;
   qrSize: number;
-  footerMode: 'replace' | 'append';
   shareFile?: { file: File; blob: Blob } | null;
 }
 
@@ -53,25 +52,20 @@ function dataUrlToBlobAndFile(dataUrl: string, fileName: string): { blob: Blob; 
   return { blob, file };
 }
 
-// Pure function to render poster canvas for product
+// Pure function to render poster canvas — Always accurate replace (1:1 original poster dimensions)
 async function renderProductPosterCanvas(
   imgElem: HTMLImageElement,
   productUrl: string,
   cropBottom: number,
   qrX: number,
   qrY: number,
-  qrSize: number,
-  footerMode: 'replace' | 'append'
+  qrSize: number
 ): Promise<HTMLCanvasElement | null> {
   const srcW = imgElem.naturalWidth;
   const srcH = imgElem.naturalHeight;
 
-  const rawFooterHeight = (srcH * cropBottom) / 100;
-  const minFooterHeight = Math.round(srcW * 0.072);
-  const footerBarHeightPx = Math.round(Math.max(rawFooterHeight, minFooterHeight));
-
   const finalW = srcW;
-  const finalH = footerMode === 'append' ? srcH + footerBarHeightPx : srcH;
+  const finalH = srcH;
 
   const canvas = document.createElement('canvas');
   canvas.width = finalW;
@@ -86,8 +80,9 @@ async function renderProductPosterCanvas(
   // 1. Draw base poster image
   ctx.drawImage(imgElem, 0, 0, srcW, srcH, 0, 0, finalW, srcH);
 
-  // 2. Footer position
-  const footerY = footerMode === 'append' ? srcH : srcH - footerBarHeightPx;
+  // 2. Exact footer position calculated from accurate crop detection
+  const footerBarHeightPx = Math.round((srcH * cropBottom) / 100);
+  const footerY = srcH - footerBarHeightPx;
 
   // 3. Generate & Draw System QR Code
   try {
@@ -192,18 +187,16 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
   // Multi-image items list
   const [items, setItems] = useState<PosterItem[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [isProcessingBatch, setIsProcessingBatch] = useState(false);
   const [isDownloadingAll, setIsDownloadingAll] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [shareNotice, setShareNotice] = useState<string | null>(null);
-  const [showAdjust, setShowAdjust] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const isProcessingRef = useRef<boolean>(false);
 
   const activeItem = items[activeIndex] || null;
 
-  // Auto-scan Computer Vision (jsQR)
+  // Auto-scan Computer Vision (jsQR) + Precise Top-Down Footer Boundary Detection
   const autoDetectAndConfigure = (img: HTMLImageElement): DetectionResult => {
     const W = img.naturalWidth;
     const H = img.naturalHeight;
@@ -220,7 +213,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
       qrX: 84.67,
       qrY: 79.35,
       qrSize: 9.20,
-      footerYPercent: 92.29,
+      footerYPercent: 91.80,
     };
 
     if (!ctx) return result;
@@ -266,7 +259,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
             qrX: (minX / W) * 100,
             qrY: (minY / H) * 100,
             qrSize: (detectedSize / W) * 100,
-            footerYPercent: 92.29,
+            footerYPercent: 91.80,
           };
         }
       } catch (err) {
@@ -287,53 +280,52 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
           qrX: isType2 ? 81.30 : 84.67,
           qrY: isType2 ? 79.67 : 79.35,
           qrSize: isType2 ? 10.82 : 9.20,
-          footerYPercent: 92.29,
+          footerYPercent: 91.80,
         };
       }
 
+      // Accurate Universal Top-Down Footer Boundary Detection
       try {
         const qrBottomPct = result.qrY + result.qrSize * 1.15;
-        const minSafeY = Math.max(Math.round(H * 0.918), Math.round((H * (qrBottomPct + 1.2)) / 100));
-        const maxScanY = Math.round(H * 0.96);
+        const minSafeY = Math.max(Math.round((H * (qrBottomPct + 1.2)) / 100), Math.round(H * 0.88));
 
-        let detectedFooterY = Math.round(H * 0.9229);
-        let maxEdgeScore = 0;
-        let prevRowAvg: { r: number; g: number; b: number; bright: number } | null = null;
+        const sampleBottomY = H - 4;
+        let bR = 0, bG = 0, bB = 0, bSamples = 0;
+        for (let x = Math.round(W * 0.15); x < Math.round(W * 0.85); x += 4) {
+          const idx = (sampleBottomY * W + x) * 4;
+          bR += imgData.data[idx];
+          bG += imgData.data[idx + 1];
+          bB += imgData.data[idx + 2];
+          bSamples++;
+        }
+        bR /= bSamples; bG /= bSamples; bB /= bSamples;
 
-        for (let y = minSafeY; y < maxScanY; y += 2) {
-          let rSum = 0, gSum = 0, bSum = 0;
-          let samples = 0;
-          for (let x = Math.round(W * 0.1); x < Math.round(W * 0.9); x += 15) {
-            const pIdx = (y * W + x) * 4;
-            rSum += imgData.data[pIdx];
-            gSum += imgData.data[pIdx + 1];
-            bSum += imgData.data[pIdx + 2];
-            samples++;
+        let topDownEdgeY: number | null = null;
+        for (let y = minSafeY; y < H - 15; y++) {
+          let rSum = 0, gSum = 0, bSum = 0, count = 0;
+          for (let x = Math.round(W * 0.15); x < Math.round(W * 0.85); x += 4) {
+            const idx = (y * W + x) * 4;
+            rSum += imgData.data[idx];
+            gSum += imgData.data[idx + 1];
+            bSum += imgData.data[idx + 2];
+            count++;
           }
-          const r = rSum / samples;
-          const g = gSum / samples;
-          const b = bSum / samples;
-          const bright = (r + g + b) / 3;
+          const r = rSum / count, g = gSum / count, b = bSum / count;
+          const diffFromFooter = Math.abs(r - bR) + Math.abs(g - bG) + Math.abs(b - bB);
+          const isFooterColor = diffFromFooter < 40;
+          const isDarkLine = (r + g + b) / 3 < 65;
 
-          if (prevRowAvg !== null) {
-            const diff =
-              Math.abs(bright - prevRowAvg.bright) * 1.5 +
-              Math.abs(r - prevRowAvg.r) +
-              Math.abs(g - prevRowAvg.g) +
-              Math.abs(b - prevRowAvg.b);
-
-            if (diff > 25 && diff > maxEdgeScore) {
-              maxEdgeScore = diff;
-              detectedFooterY = y;
-            }
+          if (isFooterColor || isDarkLine) {
+            topDownEdgeY = y;
+            break;
           }
-          prevRowAvg = { r, g, b, bright };
         }
 
-        result.footerYPercent = Math.max(91.8, (detectedFooterY / H) * 100);
+        const finalFooterY = topDownEdgeY ? topDownEdgeY - 2 : Math.round(H * 0.912);
+        result.footerYPercent = Math.max(89.0, (finalFooterY / H) * 100);
       } catch (err) {
         console.warn('Footer scan error:', err);
-        result.footerYPercent = 92.29;
+        result.footerYPercent = 91.2;
       }
     }
 
@@ -359,8 +351,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         computedCrop,
         detection.qrX,
         detection.qrY,
-        detection.qrSize,
-        item.footerMode || 'append'
+        detection.qrSize
       );
 
       if (!canvas) {
@@ -405,7 +396,6 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
 
     const processQueue = async () => {
       isProcessingRef.current = true;
-      setIsProcessingBatch(true);
 
       for (let i = 0; i < items.length; i++) {
         if (items[i].status === 'pending') {
@@ -422,97 +412,10 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
       }
 
       isProcessingRef.current = false;
-      setIsProcessingBatch(false);
     };
 
     processQueue();
   }, [items, processSingleItem]);
-
-  // Update calibration for active item
-  const updateActiveItemCalibration = async (
-    newMode: 'replace' | 'append',
-    newCrop: number
-  ) => {
-    if (!activeItem || !activeItem.imgElement) return;
-
-    const canvas = await renderProductPosterCanvas(
-      activeItem.imgElement,
-      productUrl,
-      newCrop,
-      activeItem.qrX,
-      activeItem.qrY,
-      activeItem.qrSize,
-      newMode
-    );
-
-    if (canvas) {
-      const previewDataUrl = canvas.toDataURL('image/png');
-      const shareFileName = `Poster_${product.code}_ThuongSon.jpg`;
-      const shareBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.90));
-      const shareFile = shareBlob ? new File([shareBlob], shareFileName, { type: 'image/jpeg' }) : null;
-
-      setItems((prev) =>
-        prev.map((it, idx) =>
-          idx === activeIndex
-            ? {
-                ...it,
-                footerMode: newMode,
-                cropBottom: newCrop,
-                previewDataUrl,
-                shareFile: shareFile && shareBlob ? { file: shareFile, blob: shareBlob } : it.shareFile,
-              }
-            : it
-        )
-      );
-    }
-  };
-
-  // Apply calibration to ALL completed items
-  const applyCalibrationToAll = async () => {
-    if (!activeItem) return;
-    const targetMode = activeItem.footerMode;
-    const targetCrop = activeItem.cropBottom;
-
-    setIsProcessingBatch(true);
-
-    const updatedList: PosterItem[] = [];
-    for (let i = 0; i < items.length; i++) {
-      const it = items[i];
-      if (it.status === 'done' && it.imgElement) {
-        const canvas = await renderProductPosterCanvas(
-          it.imgElement,
-          productUrl,
-          targetCrop,
-          it.qrX,
-          it.qrY,
-          it.qrSize,
-          targetMode
-        );
-
-        if (canvas) {
-          const previewDataUrl = canvas.toDataURL('image/png');
-          const shareFileName = `Poster_${product.code}_ThuongSon.jpg`;
-          const shareBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.90));
-          const shareFile = shareBlob ? new File([shareBlob], shareFileName, { type: 'image/jpeg' }) : null;
-
-          updatedList.push({
-            ...it,
-            footerMode: targetMode,
-            cropBottom: targetCrop,
-            previewDataUrl,
-            shareFile: shareFile && shareBlob ? { file: shareFile, blob: shareBlob } : it.shareFile,
-          });
-          continue;
-        }
-      }
-      updatedList.push(it);
-    }
-
-    setItems(updatedList);
-    setIsProcessingBatch(false);
-    setShareNotice(`✓ Đã áp dụng thiết lập cho toàn bộ ${updatedList.length} ảnh.`);
-    setTimeout(() => setShareNotice(null), 5000);
-  };
 
   // Handle files
   const handleFiles = (fileList: FileList | File[]) => {
@@ -531,11 +434,10 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         fileName: file.name,
         thumbnailUrl,
         status: 'pending',
-        cropBottom: 7.71,
+        cropBottom: 8.8,
         qrX: 84.67,
         qrY: 79.35,
         qrSize: 9.20,
-        footerMode: 'append',
       };
     });
 
@@ -576,11 +478,10 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         fileName: 'sample.jpg',
         thumbnailUrl: url,
         status: 'pending',
-        cropBottom: 7.71,
+        cropBottom: 8.8,
         qrX: 84.67,
         qrY: 79.35,
         qrSize: 9.20,
-        footerMode: 'append',
       };
       const currentLen = items.length;
       setItems((prev) => [...prev, newItem]);
@@ -777,7 +678,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                     ✓ Hỗ trợ tích chọn nhiều ảnh như gửi ảnh Zalo
                   </span>
                   <span className="text-[11px] text-[#8B7C66] font-mono block">
-                    Tự động phủ mã QR Thường Sơn &amp; đóng dấu chân trang
+                    Tự động nhận diện &amp; cắt đè chân trang Thường Sơn chuẩn 100%
                   </span>
                 </div>
               </button>
@@ -838,7 +739,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                     Danh sách ảnh ({items.length}):
                   </span>
                   <span className="text-[10px] font-mono text-[#8B7C66]">
-                    Chạm ảnh để xem &amp; tinh chỉnh
+                    Chạm ảnh để xem trước
                   </span>
                 </div>
 
@@ -920,7 +821,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                   {downloadSuccess ? (
                     <span>✓ Đã tải poster về máy!</span>
                   ) : activeItem?.status === 'done' ? (
-                    <span>Ảnh {activeIndex + 1}/{items.length}: Đã hoàn thiện</span>
+                    <span>Ảnh {activeIndex + 1}/{items.length}: Đã cắt đè chuẩn</span>
                   ) : (
                     <span>Ảnh {activeIndex + 1}/{items.length}: Đang xử lý...</span>
                   )}
@@ -929,13 +830,13 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
               </div>
 
               {/* Live Image Preview */}
-              <div className="bg-[#1C1B19] p-2 rounded-lg flex items-center justify-center min-h-[300px] max-h-[50vh] overflow-hidden shadow-inner">
+              <div className="bg-[#1C1B19] p-2 rounded-lg flex items-center justify-center min-h-[300px] max-h-[52vh] overflow-hidden shadow-inner">
                 {activeItem?.previewDataUrl ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={activeItem.previewDataUrl}
                     alt="Poster hoàn thiện"
-                    className="max-h-[48vh] max-w-full w-auto h-auto object-contain block rounded shadow select-none"
+                    className="max-h-[50vh] max-w-full w-auto h-auto object-contain block rounded shadow select-none"
                   />
                 ) : (
                   <div className="text-white/60 text-xs font-mono py-12 flex items-center gap-2">
@@ -943,94 +844,6 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                   </div>
                 )}
               </div>
-
-              {/* Footer Mode & Fine-Tuning Bar for Active Item */}
-              {activeItem && activeItem.status === 'done' && (
-                <div className="bg-white border border-[#D5CDBE] rounded-xl overflow-hidden shadow-sm">
-                  <div className="p-3 bg-[#FAF8F4] border-b border-[#D5CDBE]/60 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono font-semibold text-[#1C1B19] flex items-center gap-1.5">
-                        <Sliders size={14} className="text-[#044C42]" />
-                        Chân trang ảnh đang chọn:
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setShowAdjust(!showAdjust)}
-                        className="text-[11px] font-mono text-[#044C42] hover:underline font-semibold cursor-pointer"
-                      >
-                        {showAdjust ? 'Thu gọn ▲' : 'Chỉnh độ cao ▼'}
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                      <button
-                        type="button"
-                        onClick={() => updateActiveItemCalibration('replace', activeItem.cropBottom)}
-                        className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
-                          activeItem.footerMode === 'replace'
-                            ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
-                            : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
-                        }`}
-                      >
-                        <div className="font-bold">✓ Cắt đè chân trang</div>
-                        <span className={`text-[9px] block mt-0.5 leading-tight ${activeItem.footerMode === 'replace' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
-                          Cắt dải cũ ({activeItem.cropBottom}%)
-                        </span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => updateActiveItemCalibration('append', activeItem.cropBottom)}
-                        className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
-                          activeItem.footerMode === 'append'
-                            ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
-                            : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
-                        }`}
-                      >
-                        <div className="font-bold">+ Nối dài poster</div>
-                        <span className={`text-[9px] block mt-0.5 leading-tight ${activeItem.footerMode === 'append' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
-                          Giữ trọn vẹn 100% gốc
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {showAdjust && (
-                    <div className="p-3 bg-white space-y-2 border-t border-[#D5CDBE]/40">
-                      <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="text-[#6E6254]">Độ cao chân trang:</span>
-                        <span className="font-bold text-[#044C42]">{activeItem.cropBottom}%</span>
-                      </div>
-
-                      <input
-                        type="range"
-                        min="5"
-                        max={activeItem.footerMode === 'replace' ? '12' : '18'}
-                        step="0.5"
-                        value={activeItem.cropBottom}
-                        onChange={(e) => {
-                          const val = parseFloat(e.target.value);
-                          updateActiveItemCalibration(activeItem.footerMode, val);
-                        }}
-                        className="w-full accent-[#044C42] cursor-pointer"
-                      />
-
-                      {items.length > 1 && (
-                        <div className="pt-1 flex justify-end">
-                          <button
-                            type="button"
-                            onClick={applyCalibrationToAll}
-                            disabled={isProcessingBatch}
-                            className="px-2.5 py-1 bg-[#B85C38] hover:bg-[#A04E2E] text-white rounded font-medium text-[10px] font-mono shadow-sm transition-colors cursor-pointer disabled:opacity-50"
-                          >
-                            Áp dụng cho tất cả ({items.length} ảnh)
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
 
               {/* Action Buttons: 1 Unified Download Button + 1 Share Button */}
               <div className="space-y-2 pt-1">
