@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2, Sliders } from 'lucide-react';
+import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2, Sliders, Plus, Layers } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import { Product } from '@/types';
@@ -21,6 +21,24 @@ interface DetectionResult {
   footerYPercent: number;
 }
 
+interface PosterItem {
+  id: string;
+  file: File;
+  fileName: string;
+  thumbnailUrl: string;
+  status: 'pending' | 'processing' | 'done' | 'error';
+  errorMessage?: string;
+  imgElement?: HTMLImageElement;
+  previewDataUrl?: string | null;
+  detectedResult?: DetectionResult | null;
+  cropBottom: number;
+  qrX: number;
+  qrY: number;
+  qrSize: number;
+  footerMode: 'replace' | 'append';
+  shareFile?: { file: File; blob: Blob } | null;
+}
+
 function dataUrlToBlobAndFile(dataUrl: string, fileName: string): { blob: Blob; file: File } {
   const parts = dataUrl.split(',');
   const mime = parts[0].match(/:(.*?);/)?.[1] || 'image/png';
@@ -35,44 +53,157 @@ function dataUrlToBlobAndFile(dataUrl: string, fileName: string): { blob: Blob; 
   return { blob, file };
 }
 
+// Pure function to render poster canvas for product
+async function renderProductPosterCanvas(
+  imgElem: HTMLImageElement,
+  productUrl: string,
+  cropBottom: number,
+  qrX: number,
+  qrY: number,
+  qrSize: number,
+  footerMode: 'replace' | 'append'
+): Promise<HTMLCanvasElement | null> {
+  const srcW = imgElem.naturalWidth;
+  const srcH = imgElem.naturalHeight;
+
+  const rawFooterHeight = (srcH * cropBottom) / 100;
+  const minFooterHeight = Math.round(srcW * 0.072);
+  const footerBarHeightPx = Math.round(Math.max(rawFooterHeight, minFooterHeight));
+
+  const finalW = srcW;
+  const finalH = footerMode === 'append' ? srcH + footerBarHeightPx : srcH;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = finalW;
+  canvas.height = finalH;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  // 1. Draw base poster image
+  ctx.drawImage(imgElem, 0, 0, srcW, srcH, 0, 0, finalW, srcH);
+
+  // 2. Footer position
+  const footerY = footerMode === 'append' ? srcH : srcH - footerBarHeightPx;
+
+  // 3. Generate & Draw System QR Code
+  try {
+    const qrDataUrl = await QRCode.toDataURL(productUrl, {
+      width: 1024,
+      margin: 4,
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF',
+      },
+      errorCorrectionLevel: 'H',
+    });
+
+    const qrImg = await new Promise<HTMLImageElement>((res, rej) => {
+      const i = new Image();
+      i.onload = () => res(i);
+      i.onerror = () => rej();
+      i.src = qrDataUrl;
+    });
+
+    const qx = (finalW * qrX) / 100;
+    let qy = (srcH * qrY) / 100;
+    const qs = (finalW * qrSize) / 100;
+
+    const pad = Math.round(qs * 0.15);
+    const maskSize = qs + pad * 2;
+    const maskX = qx - pad;
+    let maskY = qy - pad;
+
+    const maxSafeBottom = footerY - 4;
+    if (maskY + maskSize > maxSafeBottom) {
+      const shift = (maskY + maskSize) - maxSafeBottom;
+      maskY -= shift;
+      qy -= shift;
+    }
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(maskX, maskY, maskSize, maskSize);
+    ctx.drawImage(qrImg, qx, qy, qs, qs);
+
+    ctx.strokeStyle = '#D5CDBE';
+    ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
+    ctx.strokeRect(maskX, maskY, maskSize, maskSize);
+  } catch (err) {
+    console.error('QR overlay error:', err);
+  }
+
+  // 4. Draw Footer bar
+  ctx.fillStyle = '#044C42';
+  ctx.fillRect(0, footerY, finalW, footerBarHeightPx);
+
+  ctx.fillStyle = '#B85C38';
+  const borderLineH = Math.max(2, Math.round(srcH * 0.0025));
+  ctx.fillRect(0, footerY, finalW, borderLineH);
+
+  ctx.fillStyle = '#FFFFFF';
+  const fontSizeTitle = Math.round(footerBarHeightPx * 0.30);
+  ctx.font = `bold ${fontSizeTitle}px Georgia, "Playfair Display", serif`;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('THƯỜNG SƠN CERAMIC', Math.round(finalW * 0.04), footerY + footerBarHeightPx * 0.40);
+
+  ctx.fillStyle = '#D5CDBE';
+  const fontSizeSub = Math.round(footerBarHeightPx * 0.17);
+  ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillText('Nhà Phân Phối Gạch Kiến Trúc & Bề Mặt Cao Cấp', Math.round(finalW * 0.04), footerY + footerBarHeightPx * 0.72);
+
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#FFFFFF';
+  const showroomText = 'SHOWROOM: SN 01 ĐƯỜNG ĐÔI TL510, ĐÌNH BẢNG, XÃ HOẰNG LỘC, THANH HÓA';
+  let addrFontSize = fontSizeSub;
+  ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  const maxAddrW = finalW * 0.58;
+  const textW = ctx.measureText(showroomText).width;
+  if (textW > maxAddrW) {
+    addrFontSize = Math.floor(addrFontSize * (maxAddrW / textW));
+    ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  }
+  ctx.fillText(showroomText, Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.40);
+
+  ctx.fillStyle = '#F5F1EA';
+  ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillText('HOTLINE: 0916 640 316 - 0912 958 578', Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.72);
+
+  return canvas;
+}
+
 export default function ProductPosterStudioModal({ product, onClose }: ProductPosterStudioModalProps) {
-  // Base website URL for QR
-  const [baseUrl, setBaseUrl] = useState('https://thuong-son-ceramic.vercel.app');
-  useEffect(() => {
+  const [baseUrl] = useState(() => {
     if (typeof window !== 'undefined') {
       const origin = window.location.origin;
       if (origin.includes('localhost') || origin.includes('git-') || origin.includes('-c456.vercel.app')) {
-        setBaseUrl('https://thuong-son-ceramic.vercel.app');
-      } else {
-        setBaseUrl(origin);
+        return 'https://thuong-son-ceramic.vercel.app';
       }
+      return origin;
     }
-  }, []);
+    return 'https://thuong-son-ceramic.vercel.app';
+  });
 
   const productUrl = `${baseUrl}/products/${product.slug}`;
 
-  // Image Upload state
-  const [uploadedImageElement, setUploadedImageElement] = useState<HTMLImageElement | null>(null);
-  const [previewDataUrl, setPreviewDataUrl] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
+  // Multi-image items list
+  const [items, setItems] = useState<PosterItem[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isProcessingBatch, setIsProcessingBatch] = useState(false);
+  const [isDownloadingAll, setIsDownloadingAll] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [shareNotice, setShareNotice] = useState<string | null>(null);
-  const fileCacheRef = useRef<{ file: File; blob: Blob } | null>(null);
-
-  // Auto-calibrated parameters
-  const [qrX, setQrX] = useState<number>(84.67);
-  const [qrY, setQrY] = useState<number>(79.35);
-  const [qrSize, setQrSize] = useState<number>(9.20);
-  const [cropBottom, setCropBottom] = useState<number>(7.71);
-  const [footerMode, setFooterMode] = useState<'replace' | 'append'>('append');
   const [showAdjust, setShowAdjust] = useState<boolean>(false);
-  const [detectedType, setDetectedType] = useState<1 | 2>(1);
 
-  // Preview canvas ref
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const isProcessingRef = useRef<boolean>(false);
 
-  // Auto-scan image when loaded using Computer Vision (jsQR) + Smart Classification Fallback
+  const activeItem = items[activeIndex] || null;
+
+  // Auto-scan Computer Vision (jsQR)
   const autoDetectAndConfigure = (img: HTMLImageElement): DetectionResult => {
     const W = img.naturalWidth;
     const H = img.naturalHeight;
@@ -103,7 +234,6 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     }
 
     if (imgData) {
-      // 1. Scan with jsQR Computer Vision
       try {
         const qrCode = jsQR(imgData.data, W, H);
         if (qrCode) {
@@ -127,8 +257,6 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
           const rawQrW = maxX - minX;
           const rawQrH = maxY - minY;
           const detectedSize = Math.max(rawQrW, rawQrH);
-
-          // Classify Type 1 vs Type 2 based on QR horizontal center
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
           result = {
@@ -145,7 +273,6 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         console.warn('jsQR scan error:', err);
       }
 
-      // 2. Fallback classification if jsQR did not detect
       if (!result.found) {
         const sampleY = Math.round(H * 0.80);
         const sampleX = Math.round(W * 0.50);
@@ -164,12 +291,8 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         };
       }
 
-      // 3. Safe Universal Footer Boundary Detection
-      // Calculates minimum safe boundary so footer NEVER cuts into product swatches or QR code
       try {
         const qrBottomPct = result.qrY + result.qrSize * 1.15;
-        // In catalog posters, swatches & QR code reside above 91.8%.
-        // The footer bar must strictly be placed at or below minSafeY.
         const minSafeY = Math.max(Math.round(H * 0.918), Math.round((H * (qrBottomPct + 1.2)) / 100));
         const maxScanY = Math.round(H * 0.96);
 
@@ -217,252 +340,315 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     return result;
   };
 
-  // Render composite canvas
-  const renderCompositeCanvas = useCallback(async (
-    isExport = false,
-    overrideImg?: HTMLImageElement,
-    overrideCropBottom?: number,
-    overrideQrX?: number,
-    overrideQrY?: number,
-    overrideQrSize?: number,
-    overrideMode?: 'replace' | 'append'
-  ): Promise<HTMLCanvasElement | null> => {
-    const imgElem = overrideImg || uploadedImageElement;
-    if (!imgElem) return null;
-
-    const srcW = imgElem.naturalWidth;
-    const srcH = imgElem.naturalHeight;
-
-    const activeCropBottom = overrideCropBottom !== undefined ? overrideCropBottom : cropBottom;
-    const activeQrX = overrideQrX !== undefined ? overrideQrX : qrX;
-    const activeQrY = overrideQrY !== undefined ? overrideQrY : qrY;
-    const activeQrSize = overrideQrSize !== undefined ? overrideQrSize : qrSize;
-    const activeMode = overrideMode || footerMode;
-
-    // Aspect-ratio aware footer height calculation:
-    // Ensures footer is always tall enough for 2 text rows even on wide or square posters
-    const rawFooterHeight = (srcH * activeCropBottom) / 100;
-    const minFooterHeight = Math.round(srcW * 0.072);
-    const footerBarHeightPx = Math.round(Math.max(rawFooterHeight, minFooterHeight));
-
-    // When mode is 'append', we extend canvas height so NO original pixels are covered
-    const finalW = srcW;
-    const finalH = activeMode === 'append' ? srcH + footerBarHeightPx : srcH;
-
-    const canvas = isExport ? document.createElement('canvas') : (canvasRef.current || document.createElement('canvas'));
-    canvas.width = finalW;
-    canvas.height = finalH;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return null;
-
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-
-    // 1. Draw base poster image
-    ctx.drawImage(imgElem, 0, 0, srcW, srcH, 0, 0, finalW, srcH);
-
-    // 2. Footer position:
-    // When 'append': sits at the end of original poster (footerY = srcH)
-    // When 'replace': sits at the very bottom (footerY = srcH - footerBarHeightPx)
-    const footerY = activeMode === 'append' ? srcH : srcH - footerBarHeightPx;
-
-    // 3. Generate & Draw System QR Code covering old QR location
-    // CRITICAL: We clamp QR container so it NEVER penetrates or touches footerY!
+  // Helper to process a single item
+  const processSingleItem = useCallback(async (item: PosterItem): Promise<PosterItem> => {
     try {
-      const qrDataUrl = await QRCode.toDataURL(productUrl, {
-        width: 1024,
-        margin: 4,
-        color: {
-          dark: '#000000',
-          light: '#FFFFFF',
-        },
-        errorCorrectionLevel: 'H',
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = (e) => reject(e);
+        image.src = item.thumbnailUrl;
       });
 
-      const qrImg = await new Promise<HTMLImageElement>((res, rej) => {
-        const i = new Image();
-        i.onload = () => res(i);
-        i.onerror = () => rej();
-        i.src = qrDataUrl;
-      });
+      const detection = autoDetectAndConfigure(img);
+      const computedCrop = parseFloat((100 - detection.footerYPercent).toFixed(2));
 
-      const qx = (finalW * activeQrX) / 100;
-      let qy = (srcH * activeQrY) / 100;
-      const qs = (finalW * activeQrSize) / 100;
+      const canvas = await renderProductPosterCanvas(
+        img,
+        productUrl,
+        computedCrop,
+        detection.qrX,
+        detection.qrY,
+        detection.qrSize,
+        item.footerMode || 'append'
+      );
 
-      // Generous white quiet zone (15% of QR size each side):
-      const pad = Math.round(qs * 0.15);
-      const maskSize = qs + pad * 2;
-      const maskX = qx - pad;
-      let maskY = qy - pad;
-
-      // Anti-collision clamp: QR white box MUST NOT touch or cross footer bar
-      // Leaves at least 4px breathing room above footerY
-      const maxSafeBottom = footerY - 4;
-      if (maskY + maskSize > maxSafeBottom) {
-        const shift = (maskY + maskSize) - maxSafeBottom;
-        maskY -= shift;
-        qy -= shift;
+      if (!canvas) {
+        return {
+          ...item,
+          status: 'error',
+          errorMessage: 'Không thể vẽ canvas',
+        };
       }
 
-      // Pure clean white container mask (covers old QR + quiet zone)
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(maskX, maskY, maskSize, maskSize);
+      const previewDataUrl = canvas.toDataURL('image/png');
+      const shareFileName = `Poster_${product.code}_ThuongSon.jpg`;
+      const shareBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.90));
+      const shareFile = shareBlob ? new File([shareBlob], shareFileName, { type: 'image/jpeg' }) : null;
 
-      // Draw the new Thường Sơn product QR (inside the white zone)
-      ctx.drawImage(qrImg, qx, qy, qs, qs);
-
-      // Fine hairline border around the white container
-      ctx.strokeStyle = '#D5CDBE';
-      ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
-      ctx.strokeRect(maskX, maskY, maskSize, maskSize);
-    } catch (err) {
-      console.error('QR overlay error:', err);
+      return {
+        ...item,
+        status: 'done',
+        imgElement: img,
+        previewDataUrl,
+        detectedResult: detection,
+        cropBottom: computedCrop,
+        qrX: detection.qrX,
+        qrY: detection.qrY,
+        qrSize: detection.qrSize,
+        shareFile: shareFile && shareBlob ? { file: shareFile, blob: shareBlob } : null,
+      };
+    } catch (err: unknown) {
+      console.error('Lỗi xử lý modal poster:', err);
+      return {
+        ...item,
+        status: 'error',
+        errorMessage: err instanceof Error ? err.message : 'Lỗi không xác định',
+      };
     }
+  }, [productUrl, product.code]);
 
-    // 4. Draw Footer bar with clean Thường Sơn info AFTER QR code
-    // Guaranteed to be 100% crisp, solid, and never overlapped by the QR container!
-    // Deep Emerald Green matching Monalisa catalog top bar
-    ctx.fillStyle = '#044C42';
-    ctx.fillRect(0, footerY, finalW, footerBarHeightPx);
-
-    // Terracotta top accent line
-    ctx.fillStyle = '#B85C38';
-    const borderLineH = Math.max(2, Math.round(srcH * 0.0025));
-    ctx.fillRect(0, footerY, finalW, borderLineH);
-
-    // Left: Brand Title & Subtitle
-    ctx.fillStyle = '#FFFFFF';
-    const fontSizeTitle = Math.round(footerBarHeightPx * 0.30);
-    ctx.font = `bold ${fontSizeTitle}px Georgia, "Playfair Display", serif`;
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('THƯỜNG SƠN CERAMIC', Math.round(finalW * 0.04), footerY + footerBarHeightPx * 0.40);
-
-    ctx.fillStyle = '#D5CDBE';
-    const fontSizeSub = Math.round(footerBarHeightPx * 0.17);
-    ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    ctx.fillText('Nhà Phân Phối Gạch Kiến Trúc & Bề Mặt Cao Cấp', Math.round(finalW * 0.04), footerY + footerBarHeightPx * 0.72);
-
-    // Right: Showroom & Hotline (Clean, separated, zero collision)
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#FFFFFF';
-    const showroomText = 'SHOWROOM: SN 01 ĐƯỜNG ĐÔI TL510, ĐÌNH BẢNG, XÃ HOẰNG LỘC, THANH HÓA';
-    let addrFontSize = fontSizeSub;
-    ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    const maxAddrW = finalW * 0.58;
-    const textW = ctx.measureText(showroomText).width;
-    if (textW > maxAddrW) {
-      addrFontSize = Math.floor(addrFontSize * (maxAddrW / textW));
-      ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    }
-    ctx.fillText(showroomText, Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.40);
-
-    ctx.fillStyle = '#F5F1EA';
-    ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    ctx.fillText('HOTLINE: 0916 640 316 - 0912 958 578', Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.72);
-
-    return canvas;
-  }, [uploadedImageElement, cropBottom, qrX, qrY, qrSize, productUrl, footerMode]);
-
-  // Update canvas on parameter change & sync preview Data URL
+  // Sequential batch processor queue
   useEffect(() => {
-    if (uploadedImageElement) {
-      renderCompositeCanvas(false).then((c) => {
-        if (c) {
-          try {
-            setPreviewDataUrl(c.toDataURL('image/png'));
-          } catch (e) {
-            console.warn('Canvas toDataURL failed:', e);
-          }
+    const hasPending = items.some((it) => it.status === 'pending');
+    if (!hasPending || isProcessingRef.current) return;
+
+    const processQueue = async () => {
+      isProcessingRef.current = true;
+      setIsProcessingBatch(true);
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].status === 'pending') {
+          setItems((prev) =>
+            prev.map((it, idx) => (idx === i ? { ...it, status: 'processing' } : it))
+          );
+
+          const updated = await processSingleItem(items[i]);
+
+          setItems((prev) =>
+            prev.map((it, idx) => (idx === i ? updated : it))
+          );
         }
-      });
-    }
-  }, [uploadedImageElement, renderCompositeCanvas]);
-
-  // 1. Download poster directly to computer/phone
-  const handleDownloadFile = async () => {
-    setIsProcessing(true);
-    try {
-      const fileName = `Poster_${product.code}_ThuongSon.png`;
-
-      let dataUrl = previewDataUrl;
-      if (!dataUrl) {
-        const canvasToExport = await renderCompositeCanvas(true);
-        if (!canvasToExport) return;
-        dataUrl = canvasToExport.toDataURL('image/png');
-        setPreviewDataUrl(dataUrl);
       }
 
-      // Standard direct download
+      isProcessingRef.current = false;
+      setIsProcessingBatch(false);
+    };
+
+    processQueue();
+  }, [items, processSingleItem]);
+
+  // Update calibration for active item
+  const updateActiveItemCalibration = async (
+    newMode: 'replace' | 'append',
+    newCrop: number
+  ) => {
+    if (!activeItem || !activeItem.imgElement) return;
+
+    const canvas = await renderProductPosterCanvas(
+      activeItem.imgElement,
+      productUrl,
+      newCrop,
+      activeItem.qrX,
+      activeItem.qrY,
+      activeItem.qrSize,
+      newMode
+    );
+
+    if (canvas) {
+      const previewDataUrl = canvas.toDataURL('image/png');
+      const shareFileName = `Poster_${product.code}_ThuongSon.jpg`;
+      const shareBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.90));
+      const shareFile = shareBlob ? new File([shareBlob], shareFileName, { type: 'image/jpeg' }) : null;
+
+      setItems((prev) =>
+        prev.map((it, idx) =>
+          idx === activeIndex
+            ? {
+                ...it,
+                footerMode: newMode,
+                cropBottom: newCrop,
+                previewDataUrl,
+                shareFile: shareFile && shareBlob ? { file: shareFile, blob: shareBlob } : it.shareFile,
+              }
+            : it
+        )
+      );
+    }
+  };
+
+  // Apply calibration to ALL completed items
+  const applyCalibrationToAll = async () => {
+    if (!activeItem) return;
+    const targetMode = activeItem.footerMode;
+    const targetCrop = activeItem.cropBottom;
+
+    setIsProcessingBatch(true);
+
+    const updatedList: PosterItem[] = [];
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i];
+      if (it.status === 'done' && it.imgElement) {
+        const canvas = await renderProductPosterCanvas(
+          it.imgElement,
+          productUrl,
+          targetCrop,
+          it.qrX,
+          it.qrY,
+          it.qrSize,
+          targetMode
+        );
+
+        if (canvas) {
+          const previewDataUrl = canvas.toDataURL('image/png');
+          const shareFileName = `Poster_${product.code}_ThuongSon.jpg`;
+          const shareBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.90));
+          const shareFile = shareBlob ? new File([shareBlob], shareFileName, { type: 'image/jpeg' }) : null;
+
+          updatedList.push({
+            ...it,
+            footerMode: targetMode,
+            cropBottom: targetCrop,
+            previewDataUrl,
+            shareFile: shareFile && shareBlob ? { file: shareFile, blob: shareBlob } : it.shareFile,
+          });
+          continue;
+        }
+      }
+      updatedList.push(it);
+    }
+
+    setItems(updatedList);
+    setIsProcessingBatch(false);
+    setShareNotice(`✓ Đã áp dụng thiết lập cho toàn bộ ${updatedList.length} ảnh.`);
+    setTimeout(() => setShareNotice(null), 5000);
+  };
+
+  // Handle files
+  const handleFiles = (fileList: FileList | File[]) => {
+    const rawFiles = Array.from(fileList);
+    const validImages = rawFiles.filter((f) => f.type.startsWith('image/'));
+    if (validImages.length === 0) return;
+
+    setDownloadSuccess(false);
+
+    const newItems: PosterItem[] = validImages.map((file, i) => {
+      const id = `${Date.now()}_${i}_${Math.random().toString(36).substring(2, 7)}`;
+      const thumbnailUrl = URL.createObjectURL(file);
+      return {
+        id,
+        file,
+        fileName: file.name,
+        thumbnailUrl,
+        status: 'pending',
+        cropBottom: 7.71,
+        qrX: 84.67,
+        qrY: 79.35,
+        qrSize: 9.20,
+        footerMode: 'append',
+      };
+    });
+
+    const currentLen = items.length;
+    setItems((prev) => [...prev, ...newItems]);
+    if (currentLen === 0) {
+      setActiveIndex(0);
+    }
+  };
+
+  const removeItem = (idxToRemove: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const itemToRemove = items[idxToRemove];
+    if (itemToRemove && itemToRemove.thumbnailUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(itemToRemove.thumbnailUrl);
+    }
+
+    setItems((prev) => {
+      const next = prev.filter((_, idx) => idx !== idxToRemove);
+      if (next.length === 0) {
+        setActiveIndex(0);
+      } else if (activeIndex >= next.length) {
+        setActiveIndex(next.length - 1);
+      }
+      return next;
+    });
+  };
+
+  const loadSamplePoster = async (url: string) => {
+    setDownloadSuccess(false);
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const file = new File([blob], 'sample.jpg', { type: 'image/jpeg' });
+      const newItem: PosterItem = {
+        id: `sample_${Date.now()}`,
+        file,
+        fileName: 'sample.jpg',
+        thumbnailUrl: url,
+        status: 'pending',
+        cropBottom: 7.71,
+        qrX: 84.67,
+        qrY: 79.35,
+        qrSize: 9.20,
+        footerMode: 'append',
+      };
+      const currentLen = items.length;
+      setItems((prev) => [...prev, newItem]);
+      if (currentLen === 0) {
+        setActiveIndex(0);
+      }
+    } catch (err) {
+      console.warn('Lỗi tải sample poster:', err);
+    }
+  };
+
+  // Download active poster
+  const handleDownloadActive = () => {
+    if (!activeItem || !activeItem.previewDataUrl) return;
+
+    const fileName = `Poster_${product.code}_${activeIndex + 1}_ThuongSon.png`;
+    const link = document.createElement('a');
+    link.href = activeItem.previewDataUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+
+    setTimeout(() => {
+      document.body.removeChild(link);
+      setDownloadSuccess(true);
+    }, 300);
+  };
+
+  // Download ALL completed posters sequentially
+  const handleDownloadAll = async () => {
+    const doneItems = items.filter((it) => it.status === 'done' && it.previewDataUrl);
+    if (doneItems.length === 0) return;
+
+    setIsDownloadingAll(true);
+    setDownloadSuccess(false);
+
+    for (let i = 0; i < doneItems.length; i++) {
+      const it = doneItems[i];
+      const fileName = `Poster_${product.code}_${i + 1}_ThuongSon.png`;
+
       const link = document.createElement('a');
-      link.href = dataUrl;
+      link.href = it.previewDataUrl!;
       link.download = fileName;
       document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
 
-      setTimeout(() => {
-        document.body.removeChild(link);
-        setDownloadSuccess(true);
-      }, 300);
-    } catch (err) {
-      console.error('Download error:', err);
-    } finally {
-      setIsProcessing(false);
+      await new Promise((resolve) => setTimeout(resolve, 380));
     }
+
+    setIsDownloadingAll(false);
+    setDownloadSuccess(true);
+    setShareNotice(`✓ Đã tải ${doneItems.length} poster về thiết bị!`);
+    setTimeout(() => setShareNotice(null), 5000);
   };
 
-  // Fallback: open image in new tab (mobile) or copy to clipboard (desktop)
-  const handleShareFallback = (blob: Blob) => {
-    const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  // Share active poster
+  const handleShareActive = () => {
+    if (!activeItem || !activeItem.previewDataUrl) return;
 
-    if (isMobile) {
-      // Open the image in a new browser tab.
-      // On mobile, the user can long-press the image → "Save Image" / "Share".
-      const objectUrl = URL.createObjectURL(blob);
-      window.open(objectUrl, '_blank');
-      setTimeout(() => URL.revokeObjectURL(objectUrl), 30000);
-      setShareNotice('📱 Ảnh đã mở trên tab mới. Nhấn giữ vào ảnh → chọn "Lưu ảnh" hoặc "Chia sẻ".');
-      setTimeout(() => setShareNotice(null), 8000);
-      return;
-    }
-
-    // Desktop: try clipboard
-    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
-      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-        .then(() => {
-          setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Dán (Ctrl + V) trực tiếp vào Zalo, Messenger hoặc Zalo PC.');
-          setTimeout(() => setShareNotice(null), 6000);
-        })
-        .catch(() => {
-          setShareNotice('Trình duyệt không hỗ trợ bảng chia sẻ. Hãy dùng nút TẢI POSTER VỀ MÁY rồi chia sẻ từ thư mục tải về.');
-          setTimeout(() => setShareNotice(null), 7000);
-        });
-      return;
-    }
-
-    setShareNotice('Hãy dùng nút TẢI POSTER VỀ MÁY rồi chia sẻ tệp từ thư mục tải về.');
-    setTimeout(() => setShareNotice(null), 7000);
-  };
-
-  // 2. Open Native Share Sheet — works on iOS Safari + Android Chrome
-  // CRITICAL: NON-async. iOS Safari kills the user-gesture activation token
-  // at the very first microtask yield.
-  const handleShare = () => {
-    if (!previewDataUrl) return;
-
-    // Build File synchronously — zero async ops before navigator.share()
-    let cached = fileCacheRef.current;
+    let cached = activeItem.shareFile;
     if (!cached) {
       const fileName = `Poster_${product.code}_ThuongSon.png`;
-      cached = dataUrlToBlobAndFile(previewDataUrl, fileName);
-      fileCacheRef.current = cached;
+      cached = dataUrlToBlobAndFile(activeItem.previewDataUrl, fileName);
     }
 
     const { file, blob } = cached;
 
-    // Check canShare({files}) so we don't call share() when files aren't supported
     const supportsFileShare =
       typeof navigator !== 'undefined' &&
       typeof navigator.share === 'function' &&
@@ -472,12 +658,11 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
 
     if (supportsFileShare) {
       navigator.share({ files: [file] })
-        .then(() => { /* success */ })
+        .then(() => {})
         .catch((err: unknown) => {
           if (err && typeof err === 'object' && 'name' in err && err.name === 'AbortError') {
-            return; // user dismissed — normal
+            return;
           }
-          console.warn('navigator.share error:', err);
           handleShareFallback(blob);
         });
       return;
@@ -486,81 +671,49 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
     handleShareFallback(blob);
   };
 
-  // Process image on upload
-  const processImage = async (img: HTMLImageElement) => {
-    setIsProcessing(true);
-    setShareNotice(null);
-    fileCacheRef.current = null;
+  const handleShareFallback = (blob: Blob) => {
+    const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    const detection = autoDetectAndConfigure(img);
-    const computedCrop = parseFloat((100 - detection.footerYPercent).toFixed(2));
-
-    setDetectedType(detection.type);
-    setQrX(detection.qrX);
-    setQrY(detection.qrY);
-    setQrSize(detection.qrSize);
-    setCropBottom(computedCrop);
-
-    try {
-      // Direct render with current image & newly detected parameters — eliminates React state lag
-      const exportCanvas = await renderCompositeCanvas(
-        true,
-        img,
-        computedCrop,
-        detection.qrX,
-        detection.qrY,
-        detection.qrSize,
-        footerMode
-      );
-      if (exportCanvas) {
-        // Preview uses PNG for lossless display quality
-        const dataUrl = exportCanvas.toDataURL('image/png');
-        setPreviewDataUrl(dataUrl);
-
-        // Share cache: JPEG 90% — keeps file under ~2MB so Zalo can detect QR.
-        const shareFileName = `Poster_${product.code}_ThuongSon.jpg`;
-        exportCanvas.toBlob((blob) => {
-          if (blob) {
-            const file = new File([blob], shareFileName, { type: 'image/jpeg' });
-            fileCacheRef.current = { blob, file };
-          }
-        }, 'image/jpeg', 0.90);
-      }
-    } catch (err) {
-      console.error('Process error:', err);
-    } finally {
-      setIsProcessing(false);
+    if (isMobile) {
+      const objectUrl = URL.createObjectURL(blob);
+      window.open(objectUrl, '_blank');
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 30000);
+      setShareNotice('📱 Ảnh đã mở trên tab mới. Nhấn giữ vào ảnh → chọn "Lưu ảnh" hoặc "Chia sẻ".');
+      setTimeout(() => setShareNotice(null), 8000);
+      return;
     }
+
+    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+        .then(() => {
+          setShareNotice('✓ Đã sao chép ảnh vào Clipboard! Dán trực tiếp vào Zalo hoặc Messenger.');
+          setTimeout(() => setShareNotice(null), 6000);
+        })
+        .catch(() => {
+          setShareNotice('Hãy dùng nút TẢI POSTER VỀ MÁY.');
+          setTimeout(() => setShareNotice(null), 7000);
+        });
+      return;
+    }
+
+    setShareNotice('Hãy dùng nút TẢI POSTER VỀ MÁY rồi chia sẻ.');
+    setTimeout(() => setShareNotice(null), 7000);
   };
 
-  // Handle file input
-  const handleFile = (file: File) => {
-    if (!file || !file.type.startsWith('image/')) return;
+  const handleResetAll = () => {
+    items.forEach((it) => {
+      if (it.thumbnailUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(it.thumbnailUrl);
+      }
+    });
+    setItems([]);
+    setActiveIndex(0);
     setDownloadSuccess(false);
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const src = event.target?.result as string;
-      const img = new Image();
-      img.onload = () => {
-        setUploadedImageElement(img);
-        processImage(img);
-      };
-      img.src = src;
-    };
-    reader.readAsDataURL(file);
+    setShareNotice(null);
   };
 
-  const loadSamplePoster = (url: string) => {
-    setDownloadSuccess(false);
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      setUploadedImageElement(img);
-      processImage(img);
-    };
-    img.src = url;
-  };
+  const doneCount = items.filter((it) => it.status === 'done').length;
+  const pendingCount = items.filter((it) => it.status === 'pending' || it.status === 'processing').length;
 
   return (
     <div
@@ -570,12 +723,12 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="bg-[#FAF8F4] w-full max-w-lg rounded-xl shadow-2xl border border-[#D5CDBE] overflow-hidden flex flex-col my-auto max-h-[92vh]">
-        {/* Compact Mobile Header */}
+        {/* Modal Header */}
         <div className="bg-[#044C42] text-white px-4 py-3 flex items-center justify-between border-b border-[#B85C38]">
           <div className="flex items-center gap-2">
             <Sparkles size={16} className="text-[#FFB088]" />
             <h3 className="font-serif text-sm sm:text-base font-medium">
-              Chế Poster Catalog · <span className="font-mono text-[#FFB088] font-bold">{product.code}</span>
+              Chế Poster · <span className="font-mono text-[#FFB088] font-bold">{product.code}</span>
             </h3>
           </div>
 
@@ -588,21 +741,25 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
           </button>
         </div>
 
-        {/* Modal Content: Mobile-First Single-Column Flow */}
-        <div className="p-4 sm:p-5 overflow-y-auto space-y-4">
+        {/* Content */}
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-3.5">
+          {/* Multi-file input */}
           <input
             ref={fileInputRef}
             type="file"
             accept="image/*"
+            multiple
             onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) handleFile(f);
+              if (e.target.files && e.target.files.length > 0) {
+                handleFiles(e.target.files);
+                e.target.value = '';
+              }
             }}
             className="hidden"
           />
 
-          {!uploadedImageElement ? (
-            /* Screen 1: Simple Upload Zone */
+          {items.length === 0 ? (
+            /* Upload Screen */
             <div className="space-y-4">
               <button
                 type="button"
@@ -612,17 +769,20 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                 <div className="w-14 h-14 rounded-full bg-[#044C42] text-white flex items-center justify-center shadow-md">
                   <Upload size={24} />
                 </div>
-                <div>
+                <div className="space-y-1">
                   <span className="text-sm font-semibold text-[#1C1B19] block">
-                    Chạm để chọn ảnh poster từ máy
+                    Chạm để chọn một hoặc nhiều ảnh poster
                   </span>
-                  <span className="text-xs text-[#6E6254] font-mono mt-1 block">
-                    Tự động phủ mã QR Thường Sơn &amp; thay chân trang
+                  <span className="text-xs text-[#B85C38] font-mono font-medium block">
+                    ✓ Hỗ trợ tích chọn nhiều ảnh như gửi ảnh Zalo
+                  </span>
+                  <span className="text-[11px] text-[#8B7C66] font-mono block">
+                    Tự động phủ mã QR Thường Sơn &amp; đóng dấu chân trang
                   </span>
                 </div>
               </button>
 
-              {/* 2 Fast Sample Buttons */}
+              {/* 2 Quick Samples */}
               <div className="pt-2 border-t border-[#D5CDBE]/70">
                 <span className="text-[11px] font-mono text-[#8B7C66] block mb-2 text-center uppercase tracking-wider">
                   Hoặc thử ngay với 2 mẫu catalog:
@@ -657,26 +817,125 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
               </div>
             </div>
           ) : (
-            /* Screen 2: Result Preview & 2 Clear Buttons */
+            /* Multi-Image Manager Screen */
             <div className="space-y-3">
-              {/* Status Pill */}
-              <div className="flex items-center justify-between px-3 py-2 bg-[#044C42]/10 border border-[#044C42]/20 rounded-lg text-xs font-mono text-[#044C42]">
-                <span className="flex items-center gap-1.5 font-semibold">
-                  <CheckCircle2 size={15} className="text-[#044C42]" />
-                  {downloadSuccess ? '✓ Đã tải về máy!' : `✓ Đã tạo xong (Dạng ${detectedType})`}
-                </span>
-                <span className="text-[10px] text-[#6E6254]">100% Ảnh gốc</span>
+              {/* Batch Processing Notice */}
+              {pendingCount > 0 && (
+                <div className="px-3 py-1.5 bg-[#044C42]/10 border border-[#044C42]/20 rounded-lg text-xs font-mono flex items-center justify-between text-[#044C42]">
+                  <span className="flex items-center gap-2">
+                    <Sparkles size={13} className="animate-spin text-[#B85C38]" />
+                    Đang chế bản: <strong>{doneCount}/{items.length} ảnh</strong>
+                  </span>
+                  <span className="text-[10px] text-[#6E6254]">Tự động</span>
+                </div>
+              )}
+
+              {/* Zalo-style Thumbnail Strip */}
+              <div className="bg-white border border-[#D5CDBE] rounded-xl p-2 shadow-sm space-y-1">
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-mono font-semibold text-[#1C1B19] flex items-center gap-1.5">
+                    <Layers size={13} className="text-[#044C42]" />
+                    Danh sách ảnh ({items.length}):
+                  </span>
+                  <span className="text-[10px] font-mono text-[#8B7C66]">
+                    Chạm ảnh để xem &amp; tinh chỉnh
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 overflow-x-auto py-1 px-0.5 scrollbar-thin">
+                  {items.map((it, idx) => {
+                    const isActive = idx === activeIndex;
+                    const isDone = it.status === 'done';
+                    const isProc = it.status === 'processing' || it.status === 'pending';
+
+                    return (
+                      <div
+                        key={it.id}
+                        onClick={() => setActiveIndex(idx)}
+                        className={`relative shrink-0 w-14 h-18 sm:w-16 sm:h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all select-none ${
+                          isActive
+                            ? 'border-[#044C42] ring-2 ring-[#044C42]/30 shadow-md scale-[1.02]'
+                            : 'border-[#D5CDBE] opacity-75 hover:opacity-100 hover:border-[#044C42]/60'
+                        }`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={it.previewDataUrl || it.thumbnailUrl}
+                          alt={it.fileName}
+                          className="w-full h-full object-cover"
+                        />
+
+                        {/* Status Icon */}
+                        <div className="absolute top-1 left-1">
+                          {isDone ? (
+                            <div className="w-4 h-4 rounded-full bg-[#044C42] text-white flex items-center justify-center text-[9px] font-bold shadow">
+                              ✓
+                            </div>
+                          ) : isProc ? (
+                            <div className="w-4 h-4 rounded-full bg-[#B85C38] text-white flex items-center justify-center shadow">
+                              <Sparkles size={9} className="animate-spin" />
+                            </div>
+                          ) : (
+                            <div className="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center text-[9px] font-bold shadow">
+                              !
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Delete button */}
+                        <button
+                          type="button"
+                          onClick={(e) => removeItem(idx, e)}
+                          title="Xóa"
+                          className="absolute top-1 right-1 w-4 h-4 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center text-[10px] transition-colors cursor-pointer"
+                        >
+                          ×
+                        </button>
+
+                        <div className="absolute bottom-0 inset-x-0 bg-black/75 px-1 py-0.5 text-[8px] font-mono text-white text-center truncate">
+                          #{idx + 1}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {/* Add more slot */}
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="shrink-0 w-14 h-18 sm:w-16 sm:h-20 rounded-lg border-2 border-dashed border-[#044C42]/50 hover:border-[#044C42] bg-[#044C42]/5 hover:bg-[#044C42]/10 flex flex-col items-center justify-center gap-1 text-center cursor-pointer transition-colors"
+                  >
+                    <Plus size={16} className="text-[#044C42]" />
+                    <span className="text-[9px] font-mono font-medium text-[#044C42] leading-tight">
+                      Thêm
+                    </span>
+                  </button>
+                </div>
               </div>
 
-              {/* Live Image Preview: Real <img> */}
-              <div className="bg-[#1C1B19] p-2 rounded-lg flex items-center justify-center max-h-[55vh] overflow-hidden shadow-inner">
-                <canvas ref={canvasRef} className="hidden" />
-                {previewDataUrl ? (
+              {/* Status Pill for active */}
+              <div className="flex items-center justify-between px-3 py-1.5 bg-[#044C42]/10 border border-[#044C42]/20 rounded-lg text-xs font-mono text-[#044C42]">
+                <span className="flex items-center gap-1.5 font-semibold truncate">
+                  <CheckCircle2 size={14} className="text-[#044C42] shrink-0" />
+                  {downloadSuccess ? (
+                    <span>✓ Đã tải poster về máy!</span>
+                  ) : activeItem?.status === 'done' ? (
+                    <span>Ảnh {activeIndex + 1}/{items.length}: Đã hoàn thiện</span>
+                  ) : (
+                    <span>Ảnh {activeIndex + 1}/{items.length}: Đang xử lý...</span>
+                  )}
+                </span>
+                <span className="text-[10px] text-[#6E6254] shrink-0 ml-2">100% Ảnh gốc</span>
+              </div>
+
+              {/* Live Image Preview */}
+              <div className="bg-[#1C1B19] p-2 rounded-lg flex items-center justify-center min-h-[300px] max-h-[50vh] overflow-hidden shadow-inner">
+                {activeItem?.previewDataUrl ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
-                    src={previewDataUrl}
+                    src={activeItem.previewDataUrl}
                     alt="Poster hoàn thiện"
-                    className="max-h-[52vh] max-w-full w-auto h-auto object-contain block rounded shadow select-none"
+                    className="max-h-[48vh] max-w-full w-auto h-auto object-contain block rounded shadow select-none"
                   />
                 ) : (
                   <div className="text-white/60 text-xs font-mono py-12 flex items-center gap-2">
@@ -685,170 +944,143 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                 )}
               </div>
 
-              {/* Footer Mode & Fine-Tuning Bar */}
-              <div className="bg-white border border-[#D5CDBE] rounded-xl overflow-hidden shadow-sm">
-                <div className="p-3 bg-[#FAF8F4] border-b border-[#D5CDBE]/60 space-y-2.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-semibold text-[#1C1B19] flex items-center gap-1.5">
-                      <Sliders size={14} className="text-[#044C42]" />
-                      Chân trang Thường Sơn Ceramic:
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setShowAdjust(!showAdjust)}
-                      className="text-[11px] font-mono text-[#044C42] hover:underline font-semibold cursor-pointer"
-                    >
-                      {showAdjust ? 'Thu gọn ▲' : 'Chỉnh độ cao ▼'}
-                    </button>
+              {/* Footer Mode & Fine-Tuning Bar for Active Item */}
+              {activeItem && activeItem.status === 'done' && (
+                <div className="bg-white border border-[#D5CDBE] rounded-xl overflow-hidden shadow-sm">
+                  <div className="p-3 bg-[#FAF8F4] border-b border-[#D5CDBE]/60 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono font-semibold text-[#1C1B19] flex items-center gap-1.5">
+                        <Sliders size={14} className="text-[#044C42]" />
+                        Chân trang ảnh đang chọn:
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowAdjust(!showAdjust)}
+                        className="text-[11px] font-mono text-[#044C42] hover:underline font-semibold cursor-pointer"
+                      >
+                        {showAdjust ? 'Thu gọn ▲' : 'Chỉnh độ cao ▼'}
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                      <button
+                        type="button"
+                        onClick={() => updateActiveItemCalibration('replace', activeItem.cropBottom)}
+                        className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                          activeItem.footerMode === 'replace'
+                            ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
+                            : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
+                        }`}
+                      >
+                        <div className="font-bold">✓ Cắt đè chân trang</div>
+                        <span className={`text-[9px] block mt-0.5 leading-tight ${activeItem.footerMode === 'replace' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
+                          Cắt dải cũ ({activeItem.cropBottom}%)
+                        </span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => updateActiveItemCalibration('append', activeItem.cropBottom)}
+                        className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                          activeItem.footerMode === 'append'
+                            ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
+                            : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
+                        }`}
+                      >
+                        <div className="font-bold">+ Nối dài poster</div>
+                        <span className={`text-[9px] block mt-0.5 leading-tight ${activeItem.footerMode === 'append' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
+                          Giữ trọn vẹn 100% gốc
+                        </span>
+                      </button>
+                    </div>
                   </div>
 
-                  {/* 2 Mode Selector Buttons */}
-                  <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setFooterMode('replace');
-                        fileCacheRef.current = null;
-                      }}
-                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                        footerMode === 'replace'
-                          ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
-                          : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold">✓ Cắt đè chân trang</span>
+                  {showAdjust && (
+                    <div className="p-3 bg-white space-y-2 border-t border-[#D5CDBE]/40">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-[#6E6254]">Độ cao chân trang:</span>
+                        <span className="font-bold text-[#044C42]">{activeItem.cropBottom}%</span>
                       </div>
-                      <span className={`text-[10px] block mt-0.5 leading-tight ${footerMode === 'replace' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
-                        Cắt dải cũ sát đáy ({cropBottom}%), an toàn dưới ô gạch
-                      </span>
-                    </button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setFooterMode('append');
-                        fileCacheRef.current = null;
-                      }}
-                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                        footerMode === 'append'
-                          ? 'bg-[#044C42] text-white border-[#044C42] shadow-sm font-semibold'
-                          : 'bg-white text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]/50'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold">+ Nối dài vào cuối poster</span>
-                      </div>
-                      <span className={`text-[10px] block mt-0.5 leading-tight ${footerMode === 'append' ? 'text-white/80' : 'text-[#8B7C66]'}`}>
-                        Nối tiếp xuống đáy, giữ trọn vẹn 100% ảnh gốc
-                      </span>
-                    </button>
-                  </div>
+                      <input
+                        type="range"
+                        min="5"
+                        max={activeItem.footerMode === 'replace' ? '12' : '18'}
+                        step="0.5"
+                        value={activeItem.cropBottom}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value);
+                          updateActiveItemCalibration(activeItem.footerMode, val);
+                        }}
+                        className="w-full accent-[#044C42] cursor-pointer"
+                      />
+
+                      {items.length > 1 && (
+                        <div className="pt-1 flex justify-end">
+                          <button
+                            type="button"
+                            onClick={applyCalibrationToAll}
+                            disabled={isProcessingBatch}
+                            className="px-2.5 py-1 bg-[#B85C38] hover:bg-[#A04E2E] text-white rounded font-medium text-[10px] font-mono shadow-sm transition-colors cursor-pointer disabled:opacity-50"
+                          >
+                            Áp dụng cho tất cả ({items.length} ảnh)
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="space-y-2 pt-1">
+                {/* Batch download all button if multiple */}
+                {items.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={handleDownloadAll}
+                    disabled={isDownloadingAll || doneCount === 0}
+                    className="w-full py-3 px-4 bg-[#B85C38] hover:bg-[#9F4D2E] text-white rounded-lg font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
+                  >
+                    <Download size={16} />
+                    {isDownloadingAll ? 'ĐANG TẢI CÁC POSTER...' : `TẢI TẤT CẢ POSTER (${doneCount}/${items.length} ẢNH)`}
+                  </button>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={handleDownloadActive}
+                    disabled={!activeItem?.previewDataUrl}
+                    className="py-2.5 px-3 bg-[#044C42] hover:bg-[#003831] text-white rounded-lg font-medium text-xs flex items-center justify-center gap-1.5 shadow transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
+                  >
+                    <Download size={14} />
+                    TẢI POSTER NÀY
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleShareActive}
+                    disabled={!activeItem?.previewDataUrl}
+                    className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42] rounded-lg font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
+                  >
+                    <Share2 size={14} className="text-[#044C42]" />
+                    CHIA SẺ (ZALO/ALBUM)
+                  </button>
                 </div>
 
-                {showAdjust && (
-                  <div className="p-3.5 pt-2 bg-white space-y-2.5 border-t border-[#D5CDBE]/40">
-                    <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-[#6E6254]">
-                        {footerMode === 'append' ? 'Độ dày dải chân trang nối thêm:' : 'Độ cao phủ chân trang Thường Sơn:'}
-                      </span>
-                      <span className="font-bold text-[#044C42]">{cropBottom}%</span>
-                    </div>
-
-                    <input
-                      type="range"
-                      min="5"
-                      max={footerMode === 'replace' ? '12' : '18'}
-                      step="0.5"
-                      value={cropBottom}
-                      onChange={(e) => {
-                        const val = parseFloat(e.target.value);
-                        setCropBottom(val);
-                        fileCacheRef.current = null;
-                      }}
-                      className="w-full accent-[#044C42] cursor-pointer"
-                    />
-
-                    {/* Quick preset chips */}
-                    <div className="flex flex-wrap items-center gap-1.5 pt-0.5 text-[11px] font-mono">
-                      <span className="text-[#8B7C66]">Mức mẫu:</span>
-                      {[
-                        { label: 'Gọn (7.5%)', val: 7.5 },
-                        { label: 'Chuẩn (7.8%)', val: 7.8 },
-                        { label: 'Vừa (9.0%)', val: 9.0 },
-                        { label: 'Dày (11%)', val: 11.0 },
-                      ].map((preset) => (
-                        <button
-                          key={preset.label}
-                          type="button"
-                          onClick={() => {
-                            setCropBottom(preset.val);
-                            fileCacheRef.current = null;
-                          }}
-                          className={`px-2 py-0.5 rounded border transition-colors cursor-pointer ${
-                            Math.abs(cropBottom - preset.val) < 0.3
-                              ? 'bg-[#044C42] text-white border-[#044C42] font-bold'
-                              : 'bg-[#FAF8F4] text-[#1C1B19] border-[#D5CDBE] hover:border-[#044C42]'
-                          }`}
-                        >
-                          {preset.label}
-                        </button>
-                      ))}
-                    </div>
-
-                    <p className="text-[11px] font-mono text-[#8B7C66] pt-1 leading-relaxed">
-                      {footerMode === 'append'
-                        ? '💡 Chế độ "Nối dài vào cuối poster" sẽ mở rộng chiều cao canvas và ghép nối chân trang Thường Sơn liền mạch vào đuôi ảnh, 100% các ô màu và mã sản phẩm gốc được giữ nguyên trọn vẹn.'
-                        : '💡 Chế độ "Cắt đè chân trang" được khóa vùng quét an toàn ở đáy (y ≥ 91.8%), bảo đảm chân trang luôn nằm dưới ô màu gạch và mã QR mới.'}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Action Buttons: Download + Share */}
-              <div className="space-y-2.5 pt-1">
-                {/* Button 1: Download to device */}
-                <button
-                  type="button"
-                  onClick={handleDownloadFile}
-                  disabled={isProcessing}
-                  className="w-full py-3.5 px-4 bg-[#044C42] hover:bg-[#003831] text-white rounded-lg font-medium text-xs flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
-                >
-                  <Download size={16} />
-                  {isProcessing ? 'Đang tải poster...' : 'TẢI POSTER VỀ MÁY (GỐC 100%)'}
-                </button>
-
-                {/* Button 2: Native Share (Opens iOS / Android Share Sheet) */}
-                <button
-                  type="button"
-                  onClick={handleShare}
-                  disabled={isProcessing}
-                  className="w-full py-3 px-4 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42] rounded-lg font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer active:scale-[0.98]"
-                >
-                  <Share2 size={16} className="text-[#044C42]" />
-                  CHIA SẺ POSTER (ZALO, TIN NHẮN, LƯU ẢNH)
-                </button>
-
-                {/* Share feedback notice */}
                 {shareNotice && (
-                  <div className="p-3 bg-[#044C42]/10 border border-[#044C42]/30 rounded-lg text-xs font-mono text-[#044C42] text-center leading-relaxed">
+                  <div className="p-2.5 bg-[#044C42]/10 border border-[#044C42]/30 rounded-lg text-xs font-mono text-[#044C42] text-center leading-relaxed">
                     {shareNotice}
                   </div>
                 )}
 
-                {/* Reset Button */}
                 <button
                   type="button"
-                  onClick={() => {
-                    setUploadedImageElement(null);
-                    setPreviewDataUrl(null);
-                    setDownloadSuccess(false);
-                    setShareNotice(null);
-                    fileCacheRef.current = null;
-                  }}
-                  className="w-full py-2 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer pt-0.5"
+                  onClick={handleResetAll}
+                  className="w-full py-1.5 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                 >
-                  <RefreshCw size={12} /> Đổi ảnh poster khác
+                  <RefreshCw size={12} /> Đổi loạt ảnh khác
                 </button>
               </div>
             </div>
