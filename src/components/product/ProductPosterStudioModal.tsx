@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, Upload, Download, Sparkles, CheckCircle2, RefreshCw, Share2, Plus, Layers } from 'lucide-react';
+import { X, Upload, Download, Sparkles, CheckCircle2, Share2, Plus, Layers, ArrowLeft } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import { Product } from '@/types';
@@ -627,6 +627,16 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         {/* Modal Header */}
         <div className="bg-[#044C42] text-white px-4 py-3 flex items-center justify-between border-b border-[#B85C38]">
           <div className="flex items-center gap-2">
+            {items.length > 0 && (
+              <button
+                type="button"
+                onClick={handleResetAll}
+                className="flex items-center gap-1.5 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-lg transition-colors text-xs font-mono font-medium cursor-pointer mr-1"
+                title="Thoát về tải ảnh"
+              >
+                <ArrowLeft size={13} /> Thoát về tải ảnh
+              </button>
+            )}
             <Sparkles size={16} className="text-[#FFB088]" />
             <h3 className="font-serif text-sm sm:text-base font-medium">
               Chế Poster · <span className="font-mono text-[#FFB088] font-bold">{product.code}</span>
@@ -738,9 +748,13 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                     <Layers size={13} className="text-[#044C42]" />
                     Danh sách ảnh ({items.length}):
                   </span>
-                  <span className="text-[10px] font-mono text-[#8B7C66]">
-                    Chạm ảnh để xem trước
-                  </span>
+                  <button
+                    type="button"
+                    onClick={handleResetAll}
+                    className="text-[11px] font-mono text-[#B85C38] hover:text-[#044C42] hover:underline flex items-center gap-1 cursor-pointer font-medium"
+                  >
+                    <ArrowLeft size={11} /> Thoát về tải ảnh
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-2 overflow-x-auto py-1 px-0.5 scrollbar-thin">
@@ -905,9 +919,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                 <button
                   type="button"
                   onClick={handleResetAll}
-                  className="w-full py-1.5 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  className="w-full py-2 px-3 bg-white/90 hover:bg-white border border-[#D5CDBE] hover:border-[#8B7C66] text-[#6E6254] hover:text-[#1C1B19] rounded-lg font-mono text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-[0.99]"
                 >
-                  <RefreshCw size={12} /> Đổi loạt ảnh khác
+                  <ArrowLeft size={13} /> Thoát về trang tải ảnh (Chọn lại ảnh)
                 </button>
               </div>
             </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Upload, Download, Sparkles, RefreshCw, ExternalLink, ArrowLeft, ShieldCheck, Share2, Plus, Layers } from 'lucide-react';
+import { Upload, Download, Sparkles, ExternalLink, ArrowLeft, ShieldCheck, Share2, Plus, Layers } from 'lucide-react';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import productCodeMapRaw from '@/data/productCodeMap.json';
@@ -691,12 +691,22 @@ export default function StandalonePosterPage() {
       {/* Top Header */}
       <header className="bg-[#044C42] text-white border-b border-[#B85C38] px-4 py-3 sticky top-0 z-40 shadow-sm">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-xs font-mono"
-          >
-            <ArrowLeft size={16} /> Trang Chủ
-          </Link>
+          {items.length > 0 ? (
+            <button
+              type="button"
+              onClick={handleResetAll}
+              className="flex items-center gap-1.5 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-lg transition-colors text-xs font-mono font-medium cursor-pointer"
+            >
+              <ArrowLeft size={15} /> Thoát về tải ảnh
+            </button>
+          ) : (
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-xs font-mono"
+            >
+              <ArrowLeft size={16} /> Trang Chủ
+            </Link>
+          )}
           <div className="flex items-center gap-1.5 font-serif font-bold text-sm tracking-wide">
             <Sparkles size={16} className="text-[#FFB088]" />
             Chế Bản Poster Tự Động
@@ -822,9 +832,13 @@ export default function StandalonePosterPage() {
                   <Layers size={14} className="text-[#044C42]" />
                   Danh sách ảnh đã chọn ({items.length}):
                 </span>
-                <span className="text-[11px] font-mono text-[#8B7C66]">
-                  Chạm vào ảnh để xem trước
-                </span>
+                <button
+                  type="button"
+                  onClick={handleResetAll}
+                  className="text-[11px] font-mono text-[#B85C38] hover:text-[#044C42] hover:underline flex items-center gap-1 cursor-pointer font-medium"
+                >
+                  <ArrowLeft size={12} /> Thoát về tải ảnh
+                </button>
               </div>
 
               {/* Scrollable Horizontal Thumbnails */}
@@ -1011,13 +1025,13 @@ export default function StandalonePosterPage() {
                 </div>
               )}
 
-              {/* Reset / Clear All */}
+              {/* Reset / Exit Button */}
               <button
                 type="button"
                 onClick={handleResetAll}
-                className="w-full py-2 px-4 text-[#8B7C66] hover:text-[#1C1B19] text-center font-mono text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer pt-0.5"
+                className="w-full py-2.5 px-4 bg-white/90 hover:bg-white border border-[#D5CDBE] hover:border-[#8B7C66] text-[#6E6254] hover:text-[#1C1B19] rounded-xl font-mono text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm active:scale-[0.99]"
               >
-                <RefreshCw size={12} /> Xóa tất cả &amp; Chế loạt poster mới
+                <ArrowLeft size={14} /> Thoát về trang tải ảnh (Chọn lại ảnh khác)
               </button>
             </div>
           </div>
