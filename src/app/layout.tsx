@@ -3,6 +3,7 @@ import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/navigation/Header";
 import Footer from "@/components/layout/Footer";
+import InAppBrowserGuard from "@/components/layout/InAppBrowserGuard";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -55,6 +56,7 @@ export default function RootLayout({
       className={`${fraunces.variable} ${manrope.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#F5F1EA] text-[#1C1B19]">
+        <InAppBrowserGuard />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#1C1B19] focus:text-[#F5F1EA] focus:outline-none text-xs font-mono"
