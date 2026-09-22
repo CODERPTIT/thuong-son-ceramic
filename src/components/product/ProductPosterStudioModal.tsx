@@ -1032,42 +1032,56 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
                 </div>
               )}
 
-              {/* Action Buttons */}
+              {/* Action Buttons: 1 Unified Download Button + 1 Share Button */}
               <div className="space-y-2 pt-1">
-                {/* Batch download all button if multiple */}
-                {items.length > 1 && (
+                {/* Single Unified Download Button */}
+                {items.length > 1 ? (
                   <button
                     type="button"
                     onClick={handleDownloadAll}
                     disabled={isDownloadingAll || doneCount === 0}
-                    className="w-full py-3 px-4 bg-[#B85C38] hover:bg-[#9F4D2E] text-white rounded-lg font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
+                    className="w-full py-3 px-4 bg-[#044C42] hover:bg-[#003831] text-white rounded-lg font-medium text-xs flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
                   >
-                    <Download size={16} />
-                    {isDownloadingAll ? 'ĐANG TẢI CÁC POSTER...' : `TẢI TẤT CẢ POSTER (${doneCount}/${items.length} ẢNH)`}
+                    <Download size={15} />
+                    {isDownloadingAll ? 'ĐANG TẢI CÁC POSTER...' : `TẢI TẤT CẢ POSTER VỀ MÁY (${doneCount}/${items.length} ẢNH)`}
                   </button>
-                )}
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                ) : (
                   <button
                     type="button"
                     onClick={handleDownloadActive}
                     disabled={!activeItem?.previewDataUrl}
-                    className="py-2.5 px-3 bg-[#044C42] hover:bg-[#003831] text-white rounded-lg font-medium text-xs flex items-center justify-center gap-1.5 shadow transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
+                    className="w-full py-3 px-4 bg-[#044C42] hover:bg-[#003831] text-white rounded-lg font-medium text-xs flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
                   >
-                    <Download size={14} />
-                    TẢI POSTER NÀY
+                    <Download size={15} />
+                    TẢI POSTER VỀ MÁY (GỐC 100%)
                   </button>
+                )}
 
-                  <button
-                    type="button"
-                    onClick={handleShareActive}
-                    disabled={!activeItem?.previewDataUrl}
-                    className="py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42] rounded-lg font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
-                  >
-                    <Share2 size={14} className="text-[#044C42]" />
-                    CHIA SẺ (ZALO/ALBUM)
-                  </button>
-                </div>
+                {/* Native Share Button */}
+                <button
+                  type="button"
+                  onClick={handleShareActive}
+                  disabled={!activeItem?.previewDataUrl}
+                  className="w-full py-2.5 px-3 bg-white hover:bg-[#F5F1EA] text-[#044C42] border border-[#044C42] rounded-lg font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer active:scale-[0.98] disabled:opacity-50"
+                >
+                  <Share2 size={14} className="text-[#044C42]" />
+                  CHIA SẺ POSTER (ZALO/ALBUM)
+                </button>
+
+                {/* Secondary option if multiple: download only active item */}
+                {items.length > 1 && (
+                  <div className="text-center pt-0.5">
+                    <button
+                      type="button"
+                      onClick={handleDownloadActive}
+                      disabled={!activeItem?.previewDataUrl}
+                      className="text-[10px] font-mono text-[#044C42] hover:underline cursor-pointer inline-flex items-center gap-1"
+                    >
+                      <Download size={11} />
+                      Hoặc chỉ tải riêng ảnh đang chọn (Ảnh {activeIndex + 1})
+                    </button>
+                  </div>
+                )}
 
                 {shareNotice && (
                   <div className="p-2.5 bg-[#044C42]/10 border border-[#044C42]/30 rounded-lg text-xs font-mono text-[#044C42] text-center leading-relaxed">
