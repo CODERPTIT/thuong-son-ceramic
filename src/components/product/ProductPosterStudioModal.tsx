@@ -123,14 +123,9 @@ async function renderProductPosterCanvas(
     }
     if (maskX < 4) maskX = 4;
 
-    const isNearFooter = (qy >= footerY - 25) || (qy > srcH * 0.72);
-    if (isNearFooter) {
-      if (maskY + maskSize > footerY) {
-        maskY = footerY - maskSize;
-      }
-      if (maskY > qy - 4) {
-        maskY = qy - 4;
-      }
+    // Absolute guarantee: QR container NEVER spills down into footer bar
+    if (maskY + maskSize > footerY - 2) {
+      maskY = footerY - maskSize - 2;
     }
     if (maskY < 4) maskY = 4;
 
@@ -139,7 +134,7 @@ async function renderProductPosterCanvas(
     const wipeLeft = Math.max(0, Math.min(maskX, qx - 4));
     const wipeRight = Math.min(finalW, Math.max(maskX + maskSize, qx + qs + 4));
     const wipeTop = Math.max(0, Math.min(maskY, qy - 4));
-    const wipeBottom = isNearFooter ? Math.max(maskY + maskSize, footerY + 2) : Math.max(maskY + maskSize, qy + qs + 4);
+    const wipeBottom = Math.max(maskY + maskSize, footerY + 2);
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(wipeLeft, wipeTop, wipeRight - wipeLeft, wipeBottom - wipeTop);
 
@@ -479,9 +474,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         thumbnailUrl,
         status: 'pending',
         cropBottom: 8.8,
-        qrX: 84.67,
-        qrY: 79.35,
-        qrSize: 9.20,
+        qrX: 0,
+        qrY: 0,
+        qrSize: 0,
       };
     });
 
@@ -523,9 +518,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         thumbnailUrl: url,
         status: 'pending',
         cropBottom: 8.8,
-        qrX: 84.67,
-        qrY: 79.35,
-        qrSize: 9.20,
+        qrX: 0,
+        qrY: 0,
+        qrSize: 0,
       };
       const currentLen = items.length;
       setItems((prev) => [...prev, newItem]);
