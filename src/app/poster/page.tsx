@@ -15,10 +15,24 @@ interface ProductInfo {
 
 const productCodeMap = productCodeMapRaw as Record<string, ProductInfo>;
 
+// Helper to auto-detect product from filename (case-insensitive)
+function detectProductFromFilename(fileName: string): ProductInfo | null {
+  if (!fileName) return null;
+  const cleanName = fileName.replace(/\.[^/.]+$/, '').toUpperCase();
+  const codes = Object.keys(productCodeMap).sort((a, b) => b.length - a.length);
+  for (const code of codes) {
+    const upperCode = code.toUpperCase();
+    if (cleanName.includes(upperCode)) {
+      return productCodeMap[code];
+    }
+  }
+  return null;
+}
+
 interface DetectionResult {
   found: boolean;
   type: 1 | 2;
-  method: 'jsqr' | 'template_fallback';
+  method: 'filename' | 'jsqr' | 'template_fallback';
   qrX: number;
   qrY: number;
   qrSize: number;
@@ -37,6 +51,7 @@ interface PosterItem {
   imgElement?: HTMLImageElement;
   previewDataUrl?: string | null;
   detectedResult?: DetectionResult | null;
+  selectedProduct?: ProductInfo | null;
   cropBottom: number;
   qrX: number;
   qrY: number;
@@ -94,14 +109,17 @@ async function renderPosterCanvas(
 
   // 3. Generate & Draw System QR Code covering old QR location
   try {
+    // Level 'M' (Medium 15% error correction):
+    // Standard for marketing/posters. Modules are significantly larger and clearer,
+    // allowing phone cameras and Zalo to scan instantly from a distance without failure.
     const qrDataUrl = await QRCode.toDataURL(targetUrl, {
       width: 1024,
-      margin: 4,
+      margin: 2,
       color: {
         dark: '#000000',
         light: '#FFFFFF',
       },
-      errorCorrectionLevel: 'H',
+      errorCorrectionLevel: 'M',
     });
 
     const qrImg = await new Promise<HTMLImageElement>((res, rej) => {
@@ -115,31 +133,49 @@ async function renderPosterCanvas(
     let qy = (srcH * qrY) / 100;
     const qs = (finalW * qrSize) / 100;
 
-    // Generous white quiet zone (15% of QR size each side)
-    const pad = Math.round(qs * 0.15);
+    // Generous white quiet zone (12% of QR size each side, min 8px)
+    const pad = Math.max(8, Math.round(qs * 0.12));
     const maskSize = qs + pad * 2;
-    const maskX = qx - pad;
+    let maskX = qx - pad;
     let maskY = qy - pad;
 
+    // Anti-overflow right clamp: keep comfortably inside image border
+    if (maskX + maskSize > finalW - 10) {
+      maskX = (finalW - 10) - maskSize;
+    }
+
     // Anti-collision clamp: QR white box MUST NOT touch or cross footer bar
-    const maxSafeBottom = footerY - 4;
+    const maxSafeBottom = footerY - 6;
     if (maskY + maskSize > maxSafeBottom) {
       const shift = (maskY + maskSize) - maxSafeBottom;
       maskY -= shift;
       qy -= shift;
     }
 
-    // Pure clean white container mask
+    // Pure clean white container mask with elegant rounded corners
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(maskX, maskY, maskSize, maskSize);
+    const borderRadius = Math.max(4, Math.round(qs * 0.04));
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
+      ctx.fill();
+    } else {
+      ctx.fillRect(maskX, maskY, maskSize, maskSize);
+    }
 
-    // Draw the new Thường Sơn product QR
-    ctx.drawImage(qrImg, qx, qy, qs, qs);
+    // Draw the new Thường Sơn product QR with high contrast
+    ctx.drawImage(qrImg, maskX + pad, maskY + pad, qs, qs);
 
     // Fine hairline border around the white container
     ctx.strokeStyle = '#D5CDBE';
     ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
-    ctx.strokeRect(maskX, maskY, maskSize, maskSize);
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
+      ctx.stroke();
+    } else {
+      ctx.strokeRect(maskX, maskY, maskSize, maskSize);
+    }
   } catch (err) {
     console.error('QR overlay error:', err);
   }
@@ -207,14 +243,18 @@ export default function StandalonePosterPage() {
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [shareNotice, setShareNotice] = useState<string | null>(null);
 
+  // Product search & custom configuration state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchingProduct, setIsSearchingProduct] = useState(false);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const isProcessingRef = useRef<boolean>(false);
 
   // Active item
   const activeItem = items[activeIndex] || null;
 
-  // Auto-scan image with Computer Vision (jsQR) + Precise Top-Down Footer Boundary Detection
-  const autoDetectAndConfigure = (img: HTMLImageElement): DetectionResult => {
+  // Auto-scan image with Computer Vision (jsQR) + Precise Top-Down Footer Boundary Detection + Filename matching
+  const autoDetectAndConfigure = (img: HTMLImageElement, fileName?: string): DetectionResult => {
     const W = img.naturalWidth;
     const H = img.naturalHeight;
 
@@ -223,17 +263,29 @@ export default function StandalonePosterPage() {
     offscreen.height = H;
     const ctx = offscreen.getContext('2d');
 
+    // Default: larger, high-visibility QR (14.5% width instead of 9.2%)
     let result: DetectionResult = {
       found: false,
       type: 1,
       method: 'template_fallback',
-      qrX: 84.67,
-      qrY: 79.35,
-      qrSize: 9.20,
+      qrX: 80.0,
+      qrY: 71.5,
+      qrSize: 14.5,
       footerYPercent: 91.80,
       extractedCode: null,
       matchedProduct: null,
     };
+
+    // 1. First priority: Check filename for product code (handles posters without pre-existing QR)
+    if (fileName) {
+      const fileMatch = detectProductFromFilename(fileName);
+      if (fileMatch) {
+        result.found = true;
+        result.method = 'filename';
+        result.extractedCode = fileMatch.code;
+        result.matchedProduct = fileMatch;
+      }
+    }
 
     if (!ctx) return result;
 
@@ -246,7 +298,7 @@ export default function StandalonePosterPage() {
     }
 
     if (imgData) {
-      // 1. Scan with jsQR Computer Vision
+      // 2. Scan with jsQR Computer Vision for pre-existing QR codes
       try {
         const qrCode = jsQR(imgData.data, W, H);
         if (qrCode) {
@@ -269,7 +321,9 @@ export default function StandalonePosterPage() {
 
           const rawQrW = maxX - minX;
           const rawQrH = maxY - minY;
-          const detectedSize = Math.max(rawQrW, rawQrH);
+          const detectedSizePct = (Math.max(rawQrW, rawQrH) / W) * 100;
+          // Ensure QR is never tiny: minimum 14.5% width
+          const finalSizePct = Math.max(14.5, detectedSizePct);
 
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
@@ -279,20 +333,20 @@ export default function StandalonePosterPage() {
             extractedCode = match[1].trim().toUpperCase();
           }
 
-          let matchedProduct: ProductInfo | null = null;
-          if (extractedCode && productCodeMap[extractedCode]) {
+          let matchedProduct: ProductInfo | null = result.matchedProduct;
+          if (!matchedProduct && extractedCode && productCodeMap[extractedCode]) {
             matchedProduct = productCodeMap[extractedCode];
           }
 
           result = {
             found: true,
             type: detectedType,
-            method: 'jsqr',
+            method: result.matchedProduct ? 'filename' : 'jsqr',
             qrX: (minX / W) * 100,
             qrY: (minY / H) * 100,
-            qrSize: (detectedSize / W) * 100,
+            qrSize: finalSizePct,
             footerYPercent: 91.80,
-            extractedCode,
+            extractedCode: extractedCode || result.extractedCode,
             matchedProduct,
           };
         }
@@ -300,29 +354,21 @@ export default function StandalonePosterPage() {
         console.warn('jsQR scan error:', err);
       }
 
-      // 2. Fallback classification if jsQR did not detect
-      if (!result.found) {
+      // 3. Fallback classification if jsQR did not detect position
+      if (result.method === 'template_fallback' || !result.found) {
         const sampleY = Math.round(H * 0.80);
         const sampleX = Math.round(W * 0.50);
         const idx = (sampleY * W + sampleX) * 4;
         const brightness = (imgData.data[idx] + imgData.data[idx + 1] + imgData.data[idx + 2]) / 3;
 
         const isType2 = brightness < 90;
-        result = {
-          found: false,
-          type: isType2 ? 2 : 1,
-          method: 'template_fallback',
-          qrX: isType2 ? 81.30 : 84.67,
-          qrY: isType2 ? 79.67 : 79.35,
-          qrSize: isType2 ? 10.82 : 9.20,
-          footerYPercent: 91.80,
-          extractedCode: null,
-          matchedProduct: null,
-        };
+        result.type = isType2 ? 2 : 1;
+        result.qrX = isType2 ? 78.0 : 80.0;
+        result.qrY = isType2 ? 71.5 : 71.5;
+        result.qrSize = isType2 ? 15.0 : 14.5;
       }
 
-      // 3. Accurate Universal Top-Down Footer Boundary Detection
-      // Identifies the exact row where the old distributor bar or its separator line begins
+      // 4. Accurate Universal Top-Down Footer Boundary Detection
       try {
         const qrBottomPct = result.qrY + result.qrSize * 1.15;
         const minSafeY = Math.max(Math.round((H * (qrBottomPct + 1.2)) / 100), Math.round(H * 0.88));
@@ -373,35 +419,53 @@ export default function StandalonePosterPage() {
     return result;
   };
 
-  // Helper to process a single item
-  const processSingleItem = useCallback(async (item: PosterItem): Promise<PosterItem> => {
+  // Helper to process a single item (supports manual product override and QR size override)
+  const processSingleItem = useCallback(async (
+    item: PosterItem,
+    overrideProduct?: ProductInfo | null,
+    overrideQrSize?: number
+  ): Promise<PosterItem> => {
     try {
       // 1. Load image
-      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-        const image = new Image();
-        image.onload = () => resolve(image);
-        image.onerror = (e) => reject(e);
-        image.src = item.thumbnailUrl;
-      });
+      let img = item.imgElement;
+      if (!img) {
+        img = await new Promise<HTMLImageElement>((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = (e) => reject(e);
+          image.src = item.thumbnailUrl;
+        });
+      }
 
       // 2. Auto-detect with accurate footer boundary
-      const detection = autoDetectAndConfigure(img);
-      const computedCrop = parseFloat((100 - detection.footerYPercent).toFixed(2));
+      const detection = item.detectedResult || autoDetectAndConfigure(img, item.fileName);
+      const computedCrop = item.cropBottom !== undefined && item.cropBottom !== 8.8
+        ? item.cropBottom
+        : parseFloat((100 - detection.footerYPercent).toFixed(2));
 
-      const targetUrl = detection.matchedProduct
-        ? `${baseUrl}/products/${detection.matchedProduct.slug}`
+      // Effective product: prioritized from manual override -> manual selection -> detected product
+      const product = overrideProduct !== undefined
+        ? overrideProduct
+        : (item.selectedProduct !== undefined ? item.selectedProduct : detection.matchedProduct);
+
+      const targetUrl = product
+        ? `${baseUrl}/products/${product.slug}`
         : detection.extractedCode
         ? `${baseUrl}/catalog?search=${encodeURIComponent(detection.extractedCode)}`
         : `${baseUrl}/catalog`;
+
+      const currentQrSize = overrideQrSize || item.qrSize || detection.qrSize || 14.5;
+      const currentQrX = item.qrX || detection.qrX || 80.0;
+      const currentQrY = item.qrY || detection.qrY || 71.5;
 
       // 3. Render Canvas (Always accurate replace)
       const canvas = await renderPosterCanvas(
         img,
         targetUrl,
         computedCrop,
-        detection.qrX,
-        detection.qrY,
-        detection.qrSize
+        currentQrX,
+        currentQrY,
+        currentQrSize
       );
 
       if (!canvas) {
@@ -416,7 +480,7 @@ export default function StandalonePosterPage() {
       const previewDataUrl = canvas.toDataURL('image/png');
 
       // Share blob (JPEG 90%)
-      const codeTag = detection.extractedCode || 'Catalog';
+      const codeTag = product?.code || detection.extractedCode || 'Catalog';
       const shareFileName = `Poster_${codeTag}_ThuongSon.jpg`;
       const shareBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.90));
       const shareFile = shareBlob ? new File([shareBlob], shareFileName, { type: 'image/jpeg' }) : null;
@@ -427,10 +491,11 @@ export default function StandalonePosterPage() {
         imgElement: img,
         previewDataUrl,
         detectedResult: detection,
+        selectedProduct: product,
         cropBottom: computedCrop,
-        qrX: detection.qrX,
-        qrY: detection.qrY,
-        qrSize: detection.qrSize,
+        qrX: currentQrX,
+        qrY: currentQrY,
+        qrSize: currentQrSize,
         targetProductUrl: targetUrl,
         shareFile: shareFile && shareBlob ? { file: shareFile, blob: shareBlob } : null,
       };
@@ -443,6 +508,22 @@ export default function StandalonePosterPage() {
       };
     }
   }, [baseUrl]);
+
+  // Handle manual product selection for active poster
+  const handleSelectProductForActive = async (prod: ProductInfo | null) => {
+    if (!activeItem) return;
+    const updated = await processSingleItem(activeItem, prod, activeItem.qrSize);
+    setItems((prev) => prev.map((it, idx) => (idx === activeIndex ? updated : it)));
+    setIsSearchingProduct(false);
+    setSearchQuery('');
+  };
+
+  // Handle manual QR size change for active poster
+  const handleChangeActiveQrSize = async (newSize: number) => {
+    if (!activeItem) return;
+    const updated = await processSingleItem(activeItem, activeItem.selectedProduct, newSize);
+    setItems((prev) => prev.map((it, idx) => (idx === activeIndex ? updated : it)));
+  };
 
   // Sequential batch processor queue
   useEffect(() => {
@@ -483,17 +564,19 @@ export default function StandalonePosterPage() {
     const newItems: PosterItem[] = validImages.map((file, i) => {
       const id = `${Date.now()}_${i}_${Math.random().toString(36).substring(2, 7)}`;
       const thumbnailUrl = URL.createObjectURL(file);
+      const preMatched = detectProductFromFilename(file.name);
       return {
         id,
         file,
         fileName: file.name,
         thumbnailUrl,
         status: 'pending',
+        selectedProduct: preMatched,
         cropBottom: 8.8,
-        qrX: 84.67,
-        qrY: 79.35,
-        qrSize: 9.20,
-        targetProductUrl: `${baseUrl}/catalog`,
+        qrX: 80.0,
+        qrY: 71.5,
+        qrSize: 14.5,
+        targetProductUrl: preMatched ? `${baseUrl}/products/${preMatched.slug}` : `${baseUrl}/catalog`,
       };
     });
 
@@ -917,36 +1000,137 @@ export default function StandalonePosterPage() {
             </div>
 
             {/* Active Item Detection Information */}
+            {/* Active Item Detection & Product Selection & QR Size Controls */}
             {activeItem && (
-              <div className="px-3.5 py-2 bg-[#044C42]/10 border border-[#044C42]/20 rounded-xl text-xs font-mono space-y-1">
-                <div className="flex items-center justify-between text-[#044C42] font-semibold">
-                  <span className="flex items-center gap-1.5 truncate">
-                    <ShieldCheck size={16} className="shrink-0" />
-                    {activeItem.detectedResult?.matchedProduct ? (
-                      <>Đã nhận diện: <span className="font-bold text-[#B85C38]">{activeItem.detectedResult.matchedProduct.code}</span></>
-                    ) : activeItem.detectedResult?.extractedCode ? (
-                      <>Mã phát hiện: <span className="font-bold text-[#B85C38]">{activeItem.detectedResult.extractedCode}</span></>
-                    ) : (
-                      `Ảnh ${activeIndex + 1}/${items.length}: ${activeItem.fileName}`
-                    )}
-                  </span>
+              <div className="bg-white border border-[#D5CDBE] rounded-xl p-3 sm:p-3.5 shadow-sm space-y-2.5 font-mono text-xs">
+                {/* Header status */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 font-semibold text-[#1C1B19]">
+                    <ShieldCheck size={16} className={activeItem.selectedProduct || activeItem.detectedResult?.matchedProduct ? 'text-[#044C42]' : 'text-amber-600'} />
+                    <span>{`Ảnh ${activeIndex + 1}/${items.length}: ${activeItem.fileName}`}</span>
+                  </div>
                   <span className="text-[10px] px-2 py-0.5 bg-[#044C42] text-white rounded font-normal shrink-0 ml-2">
                     {downloadSuccess ? '✓ Đã tải về' : activeItem.status === 'done' ? '✓ Đã cắt đè chuẩn' : activeItem.status === 'processing' ? 'Đang tạo...' : 'Chờ xử lý'}
                   </span>
                 </div>
 
-                {activeItem.detectedResult?.matchedProduct && (
-                  <div className="flex items-center justify-between text-[11px] text-[#6E6254] pt-0.5 border-t border-[#044C42]/10">
-                    <span className="truncate">{activeItem.detectedResult.matchedProduct.name}</span>
-                    <Link
-                      href={`/products/${activeItem.detectedResult.matchedProduct.slug}`}
-                      target="_blank"
-                      className="text-[#044C42] hover:underline flex items-center gap-1 shrink-0 ml-2"
-                    >
-                      Xem web <ExternalLink size={11} />
-                    </Link>
+                {/* Linked Product Status & Switcher */}
+                {activeItem.selectedProduct || activeItem.detectedResult?.matchedProduct ? (
+                  <div className="p-2.5 bg-[#044C42]/5 border border-[#044C42]/20 rounded-lg space-y-1">
+                    <div className="flex items-center justify-between flex-wrap gap-1">
+                      <div className="flex items-center gap-1.5 text-[#044C42]">
+                        <span className="font-bold text-white bg-[#044C42] px-1.5 py-0.5 rounded text-[11px]">
+                          {(activeItem.selectedProduct || activeItem.detectedResult?.matchedProduct)!.code}
+                        </span>
+                        <span className="font-medium truncate max-w-[260px] sm:max-w-xs text-[11px] text-[#1C1B19]">
+                          {(activeItem.selectedProduct || activeItem.detectedResult?.matchedProduct)!.name}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px]">
+                        <Link
+                          href={`/products/${(activeItem.selectedProduct || activeItem.detectedResult?.matchedProduct)!.slug}`}
+                          target="_blank"
+                          className="text-[#044C42] hover:text-[#B85C38] hover:underline flex items-center gap-0.5 font-medium"
+                        >
+                          Kiểm tra link web <ExternalLink size={11} />
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setIsSearchingProduct(!isSearchingProduct)}
+                          className="text-[#B85C38] hover:underline font-semibold cursor-pointer"
+                        >
+                          {isSearchingProduct ? 'Đóng' : 'Đổi sản phẩm'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-2.5 bg-amber-50 border border-amber-300 rounded-lg text-amber-900 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-[11px] flex items-center gap-1 text-amber-800">
+                        ⚠️ Chưa nhận diện được mã gạch cho ảnh này
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setIsSearchingProduct(true)}
+                        className="text-xs font-bold text-[#044C42] underline cursor-pointer"
+                      >
+                        Chọn sản phẩm ngay
+                      </button>
+                    </div>
+                    <p className="text-[10px] text-amber-700 leading-tight">
+                      Mã QR hiện đang dẫn về trang catalog chung. Hãy chọn đúng sản phẩm bên dưới để mã QR mở thẳng trang chi tiết!
+                    </p>
                   </div>
                 )}
+
+                {/* Search / Select Product Dropdown */}
+                {(isSearchingProduct || (!activeItem.selectedProduct && !activeItem.detectedResult?.matchedProduct)) && (
+                  <div className="pt-1.5 border-t border-[#D5CDBE]/60 space-y-2">
+                    <label className="block text-[11px] font-semibold text-[#1C1B19]">
+                      Tìm &amp; gán mã sản phẩm Thường Sơn:
+                    </label>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Gõ mã (vd: P61245005RMG, N61245005H, F612, 800x800...)"
+                      className="w-full px-3 py-1.5 text-xs bg-[#FAF8F4] border border-[#044C42] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#044C42]/30"
+                    />
+
+                    {/* Filtered suggestions */}
+                    <div className="max-h-40 overflow-y-auto space-y-1 border border-[#D5CDBE] rounded-lg p-1 bg-white">
+                      {Object.values(productCodeMap)
+                        .filter((p) => {
+                          if (!searchQuery.trim()) return true;
+                          const q = searchQuery.toLowerCase();
+                          return p.code.toLowerCase().includes(q) || p.name.toLowerCase().includes(q);
+                        })
+                        .slice(0, 8)
+                        .map((prod) => (
+                          <button
+                            key={prod.code}
+                            type="button"
+                            onClick={() => handleSelectProductForActive(prod)}
+                            className="w-full text-left p-1.5 hover:bg-[#044C42]/10 rounded flex items-center justify-between text-xs cursor-pointer transition-colors"
+                          >
+                            <span className="font-bold text-[#044C42]">{prod.code}</span>
+                            <span className="truncate max-w-[280px] text-[10px] text-[#6E6254] ml-2">
+                              {prod.name}
+                            </span>
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* QR Size Quick Control */}
+                <div className="pt-2 border-t border-[#D5CDBE]/60 flex items-center justify-between flex-wrap gap-2 text-[11px]">
+                  <span className="text-[#6E6254] font-medium">Cỡ mã QR (Độ to &amp; dễ quét):</span>
+                  <div className="flex items-center gap-1.5">
+                    {[
+                      { size: 14.5, label: 'Chuẩn (14.5%)' },
+                      { size: 17.5, label: 'Lớn (17.5%)' },
+                      { size: 20.0, label: 'Cực lớn (20%)' },
+                    ].map((opt) => {
+                      const isCurrent = Math.abs((activeItem.qrSize || 14.5) - opt.size) < 0.8;
+                      return (
+                        <button
+                          key={opt.size}
+                          type="button"
+                          onClick={() => handleChangeActiveQrSize(opt.size)}
+                          className={`px-2 py-0.5 rounded text-[10px] font-mono cursor-pointer transition-all ${
+                            isCurrent
+                              ? 'bg-[#044C42] text-white font-bold shadow-sm'
+                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             )}
 

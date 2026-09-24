@@ -86,14 +86,17 @@ async function renderProductPosterCanvas(
 
   // 3. Generate & Draw System QR Code
   try {
+    // Level 'M' (Medium 15% error correction):
+    // Standard for marketing/posters. Modules are significantly larger and clearer,
+    // allowing phone cameras and Zalo to scan instantly from a distance without failure.
     const qrDataUrl = await QRCode.toDataURL(productUrl, {
       width: 1024,
-      margin: 4,
+      margin: 2,
       color: {
         dark: '#000000',
         light: '#FFFFFF',
       },
-      errorCorrectionLevel: 'H',
+      errorCorrectionLevel: 'M',
     });
 
     const qrImg = await new Promise<HTMLImageElement>((res, rej) => {
@@ -107,25 +110,49 @@ async function renderProductPosterCanvas(
     let qy = (srcH * qrY) / 100;
     const qs = (finalW * qrSize) / 100;
 
-    const pad = Math.round(qs * 0.15);
+    // Generous white quiet zone (12% of QR size each side, min 8px)
+    const pad = Math.max(8, Math.round(qs * 0.12));
     const maskSize = qs + pad * 2;
-    const maskX = qx - pad;
+    let maskX = qx - pad;
     let maskY = qy - pad;
 
-    const maxSafeBottom = footerY - 4;
+    // Anti-overflow right clamp: keep comfortably inside image border
+    if (maskX + maskSize > finalW - 10) {
+      maskX = (finalW - 10) - maskSize;
+    }
+
+    // Anti-collision clamp: QR white box MUST NOT touch or cross footer bar
+    const maxSafeBottom = footerY - 6;
     if (maskY + maskSize > maxSafeBottom) {
       const shift = (maskY + maskSize) - maxSafeBottom;
       maskY -= shift;
       qy -= shift;
     }
 
+    // Pure clean white container mask with elegant rounded corners
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(maskX, maskY, maskSize, maskSize);
-    ctx.drawImage(qrImg, qx, qy, qs, qs);
+    const borderRadius = Math.max(4, Math.round(qs * 0.04));
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
+      ctx.fill();
+    } else {
+      ctx.fillRect(maskX, maskY, maskSize, maskSize);
+    }
 
+    // Draw the new Thường Sơn product QR with high contrast
+    ctx.drawImage(qrImg, maskX + pad, maskY + pad, qs, qs);
+
+    // Fine hairline border around the white container
     ctx.strokeStyle = '#D5CDBE';
     ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
-    ctx.strokeRect(maskX, maskY, maskSize, maskSize);
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
+      ctx.stroke();
+    } else {
+      ctx.strokeRect(maskX, maskY, maskSize, maskSize);
+    }
   } catch (err) {
     console.error('QR overlay error:', err);
   }
@@ -210,9 +237,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
       found: false,
       type: 1,
       method: 'template_fallback',
-      qrX: 84.67,
-      qrY: 79.35,
-      qrSize: 9.20,
+      qrX: 80.0,
+      qrY: 71.5,
+      qrSize: 14.5,
       footerYPercent: 91.80,
     };
 
@@ -249,7 +276,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
 
           const rawQrW = maxX - minX;
           const rawQrH = maxY - minY;
-          const detectedSize = Math.max(rawQrW, rawQrH);
+          const detectedSizePct = (Math.max(rawQrW, rawQrH) / W) * 100;
+          // Ensure QR is never tiny: minimum 14.5% width
+          const finalSizePct = Math.max(14.5, detectedSizePct);
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
           result = {
@@ -258,7 +287,7 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
             method: 'jsqr',
             qrX: (minX / W) * 100,
             qrY: (minY / H) * 100,
-            qrSize: (detectedSize / W) * 100,
+            qrSize: finalSizePct,
             footerYPercent: 91.80,
           };
         }
@@ -277,9 +306,9 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
           found: false,
           type: isType2 ? 2 : 1,
           method: 'template_fallback',
-          qrX: isType2 ? 81.30 : 84.67,
-          qrY: isType2 ? 79.67 : 79.35,
-          qrSize: isType2 ? 10.82 : 9.20,
+          qrX: isType2 ? 78.0 : 80.0,
+          qrY: isType2 ? 71.5 : 71.5,
+          qrSize: isType2 ? 15.0 : 14.5,
           footerYPercent: 91.80,
         };
       }
