@@ -109,35 +109,39 @@ async function renderProductPosterCanvas(
 
     const qx = (finalW * qrX) / 100;
     let qy = (srcH * qrY) / 100;
-    const qs = (finalW * qrSize) / 100;
+    const qs = Math.max((finalW * qrSize) / 100, Math.min(finalW, srcH) * 0.115);
 
-    // Generous white quiet zone (12% of QR size each side, min 8px)
-    const pad = Math.max(8, Math.round(qs * 0.12));
+    // Generous white quiet zone (10% of QR size each side, min 8px)
+    const pad = Math.max(8, Math.round(qs * 0.10));
     const maskSize = qs + pad * 2;
     let maskX = qx - pad;
     let maskY = qy - pad;
 
     // Anti-overflow right clamp: keep comfortably inside image border
-    if (maskX + maskSize > finalW - 10) {
-      maskX = (finalW - 10) - maskSize;
+    if (maskX + maskSize > finalW - 8) {
+      maskX = (finalW - 8) - maskSize;
+    }
+    if (maskX < 8) maskX = 8;
+    if (maskX > qx) maskX = Math.max(0, qx - 4);
+
+    const isNearFooter = (qy >= footerY - 25) || (qy > srcH * 0.72);
+    if (isNearFooter) {
+      if (maskY + maskSize > footerY) {
+        maskY = footerY - maskSize;
+      }
+      if (maskY > qy - 4) {
+        maskY = qy - 4;
+      }
     }
 
     // 100% COMPLETE ERASURE OF OLD QR:
-    // Wipe the entire original QR footprint completely with pure white
-    // extending all the way down to and into the footer bar, so ZERO old QR pixels can peek out
-    const wipeX = Math.max(0, Math.min(qx - pad, maskX));
-    const wipeY = Math.max(0, Math.min(qy - pad, maskY));
-    const wipeW = Math.min(finalW - wipeX, Math.max(maskSize, qs + pad * 2 + 10));
-    const wipeH = Math.max(maskSize, footerY - wipeY + 4);
+    // Erase any and all traces of the original QR code bounding box
+    const wipeLeft = Math.max(0, Math.min(maskX, qx - 4));
+    const wipeRight = Math.min(finalW, Math.max(maskX + maskSize, qx + qs + 4));
+    const wipeTop = Math.max(0, Math.min(maskY, qy - 4));
+    const wipeBottom = isNearFooter ? Math.max(maskY + maskSize, footerY + 2) : Math.max(maskY + maskSize, qy + qs + 4);
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(wipeX, wipeY, wipeW, wipeH);
-
-    // If maskY + maskSize exceeds footerY, align the bottom of the card directly with footerY
-    if (maskY + maskSize > footerY) {
-      const shift = (maskY + maskSize) - footerY;
-      maskY -= shift;
-      qy -= shift;
-    }
+    ctx.fillRect(wipeLeft, wipeTop, wipeRight - wipeLeft, wipeBottom - wipeTop);
 
     // Pure clean white container mask with elegant rounded corners
     ctx.fillStyle = '#FFFFFF';
