@@ -109,20 +109,19 @@ async function renderProductPosterCanvas(
 
     const qx = (finalW * qrX) / 100;
     let qy = (srcH * qrY) / 100;
-    const qs = Math.max((finalW * qrSize) / 100, Math.min(finalW, srcH) * 0.115);
+    const qs = (finalW * qrSize) / 100;
 
-    // Generous white quiet zone (10% of QR size each side, min 8px)
-    const pad = Math.max(8, Math.round(qs * 0.10));
+    // Snug quiet zone matching original poster (2-4px, ~4% of QR size)
+    const pad = Math.max(2, Math.round(qs * 0.04));
     const maskSize = qs + pad * 2;
-    let maskX = qx - pad;
-    let maskY = qy - pad;
+    let maskX = Math.round(qx - pad);
+    let maskY = Math.round(qy - pad);
 
     // Anti-overflow right clamp: keep comfortably inside image border
-    if (maskX + maskSize > finalW - 8) {
-      maskX = (finalW - 8) - maskSize;
+    if (maskX + maskSize > finalW - 4) {
+      maskX = (finalW - 4) - maskSize;
     }
-    if (maskX < 8) maskX = 8;
-    if (maskX > qx) maskX = Math.max(0, qx - 4);
+    if (maskX < 4) maskX = 4;
 
     const isNearFooter = (qy >= footerY - 25) || (qy > srcH * 0.72);
     if (isNearFooter) {
@@ -133,6 +132,7 @@ async function renderProductPosterCanvas(
         maskY = qy - 4;
       }
     }
+    if (maskY < 4) maskY = 4;
 
     // 100% COMPLETE ERASURE OF OLD QR:
     // Erase any and all traces of the original QR code bounding box
@@ -145,7 +145,7 @@ async function renderProductPosterCanvas(
 
     // Pure clean white container mask with elegant rounded corners
     ctx.fillStyle = '#FFFFFF';
-    const borderRadius = Math.max(4, Math.round(qs * 0.04));
+    const borderRadius = Math.max(3, Math.round(qs * 0.04));
     if (ctx.roundRect) {
       ctx.beginPath();
       ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
@@ -159,7 +159,7 @@ async function renderProductPosterCanvas(
 
     // Fine hairline border around the white container
     ctx.strokeStyle = '#D5CDBE';
-    ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
+    ctx.lineWidth = 1;
     if (ctx.roundRect) {
       ctx.beginPath();
       ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
@@ -291,8 +291,8 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
           const rawQrW = maxX - minX;
           const rawQrH = maxY - minY;
           const detectedSizePct = (Math.max(rawQrW, rawQrH) / W) * 100;
-          // Ensure QR is never tiny: minimum 14.5% width
-          const finalSizePct = Math.max(14.5, detectedSizePct);
+          // Match original QR size directly (no artificial inflation)
+          const finalSizePct = Number(detectedSizePct.toFixed(2));
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
           result = {
@@ -315,6 +315,8 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
         const idx = (sampleY * W + sampleX) * 4;
         const brightness = (imgData.data[idx] + imgData.data[idx + 1] + imgData.data[idx + 2]) / 3;
 
+        const isLandscape = (W / H) > 1.2;
+        const defaultSize = isLandscape ? 5.6 : 9.0;
         const isType2 = brightness < 90;
         result = {
           found: false,
@@ -322,15 +324,14 @@ export default function ProductPosterStudioModal({ product, onClose }: ProductPo
           method: 'template_fallback',
           qrX: isType2 ? 78.0 : 80.0,
           qrY: isType2 ? 71.5 : 71.5,
-          qrSize: isType2 ? 15.0 : 14.5,
+          qrSize: defaultSize,
           footerYPercent: 91.80,
         };
       }
 
       // Accurate Universal Top-Down Footer Boundary Detection
       try {
-        const qrBottomPct = result.qrY + result.qrSize * 1.15;
-        const minSafeY = Math.max(Math.round((H * (qrBottomPct + 1.2)) / 100), Math.round(H * 0.88));
+        const minSafeY = Math.round(H * 0.88);
 
         const sampleBottomY = H - 4;
         let bR = 0, bG = 0, bB = 0, bSamples = 0;

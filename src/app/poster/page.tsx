@@ -137,20 +137,19 @@ async function renderPosterCanvas(
 
     const qx = (finalW * qrX) / 100;
     let qy = (srcH * qrY) / 100;
-    const qs = Math.max((finalW * qrSize) / 100, Math.min(finalW, srcH) * 0.115);
+    const qs = (finalW * qrSize) / 100;
 
-    // Generous white quiet zone (10% of QR size each side, min 8px)
-    const pad = Math.max(8, Math.round(qs * 0.10));
+    // Snug quiet zone matching original poster (2-4px, ~4% of QR size)
+    const pad = Math.max(2, Math.round(qs * 0.04));
     const maskSize = qs + pad * 2;
-    let maskX = qx - pad;
-    let maskY = qy - pad;
+    let maskX = Math.round(qx - pad);
+    let maskY = Math.round(qy - pad);
 
     // Anti-overflow right clamp: keep comfortably inside image border
-    if (maskX + maskSize > finalW - 8) {
-      maskX = (finalW - 8) - maskSize;
+    if (maskX + maskSize > finalW - 4) {
+      maskX = (finalW - 4) - maskSize;
     }
-    if (maskX < 8) maskX = 8;
-    if (maskX > qx) maskX = Math.max(0, qx - 4);
+    if (maskX < 4) maskX = 4;
 
     const isNearFooter = (qy >= footerY - 25) || (qy > srcH * 0.72);
     if (isNearFooter) {
@@ -161,6 +160,7 @@ async function renderPosterCanvas(
         maskY = qy - 4;
       }
     }
+    if (maskY < 4) maskY = 4;
 
     // 100% COMPLETE ERASURE OF OLD QR:
     // Erase any and all traces of the original QR code bounding box
@@ -173,7 +173,7 @@ async function renderPosterCanvas(
 
     // Pure clean white container mask with elegant rounded corners
     ctx.fillStyle = '#FFFFFF';
-    const borderRadius = Math.max(4, Math.round(qs * 0.04));
+    const borderRadius = Math.max(3, Math.round(qs * 0.04));
     if (ctx.roundRect) {
       ctx.beginPath();
       ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
@@ -187,7 +187,7 @@ async function renderPosterCanvas(
 
     // Fine hairline border around the white container
     ctx.strokeStyle = '#D5CDBE';
-    ctx.lineWidth = Math.max(1, Math.round(qs * 0.015));
+    ctx.lineWidth = 1;
     if (ctx.roundRect) {
       ctx.beginPath();
       ctx.roundRect(maskX, maskY, maskSize, maskSize, borderRadius);
@@ -380,8 +380,8 @@ export default function StandalonePosterPage() {
           const rawQrW = maxX - minX;
           const rawQrH = maxY - minY;
           const detectedSizePct = (Math.max(rawQrW, rawQrH) / W) * 100;
-          // Ensure QR is never tiny: minimum 14.5% width
-          const finalSizePct = Math.max(14.5, detectedSizePct);
+          // Match original QR size directly (no artificial inflation)
+          const finalSizePct = Number(detectedSizePct.toFixed(2));
 
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
@@ -439,17 +439,18 @@ export default function StandalonePosterPage() {
         const idx = (sampleY * W + sampleX) * 4;
         const brightness = (imgData.data[idx] + imgData.data[idx + 1] + imgData.data[idx + 2]) / 3;
 
+        const isLandscape = (W / H) > 1.2;
+        const defaultSize = isLandscape ? 5.6 : 9.0;
         const isType2 = brightness < 90;
         result.type = isType2 ? 2 : 1;
         result.qrX = isType2 ? 78.0 : 80.0;
         result.qrY = isType2 ? 71.5 : 71.5;
-        result.qrSize = isType2 ? 15.0 : 14.5;
+        result.qrSize = defaultSize;
       }
 
       // 4. Accurate Universal Top-Down Footer Boundary Detection
       try {
-        const qrBottomPct = result.qrY + result.qrSize * 1.15;
-        const minSafeY = Math.max(Math.round((H * (qrBottomPct + 1.2)) / 100), Math.round(H * 0.88));
+        const minSafeY = Math.round(H * 0.88);
 
         // Sample base footer color at the bottom (last 4 rows) across middle 70% width
         const sampleBottomY = H - 4;
@@ -532,7 +533,8 @@ export default function StandalonePosterPage() {
         ? `${baseUrl}/catalog?search=${encodeURIComponent(detection.extractedCode)}`
         : `${baseUrl}/catalog`;
 
-      const currentQrSize = overrideQrSize || item.qrSize || detection.qrSize || 14.5;
+      const defaultSize = (img.naturalWidth / img.naturalHeight > 1.2) ? 5.6 : 9.0;
+      const currentQrSize = overrideQrSize || item.qrSize || detection.qrSize || defaultSize;
       const currentQrX = item.qrX || detection.qrX || 80.0;
       const currentQrY = item.qrY || detection.qrY || 71.5;
 
@@ -1184,30 +1186,34 @@ export default function StandalonePosterPage() {
 
                 {/* QR Size Quick Control */}
                 <div className="pt-2 border-t border-[#D5CDBE]/60 flex items-center justify-between flex-wrap gap-2 text-[11px]">
-                  <span className="text-[#6E6254] font-medium">Cỡ mã QR (Độ to &amp; dễ quét):</span>
+                  <span className="text-[#6E6254] font-medium">Cỡ mã QR:</span>
                   <div className="flex items-center gap-1.5">
-                    {[
-                      { size: 12.0, label: 'Gọn gàng (12%)' },
-                      { size: 14.5, label: 'Chuẩn đẹp (14.5%)' },
-                      { size: 17.5, label: 'Lớn (17.5%)' },
-                      { size: 20.0, label: 'Cực lớn (20%)' },
-                    ].map((opt) => {
-                      const isCurrent = Math.abs((activeItem.qrSize || 14.5) - opt.size) < 0.8;
-                      return (
-                        <button
-                          key={opt.size}
-                          type="button"
-                          onClick={() => handleChangeActiveQrSize(opt.size)}
-                          className={`px-2 py-0.5 rounded text-[10px] font-mono cursor-pointer transition-all ${
-                            isCurrent
-                              ? 'bg-[#044C42] text-white font-bold shadow-sm'
-                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                        >
-                          {opt.label}
-                        </button>
-                      );
-                    })}
+                    {(() => {
+                      const isLandscape = activeItem.imgElement ? (activeItem.imgElement.naturalWidth / activeItem.imgElement.naturalHeight > 1.2) : true;
+                      const baseSize = activeItem.detectedResult?.qrSize || (isLandscape ? 5.6 : 9.0);
+                      const currentSize = activeItem.qrSize || baseSize;
+                      return [
+                        { size: baseSize, label: 'Khớp gốc (Chuẩn)' },
+                        { size: Number((baseSize * 1.15).toFixed(2)), label: '+15%' },
+                        { size: Number((baseSize * 1.30).toFixed(2)), label: '+30%' },
+                      ].map((opt) => {
+                        const isCurrent = Math.abs(currentSize - opt.size) < 0.2;
+                        return (
+                          <button
+                            key={opt.label}
+                            type="button"
+                            onClick={() => handleChangeActiveQrSize(opt.size)}
+                            className={`px-2.5 py-1 rounded text-[11px] font-mono cursor-pointer transition-all ${
+                              isCurrent
+                                ? 'bg-[#044C42] text-white font-bold shadow-sm'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        );
+                      });
+                    })()}
                   </div>
                 </div>
               </div>
