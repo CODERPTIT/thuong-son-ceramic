@@ -3098,5 +3098,50 @@
     "code": "VYG03-A1",
     "slug": "viet-y-vyg03-a1",
     "name": "Ngói sóng Việt Ý màu Coban"
+  },
+  "N88007R": {
+    "slug": "y-my-n88007r-bong",
+    "name": "Gạch Ý MỸ N88007R Granite 800x800mm Bóng",
+    "code": "N88007R"
+  },
+  "N68069R": {
+    "slug": "y-my-n68069r-bong",
+    "name": "Gạch Ý MỸ N68069R Granite 600x600mm Bóng",
+    "code": "N68069R"
+  },
+  "EN89012R": {
+    "slug": "y-my-en89012r-bong",
+    "name": "Gạch Ý MỸ EN89012R Granite 800x800mm Bóng",
+    "code": "EN89012R"
+  },
+  "N88042R": {
+    "slug": "y-my-n88042r-bong",
+    "name": "Gạch Ý MỸ N88042R Granite 800x800mm Bóng",
+    "code": "N88042R"
+  },
+  "N88027R": {
+    "slug": "y-my-n88027r-bong",
+    "name": "Gạch Ý MỸ N88027R Granite 800x800mm Bóng",
+    "code": "N88027R"
+  },
+  "P88038R": {
+    "slug": "y-my-p88038r-bong",
+    "name": "Gạch Ý MỸ P88038R Granite 800x800mm Bóng",
+    "code": "P88038R"
+  },
+  "P68131R": {
+    "slug": "y-my-p68131r-bong",
+    "name": "Gạch Ý MỸ P68131R Granite 600x600mm Bóng",
+    "code": "P68131R"
+  },
+  "N85027RH": {
+    "slug": "y-my-n85027rh-mo",
+    "name": "Gạch Ý MỸ N85027RH Granite 800x800mm Mờ",
+    "code": "N85027RH"
+  },
+  "N88069R": {
+    "slug": "y-my-n88069r-bong",
+    "name": "Gạch Ý MỸ N88069R Granite 800x800mm Bóng",
+    "code": "N88069R"
   }
 }

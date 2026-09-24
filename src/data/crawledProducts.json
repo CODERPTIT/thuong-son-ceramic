@@ -56,7 +56,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-n61245003rc",
@@ -112,7 +113,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-n61245002rc",
@@ -166,7 +168,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-f61245002r",
@@ -222,7 +225,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-p61245005rmg",
@@ -278,7 +282,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-n61245005h",
@@ -333,7 +338,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-n61245006h",
@@ -386,7 +392,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-n61248009r",
@@ -437,7 +444,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-p61248013r",
@@ -484,7 +492,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-n61248007r",
@@ -543,7 +552,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-p61248016r",
@@ -599,7 +609,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-f61248004r",
@@ -653,7 +664,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-f61248006r",
@@ -710,7 +722,8 @@
       "boxPerPallet": 40,
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
-    }
+    },
+    "size": "600x1200mm"
   },
   {
     "id": "ymy-p88040rc",
@@ -764,7 +777,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-f88016r",
@@ -819,7 +833,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-p88132r",
@@ -876,7 +891,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-f88021rc",
@@ -930,7 +946,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-n85031rc",
@@ -987,7 +1004,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-n88040rc",
@@ -1041,7 +1059,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-p85024rc",
@@ -1101,7 +1120,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-p85012c",
@@ -1152,7 +1172,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-n88022",
@@ -1200,7 +1221,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-f88020rc",
@@ -1251,7 +1273,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-f85004rh",
@@ -1305,7 +1328,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-p88042r",
@@ -1359,7 +1383,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-p88041r",
@@ -1410,7 +1435,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-n85005h",
@@ -1462,7 +1488,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-n85006h",
@@ -1514,7 +1541,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-p85020rh",
@@ -1570,7 +1598,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-f85020rh",
@@ -1621,7 +1650,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "ymy-f85019rh",
@@ -1672,7 +1702,8 @@
       "boxPerPallet": 28,
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
-    }
+    },
+    "size": "800x800mm"
   },
   {
     "id": "gt-AAMP88005",
@@ -51060,5 +51091,743 @@
         "result": "5"
       }
     ]
+  },
+  {
+    "id": "ymy-n88007r",
+    "code": "N88007R",
+    "name": "Gạch Ý MỸ N88007R Granite 800x800mm Bóng",
+    "slug": "y-my-n88007r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "800x800mm",
+    "surface": "Polished",
+    "color": [
+      "Trắng",
+      "xám"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88007R-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88007R-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88007R-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N88007R_PC.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88007R-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N88007R_PC.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88007R-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "800x800mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "45 kg/thùng",
+      "piecesPerBox": "3 viên/thùng (1.92 m²)",
+      "coveragePerBox": "1.92 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 32,
+      "m2PerPallet": 61.44,
+      "kgPerPallet": 1440
+    },
+    "description": "Gạch Gạch Ý MỸ N88007R Granite 800x800mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "800x800mm",
+      "Polished",
+      "Trắng",
+      "xám",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Trắng",
+      "xám"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-n68069r",
+    "code": "N68069R",
+    "name": "Gạch Ý MỸ N68069R Granite 600x600mm Bóng",
+    "slug": "y-my-n68069r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "600x600mm",
+    "surface": "Polished",
+    "color": [
+      "Tự nhiên"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "600x600mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "30 kg/thùng",
+      "piecesPerBox": "4 viên/thùng (1.44 m²)",
+      "coveragePerBox": "1.44 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 4,
+      "m2PerBox": 1.44,
+      "kgPerBox": 30,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1200
+    },
+    "description": "Gạch Gạch Ý MỸ N68069R Granite 600x600mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "600x600mm",
+      "Polished",
+      "Tự nhiên",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Tự nhiên"
+    ],
+    "sizes": [
+      "600x600mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-en89012r",
+    "code": "EN89012R",
+    "name": "Gạch Ý MỸ EN89012R Granite 800x800mm Bóng",
+    "slug": "y-my-en89012r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "800x800mm",
+    "surface": "Polished",
+    "color": [
+      "Trắng",
+      "xám",
+      "vân đá"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/EN89012R_2D3D-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/EN89012R_2D3D-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/EN89012R_2D3D-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/EN89012R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/EN89012R_2D3D-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/EN89012R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/EN89012R_2D3D-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "800x800mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "45 kg/thùng",
+      "piecesPerBox": "3 viên/thùng (1.92 m²)",
+      "coveragePerBox": "1.92 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 32,
+      "m2PerPallet": 61.44,
+      "kgPerPallet": 1440
+    },
+    "description": "Gạch Gạch Ý MỸ EN89012R Granite 800x800mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "800x800mm",
+      "Polished",
+      "Trắng",
+      "xám",
+      "vân đá",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Trắng",
+      "xám",
+      "vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-n88042r",
+    "code": "N88042R",
+    "name": "Gạch Ý MỸ N88042R Granite 800x800mm Bóng",
+    "slug": "y-my-n88042r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "800x800mm",
+    "surface": "Polished",
+    "color": [
+      "Cam gạch"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/N88042R-1-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/N88042R-1-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/N88042R-1-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/N88042R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/N88042R-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/N88042R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/N88042R-1-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "800x800mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "45 kg/thùng",
+      "piecesPerBox": "3 viên/thùng (1.92 m²)",
+      "coveragePerBox": "1.92 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 32,
+      "m2PerPallet": 61.44,
+      "kgPerPallet": 1440
+    },
+    "description": "Gạch Gạch Ý MỸ N88042R Granite 800x800mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "800x800mm",
+      "Polished",
+      "Cam gạch",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Cam gạch"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-n88027r",
+    "code": "N88027R",
+    "name": "Gạch Ý MỸ N88027R Granite 800x800mm Bóng",
+    "slug": "y-my-n88027r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "800x800mm",
+    "surface": "Polished",
+    "color": [
+      "Tự nhiên"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88027R-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88027R-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88027R-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88027R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88027R-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88027R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N88027R-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "800x800mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "45 kg/thùng",
+      "piecesPerBox": "3 viên/thùng (1.92 m²)",
+      "coveragePerBox": "1.92 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 32,
+      "m2PerPallet": 61.44,
+      "kgPerPallet": 1440
+    },
+    "description": "Gạch Gạch Ý MỸ N88027R Granite 800x800mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "800x800mm",
+      "Polished",
+      "Tự nhiên",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Tự nhiên"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-p88038r",
+    "code": "P88038R",
+    "name": "Gạch Ý MỸ P88038R Granite 800x800mm Bóng",
+    "slug": "y-my-p88038r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "800x800mm",
+    "surface": "Polished",
+    "color": [
+      "Xám môn"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/P88038R-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/P88038R-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/P88038R-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/P88038R-PC1-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/P88038R-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/P88038R-PC1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/P88038R-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "800x800mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "45 kg/thùng",
+      "piecesPerBox": "3 viên/thùng (1.92 m²)",
+      "coveragePerBox": "1.92 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 32,
+      "m2PerPallet": 61.44,
+      "kgPerPallet": 1440
+    },
+    "description": "Gạch Gạch Ý MỸ P88038R Granite 800x800mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "800x800mm",
+      "Polished",
+      "Xám môn",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Xám môn"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-p68131r",
+    "code": "P68131R",
+    "name": "Gạch Ý MỸ P68131R Granite 600x600mm Bóng",
+    "slug": "y-my-p68131r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "600x600mm",
+    "surface": "Polished",
+    "color": [
+      "Tự nhiên"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P68131R_2D3D-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P68131R_2D3D-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P68131R_2D3D-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P68131R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P68131R_2D3D-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P68131R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P68131R_2D3D-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "600x600mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "30 kg/thùng",
+      "piecesPerBox": "4 viên/thùng (1.44 m²)",
+      "coveragePerBox": "1.44 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 4,
+      "m2PerBox": 1.44,
+      "kgPerBox": 30,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1200
+    },
+    "description": "Gạch Gạch Ý MỸ P68131R Granite 600x600mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "600x600mm",
+      "Polished",
+      "Tự nhiên",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Tự nhiên"
+    ],
+    "sizes": [
+      "600x600mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-n85027rh",
+    "code": "N85027RH",
+    "name": "Gạch Ý MỸ N85027RH Granite 800x800mm Mờ",
+    "slug": "y-my-n85027rh-mo",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "800x800mm",
+    "surface": "Matt",
+    "color": [
+      "Tự nhiên"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/N85027RH_B-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/N85027RH_B.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/N85027RH_B-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/N85027RH_PC-1-1-1024x683.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/N85027RH_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/N85027RH_PC-1-1-1024x683.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/N85027RH_B-1920x1920.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Mờ",
+      "size": "800x800mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "45 kg/thùng",
+      "piecesPerBox": "3 viên/thùng (1.92 m²)",
+      "coveragePerBox": "1.92 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 32,
+      "m2PerPallet": 61.44,
+      "kgPerPallet": 1440
+    },
+    "description": "Gạch Gạch Ý MỸ N85027RH Granite 800x800mm Mờ chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "800x800mm",
+      "Matt",
+      "Tự nhiên",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Tự nhiên"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R10",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
+  },
+  {
+    "id": "ymy-n88069r",
+    "code": "N88069R",
+    "name": "Gạch Ý MỸ N88069R Granite 800x800mm Bóng",
+    "slug": "y-my-n88069r-bong",
+    "brand": "Ý MỸ Ceramic",
+    "origin": "Việt Nam",
+    "bodyType": "Granite",
+    "size": "800x800mm",
+    "surface": "Polished",
+    "color": [
+      "Tự nhiên"
+    ],
+    "uses": [
+      "Lát nền"
+    ],
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/N68069R-1920x1080.jpg"
+      ]
+    },
+    "specs": {
+      "surface": "Bóng",
+      "size": "800x800 mm",
+      "waterAbsorption": "< 0.5% (Granite)",
+      "thickness": "10.5 mm",
+      "weight": "30 kg/thùng",
+      "piecesPerBox": "3 viên/thùng (1.92 m²)",
+      "coveragePerBox": "1.92 m²",
+      "scratchResistance": "PEI IV",
+      "edge": "Mài cạnh (Rectified)"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 32,
+      "m2PerPallet": 61.44,
+      "kgPerPallet": 1440
+    },
+    "description": "Gạch Gạch Ý MỸ N68069R Granite 600x600mm Bóng chính hãng Ý MỸ Ceramic, thiết kế sang trọng, chất lượng vượt trội.",
+    "tags": [
+      "Ý MỸ",
+      "Granite",
+      "600x600mm",
+      "Polished",
+      "Tự nhiên",
+      "Lát nền"
+    ],
+    "isAvailable": true,
+    "isFeatured": true,
+    "collection": "Ý MỸ Granite",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "colors": [
+      "Tự nhiên"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Lát nền"
+    ],
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "technicalSpecs": {
+      "thickness": "10.5mm",
+      "waterAbsorption": "≤ 0.5% (Granite)",
+      "slipResistance": "R9",
+      "facesCount": 8,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát nền"
+    }
   }
 ]

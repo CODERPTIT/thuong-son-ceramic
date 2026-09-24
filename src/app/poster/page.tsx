@@ -13,7 +13,7 @@ interface ProductInfo {
   name: string;
 }
 
-const productCodeMap = productCodeMapRaw as Record<string, ProductInfo>;
+const productCodeMap = productCodeMapRaw as unknown as Record<string, ProductInfo>;
 
 // Helper to auto-detect product from filename (case-insensitive)
 function detectProductFromFilename(fileName: string): ProductInfo | null {
@@ -328,14 +328,27 @@ export default function StandalonePosterPage() {
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
           let extractedCode: string | null = null;
-          const match = qrCode.data.match(/\/q\/([A-Za-z0-9_-]+)/i) || qrCode.data.match(/\/products\/([A-Za-z0-9_-]+)/i);
+          const match = 
+            qrCode.data.match(/\/san-pham\/([A-Za-z0-9_-]+)/i) ||
+            qrCode.data.match(/\/q\/([A-Za-z0-9_-]+)/i) || 
+            qrCode.data.match(/\/products\/([A-Za-z0-9_-]+)/i);
           if (match && match[1]) {
             extractedCode = match[1].trim().toUpperCase();
           }
 
           let matchedProduct: ProductInfo | null = result.matchedProduct;
-          if (!matchedProduct && extractedCode && productCodeMap[extractedCode]) {
-            matchedProduct = productCodeMap[extractedCode];
+          if (!matchedProduct && extractedCode) {
+            if (productCodeMap[extractedCode]) {
+              matchedProduct = productCodeMap[extractedCode];
+            } else {
+              const clean = extractedCode.toLowerCase();
+              const found = Object.values(productCodeMap).find(p => 
+                p.code?.toUpperCase() === extractedCode ||
+                p.slug?.toLowerCase() === clean ||
+                p.slug?.toLowerCase().includes(clean)
+              );
+              if (found) matchedProduct = found;
+            }
           }
 
           result = {
