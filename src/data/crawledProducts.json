@@ -26,8 +26,20 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/F61245001RC_PC.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_2D.3D.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_2D.3D-1024x576.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/F61245001RC_PC.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_A-scaled.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/F61245001RC_PC.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_2D.3D.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/F61245001RC_PC.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_PC-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_A-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_B-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_C-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_PC-1-1920x1130.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_A-scaled-1920x968.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_B-scaled-1920x968.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_C-scaled-1920x967.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -72,7 +84,17 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/hang-rao-2600x6500-N61245003RC-PC-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC....jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC...-1024x576.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC....jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC-1-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC-1920x1088.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC-1-1-1920x1088.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/hang-rao-2600x6500-N61245003RC-PC-scaled.jpg"
     },
     "technicalSpecs": {
@@ -118,8 +140,16 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC-PC-1-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_3D2D-1.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_3D2D-1-1024x667.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC-PC-1-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_A.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC-PC-1-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_3D2D-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC-PC-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC-PC-1-1920x1088.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -165,8 +195,17 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_PC-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R-1024x576.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_PC-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_A-scaled.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_A-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_B-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_PC-scaled-1920x1382.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_A-1920x960.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_B-1920x3840.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -211,8 +250,18 @@
     "images": {
       "thumbnail": "/images/rooms/P61245005RMG_room.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-1.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-1-1024x576.jpg",
-      "inSpace": "/images/rooms/P61245005RMG_room.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-120724-scaled.jpg",
+      "inSpace": "/images/rooms/P61245005RMG_room.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-120724-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG_D.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG_E.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-120724-scaled-1920x1280.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -258,8 +307,16 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC2-21062025-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H_3D2D.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H_3D2D-1024x576.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC2-21062025-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-1.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC2-21062025-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H_3D2D.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC2-21062025-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC1-21062025-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC2-21062025-1920x1088.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC1-21062025-1920x1088.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -304,8 +361,15 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-PC-1-1-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-1024x576.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-PC-1-1-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H_3D2D.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-PC-1-1-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-PC-1-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H_3D2D.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-PC-1-1-1920x1056.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -353,6 +417,9 @@
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R_PC1.png",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R.jpg",
       "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R-1024x576.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R_PC1.png"
     },
     "technicalSpecs": {
@@ -399,6 +466,7 @@
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R_PC-2.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R.jpg",
       "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R-1024x576.jpg",
+      "gallery": [],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R_PC-2.jpg"
     },
     "technicalSpecs": {
@@ -444,8 +512,21 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-2.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R-1024x576.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-2.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_A-scaled.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-2.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-2.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_A-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_B-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_C-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-2-1920x1280.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-1-scaled-1920x1130.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_A-scaled-1920x968.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_B-scaled-1920x968.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_C-scaled-1920x968.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -490,8 +571,18 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-PC1-1-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-1024x576.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-PC1-1-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R_A.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-PC1-1-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-PC1-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R_D.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R_E.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-PC1-1-1920x1088.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -536,8 +627,16 @@
     "images": {
       "thumbnail": "/images/rooms/F61248004R_room.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-1.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-1-1024x576.jpg",
-      "inSpace": "/images/rooms/F61248004R_room.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-f-scaled.jpg",
+      "inSpace": "/images/rooms/F61248004R_room.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-f-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-f-scaled-1920x2400.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -583,8 +682,18 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-PC-1-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-2.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-2-1024x576.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-PC-1-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R_A.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-PC-1-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-2.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-PC-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R_D.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R_E.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-PC-1-1920x1280.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -629,7 +738,15 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_PC1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_A.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_A-1920x1920.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_B.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_A-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_B-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_C-1920x1920.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_PC1.jpg"
     },
     "technicalSpecs": {
@@ -675,8 +792,17 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-PC-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-scaled.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-1920x1080.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-PC-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R_A.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-1920x1080.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-PC-1920x1088.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "9.5mm",
@@ -721,8 +847,19 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R-PC-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_2D3D-scaled.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_2D3D-1920x1080.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R-PC-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_A.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R-PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_2D3D-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R-PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_D.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_E.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_2D3D-1920x1080.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R-PC-1920x1088.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "9.5mm",
@@ -767,7 +904,15 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_PC.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_A-scaled.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_A-scaled-1920x1920.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_B-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_A-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_B-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_C-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_A-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_B-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_C-scaled-1920x1920.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_PC.jpg"
     },
     "technicalSpecs": {
@@ -813,8 +958,19 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_PC-1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_A-scaled.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_A-scaled-1920x1920.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_PC-1.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_2D-3.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_PC-1.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_A-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_PC-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_2D-3.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_B-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_C-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_A-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_PC-1-1920x1246.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_B-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_C-scaled-1920x1920.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "9.5mm",
@@ -859,7 +1015,15 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_PC1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_A-scaled.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_A-scaled-1920x1920.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_B-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_A-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_B-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_C-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_A-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_B-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_C-scaled-1920x1920.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_PC1.jpg"
     },
     "technicalSpecs": {
@@ -905,8 +1069,22 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/11/P85024RC_PC-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC-1-scaled.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC-1-1920x1080.jpg",
-      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/11/P85024RC_PC-scaled.jpg"
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_B.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/11/P85024RC_PC-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC-1-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/11/P85024RC_PC-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_PC1-1.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC-1-1920x1080.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/11/P85024RC_PC-scaled-1920x960.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_PC1-1-1920x1130.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_B-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_C-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC_A-1920x1920.jpg"
+      ]
     },
     "technicalSpecs": {
       "thickness": "9.5mm",
@@ -954,6 +1132,9 @@
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P65012C_PC2-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C.jpg",
       "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C-1024x1024.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P65012C_PC2-scaled.jpg"
     },
     "technicalSpecs": {
@@ -1001,6 +1182,7 @@
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022_PC-1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022-1.jpg",
       "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022-1-1024x576.jpg",
+      "gallery": [],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022_PC-1.jpg"
     },
     "technicalSpecs": {
@@ -1046,7 +1228,12 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_PC1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_A.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_A-1024x1024.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_B.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_C.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_PC1.jpg"
     },
     "technicalSpecs": {
@@ -1092,7 +1279,15 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_PC.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_A-scaled.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_A-scaled-1920x1920.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_B-scaled.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_A-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_B-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_C-scaled.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_A-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_B-scaled-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_C-scaled-1920x1920.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_PC.jpg"
     },
     "technicalSpecs": {
@@ -1138,7 +1333,15 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_PC1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_A.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_A-1920x1920.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_B.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_A-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_B-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_C-1920x1920.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_PC1.jpg"
     },
     "technicalSpecs": {
@@ -1184,7 +1387,12 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_PC.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_B-2.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_B-2-1024x1024.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_A.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_B-2.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_C-2.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_PC.jpg"
     },
     "technicalSpecs": {
@@ -1230,7 +1438,13 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_02-1920x1216.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02-1920x1080.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_02.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_02.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02-1920x1080.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_02-1920x1216.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_02-1920x1216.jpg"
     },
     "technicalSpecs": {
@@ -1276,7 +1490,13 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_03-1920x1072.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02-1920x1080.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_03.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_03.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02-1920x1080.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_03-1920x1072.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_03-1920x1072.jpg"
     },
     "technicalSpecs": {
@@ -1324,7 +1544,15 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_PC1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_A.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_A-1920x1920.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_B.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_C.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_A-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_B-1920x1920.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_C-1920x1920.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_PC1.jpg"
     },
     "technicalSpecs": {
@@ -1370,7 +1598,12 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_PC.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_A.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_A-1024x1024.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_B.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_C.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_PC.jpg"
     },
     "technicalSpecs": {
@@ -1416,7 +1649,12 @@
     "images": {
       "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_PC-1.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_A.jpg",
-      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_A-1024x1024.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_B.jpg",
+      "gallery": [
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_A.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_B.jpg",
+        "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_C.jpg"
+      ],
       "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_PC-1.jpg"
     },
     "technicalSpecs": {

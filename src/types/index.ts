@@ -22,6 +22,7 @@ export interface Product {
     fullFace: string;
     closeUp?: string;
     inSpace?: string;
+    gallery?: string[];
   };
   featured: boolean;
   new: boolean;

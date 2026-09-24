@@ -60,7 +60,13 @@ export default function ProductDetailView({
   addUnique('Face Gạch Thực Tế', product.images.fullFace, 'fullFace');
   // 3. Cận cảnh men sứ / face vân thật (face thường, có texture rõ hơn)
   addUnique('Cận Cảnh Men Sứ', product.images.closeUp, 'closeUp');
-  // 4. Ảnh studio product (nền trắng, có đóng gói/perspective)
+  // 4. Toàn bộ các ảnh mặt face / chi tiết khác từ website nhà máy
+  if (product.images.gallery && Array.isArray(product.images.gallery)) {
+    product.images.gallery.forEach((gSrc, gIdx) => {
+      addUnique(`Face Vân Gạch ${gIdx + 1}`, gSrc, `gallery_${gIdx + 1}`);
+    });
+  }
+  // 5. Ảnh studio product (nền trắng, có đóng gói/perspective)
   addUnique('Ảnh Studio Sản Phẩm', product.images.thumbnail, 'thumbnail');
 
   if (rawGalleryImages.length === 0) {
