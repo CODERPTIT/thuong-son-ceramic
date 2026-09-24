@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "grandtiles.com.vn",
       },
+      {
+        protocol: "https",
+        hostname: "ymyceramic.com.vn",
+      },
     ],
   },
   async rewrites() {

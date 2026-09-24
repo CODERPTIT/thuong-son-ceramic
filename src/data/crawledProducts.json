@@ -1,5 +1,1581 @@
 [
   {
+    "id": "ymy-f61245001rc",
+    "slug": "y-my-f61245001rc-mo",
+    "name": "Gạch Ý MỸ F61245001RC Granite 600×1200 Mờ",
+    "code": "F61245001RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F61245001RC chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_2D.3D-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_2D.3D.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_2D.3D-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/F61245001RC_PC.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 22,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-n61245003rc",
+    "slug": "y-my-n61245003rc-mo",
+    "name": "Gạch Ý MỸ N61245003RC Granite 600×1200 Mờ",
+    "code": "N61245003RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N61245003RC chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC...-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC....jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245003RC...-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/hang-rao-2600x6500-N61245003RC-PC-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 25,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-n61245002rc",
+    "slug": "y-my-n61245002rc-mo",
+    "name": "Gạch Ý MỸ N61245002RC Granite 600×1200 Mờ",
+    "code": "N61245002RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N61245002RC chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_3D2D-1-1024x667.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_3D2D-1.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC_3D2D-1-1024x667.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245002RC-PC-1-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 14,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-f61245002r",
+    "slug": "y-my-f61245002r-mo",
+    "name": "Gạch Ý MỸ F61245002R Granite 600×1200 Mờ",
+    "code": "F61245002R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F61245002R chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61245002R_PC-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 15,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-p61245005rmg",
+    "slug": "y-my-p61245005rmg-sugar",
+    "name": "Gạch Ý MỸ P61245005RMG Granite 600×1200 Sugar",
+    "code": "P61245005RMG",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P61245005RMG chất liệu Granite bề mặt Sugar. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-1-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-1.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61245005RMG-1-1024x576.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 26,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-n61245005h",
+    "slug": "y-my-n61245005h-mo",
+    "name": "Gạch Ý MỸ N61245005H Granite 600×1200 Mờ",
+    "code": "N61245005H",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N61245005H chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H_3D2D-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H_3D2D.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H_3D2D-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245005H-PC2-21062025-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 7,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-n61245006h",
+    "slug": "y-my-n61245006h-mo",
+    "name": "Gạch Ý MỸ N61245006H Granite 600×1200 Mờ",
+    "code": "N61245006H",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N61245006H chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/N61245006H-PC-1-1-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 13,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-n61248009r",
+    "slug": "y-my-n61248009r-bong",
+    "name": "Gạch Ý MỸ N61248009R Granite 600×1200 Bóng",
+    "code": "N61248009R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N61248009R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/06/N61248009R_PC1.png"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 4,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-p61248013r",
+    "slug": "y-my-p61248013r-bong",
+    "name": "Gạch Ý MỸ P61248013R Granite 600×1200 Bóng",
+    "code": "P61248013R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P61248013R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/P61248013R_PC-2.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 22,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-n61248007r",
+    "slug": "y-my-n61248007r-bong",
+    "name": "Gạch Ý MỸ N61248007R Granite 600×1200 Bóng",
+    "code": "N61248007R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N61248007R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/12/N61248007R_PC-2.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 22,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-p61248016r",
+    "slug": "y-my-p61248016r-bong",
+    "name": "Gạch Ý MỸ P61248016R Granite 600×1200 Bóng",
+    "code": "P61248016R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P61248016R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/P61248016R-PC1-1-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 19,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-f61248004r",
+    "slug": "y-my-f61248004r-bong",
+    "name": "Gạch Ý MỸ F61248004R Granite 600×1200 Bóng",
+    "code": "F61248004R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F61248004R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-1-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-1.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248004R-1-1024x576.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 20,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-f61248006r",
+    "slug": "y-my-f61248006r-bong",
+    "name": "Gạch Ý MỸ F61248006R Granite 600×1200 Bóng",
+    "code": "F61248006R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Sảnh lớn",
+      "Phòng tắm",
+      "Thương mại",
+      "Ốp mặt tiền"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F61248006R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-2-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-2.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-2-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/07/F61248006R-PC-1-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "10mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 19,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Ốp tường & Lát nền"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44,
+      "kgPerBox": 34,
+      "boxPerPallet": 40,
+      "m2PerPallet": 57.6,
+      "kgPerPallet": 1360
+    }
+  },
+  {
+    "id": "ymy-p88040rc",
+    "slug": "y-my-p88040rc-bong",
+    "name": "Gạch Ý MỸ P88040RC Granite 800×800 Bóng",
+    "code": "P88040RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P88040RC chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_A-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_A.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_A-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88040RC_PC1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 20,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-f88016r",
+    "slug": "y-my-f88016r-bong",
+    "name": "Gạch Ý MỸ F88016R Granite 800×800 Bóng",
+    "code": "F88016R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F88016R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/08/F88016R-PC-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 12,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-p88132r",
+    "slug": "y-my-p88132r-bong",
+    "name": "Gạch Ý MỸ P88132R Granite 800×800 Bóng",
+    "code": "P88132R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P88132R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_2D3D-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_2D3D-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R_2D3D-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2024/09/P88132R-PC-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 16,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-f88021rc",
+    "slug": "y-my-f88021rc-bong",
+    "name": "Gạch Ý MỸ F88021RC Granite 800×800 Bóng",
+    "code": "F88021RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F88021RC chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_A-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_A-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_A-scaled-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88021RC_PC.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 20,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-n85031rc",
+    "slug": "y-my-n85031rc-mo",
+    "name": "Gạch Ý MỸ N85031RC Granite 800×800 Mờ",
+    "code": "N85031RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N85031RC chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_A-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_A-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_A-scaled-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N85031RC_PC-1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 23,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-n88040rc",
+    "slug": "y-my-n88040rc-bong",
+    "name": "Gạch Ý MỸ N88040RC Granite 800×800 Bóng",
+    "code": "N88040RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N88040RC chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_A-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_A-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_A-scaled-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/N88040RC_PC1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 20,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-p85024rc",
+    "slug": "y-my-p85024rc-mo",
+    "name": "Gạch Ý MỸ P85024RC Granite 800×800 Mờ",
+    "code": "P85024RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P85024RC chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC-1-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC-1-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85024RC-1-1920x1080.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/11/P85024RC_PC-scaled.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 24,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-p85012c",
+    "slug": "y-my-p85012c-mo",
+    "name": "Gạch Ý MỸ P85012C Granite 800×800 Mờ",
+    "code": "P85012C",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P85012C chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C-1024x1024.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 7,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-n88022",
+    "slug": "y-my-n88022-bong",
+    "name": "Gạch Ý MỸ N88022 Granite 800×800 Bóng",
+    "code": "N88022",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N88022 chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022-1-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022-1.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022-1-1024x576.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/10/N88022_PC-1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 17,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-f88020rc",
+    "slug": "y-my-f88020rc-bong",
+    "name": "Gạch Ý MỸ F88020RC Granite 800×800 Bóng",
+    "code": "F88020RC",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F88020RC chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_A-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_A.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_A-1024x1024.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/F88020RC_PC1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 17,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-f85004rh",
+    "slug": "y-my-f85004rh-mo",
+    "name": "Gạch Ý MỸ F85004RH Granite 800×800 Mờ",
+    "code": "F85004RH",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F85004RH chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_A-scaled.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_A-scaled.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_A-scaled-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85004RH_PC.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 20,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-p88042r",
+    "slug": "y-my-p88042r-bong",
+    "name": "Gạch Ý MỸ P88042R Granite 800×800 Bóng",
+    "code": "P88042R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P88042R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_A-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_A.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_A-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88042R_PC1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 20,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-p88041r",
+    "slug": "y-my-p88041r-bong",
+    "name": "Gạch Ý MỸ P88041R Granite 800×800 Bóng",
+    "code": "P88041R",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Polished",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P88041R chất liệu Granite bề mặt Bóng. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_B-2-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_B-2.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_B-2-1024x1024.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/P88041R_PC.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R9",
+      "facesCount": 17,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-n85005h",
+    "slug": "y-my-n85005h-mo",
+    "name": "Gạch Ý MỸ N85005H Granite 800×800 Mờ",
+    "code": "N85005H",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N85005H chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02-1920x1080.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 14,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-n85006h",
+    "slug": "y-my-n85006h-mo",
+    "name": "Gạch Ý MỸ N85006H Granite 800×800 Mờ",
+    "code": "N85006H",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ N85006H chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02-1024x576.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02-1920x1080.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 14,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-p85020rh",
+    "slug": "y-my-p85020rh-mo",
+    "name": "Gạch Ý MỸ P85020RH Granite 800×800 Mờ",
+    "code": "P85020RH",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ P85020RH chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_A-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_A.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_A-1920x1920.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/09/P85020RH_PC1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 20,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-f85020rh",
+    "slug": "y-my-f85020rh-mo",
+    "name": "Gạch Ý MỸ F85020RH Granite 800×800 Mờ",
+    "code": "F85020RH",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F85020RH chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_A-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_A.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_A-1024x1024.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85020RH_PC.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 17,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
+    "id": "ymy-f85019rh",
+    "slug": "y-my-f85019rh-mo",
+    "name": "Gạch Ý MỸ F85019RH Granite 800×800 Mờ",
+    "code": "F85019RH",
+    "brand": "Ý MỸ Ceramic",
+    "collection": "Ý MỸ Granite Series",
+    "collectionSlug": "y-my-granite",
+    "material": "Stone",
+    "surface": "Matt",
+    "colors": [
+      "Xám",
+      "Trắng vân đá"
+    ],
+    "sizes": [
+      "800x800mm"
+    ],
+    "useCases": [
+      "Phòng khách",
+      "Phòng ngủ",
+      "Phòng bếp",
+      "Hành lang",
+      "Sảnh"
+    ],
+    "description": "Gạch ốp lát cao cấp Ý MỸ F85019RH chất liệu Granite bề mặt Mờ. Độ bền uốn và chống thấm vượt trội, đường vân sống động tự nhiên phù hợp cho các không gian kiến trúc hiện đại, sang trọng.",
+    "price": "Liên hệ báo giá",
+    "featured": false,
+    "new": true,
+    "images": {
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_A-1024x1024.jpg",
+      "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_A.jpg",
+      "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_A-1024x1024.jpg",
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2023/08/F85019RH_PC-1.jpg"
+    },
+    "technicalSpecs": {
+      "thickness": "9.5mm",
+      "waterAbsorption": "< 0.5%",
+      "slipResistance": "R10",
+      "facesCount": 17,
+      "origin": "Việt Nam (Ý MỸ Ceramic)",
+      "application": "Lát sàn nội ngoại thất"
+    },
+    "packaging": {
+      "vienPerBox": 3,
+      "m2PerBox": 1.92,
+      "kgPerBox": 45,
+      "boxPerPallet": 28,
+      "m2PerPallet": 53.76,
+      "kgPerPallet": 1260
+    }
+  },
+  {
     "id": "gt-AAMP88005",
     "slug": "grand-ceramics-aamp88005",
     "name": "Grand Ceramics Grand Ceramics 800×800",

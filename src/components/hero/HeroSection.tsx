@@ -37,12 +37,12 @@ export default function HeroSection() {
           {/* Surface index tracker */}
           <div className="mt-8 sm:mt-12 pt-5 sm:pt-6 border-t border-[#D5CDBE] flex items-center justify-between text-[10px] sm:text-xs font-mono text-[#8B7C66] gap-2 sm:gap-4">
             <div>
-              <span className="text-[#1C1B19] font-medium block">800+ MÃ</span>
+              <span className="text-[#1C1B19] font-medium block">620+ MÃ</span>
               <span>Được tuyển chọn</span>
             </div>
             <div className="w-[1px] h-7 sm:h-8 bg-[#D5CDBE]" />
             <div>
-              <span className="text-[#1C1B19] font-medium block">4 THƯƠNG HIỆU</span>
+              <span className="text-[#1C1B19] font-medium block">7+ THƯƠNG HIỆU</span>
               <span>Chiến lược hàng đầu</span>
             </div>
             <div className="w-[1px] h-7 sm:h-8 bg-[#D5CDBE]" />

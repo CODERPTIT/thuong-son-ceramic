@@ -24,7 +24,7 @@ const MATERIAL_OPTIONS: MaterialType[] = ['Marble', 'Stone', 'Cement', 'Wood', '
 const SURFACE_OPTIONS: SurfaceType[] = ['Matt', 'Polished', 'Textured', 'Honed'];
 const SIZE_OPTIONS = ['300x600mm', '600x600mm', '600x1200mm', '800x800mm', '200x1200mm', '800x1600mm'];
 const USE_CASE_OPTIONS = ['Phòng khách', 'Phòng tắm', 'Phòng bếp', 'Phòng ngủ', 'Ngoài trời', 'Sảnh', 'Thương mại'];
-const BRAND_OPTIONS = ['Monalisa', 'Apodio Grand', 'Changyih Premium', 'Việt Ý SC', 'Thường Sơn'];
+const BRAND_OPTIONS = ['Ý MỸ Ceramic', 'Grand Ceramics', 'APODIO Grand', 'Monalisa', 'Changyih Grand', 'Việt Ý', 'Classico Apodio'];
 
 export default function CatalogFilterSidebar({
   filters,
