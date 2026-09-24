@@ -493,7 +493,10 @@
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
     },
-    "size": "600x1200mm"
+    "size": "600x1200mm",
+    "tags": [
+      "P6128013R"
+    ]
   },
   {
     "id": "ymy-n61248007r",
@@ -1222,7 +1225,10 @@
       "m2PerPallet": 53.76,
       "kgPerPallet": 1260
     },
-    "size": "800x800mm"
+    "size": "800x800mm",
+    "tags": [
+      "F88022"
+    ]
   },
   {
     "id": "ymy-f88020rc",
@@ -51802,7 +51808,8 @@
       "600x600mm",
       "Polished",
       "Tự nhiên",
-      "Lát nền"
+      "Lát nền",
+      "N88041R"
     ],
     "isAvailable": true,
     "isFeatured": true,

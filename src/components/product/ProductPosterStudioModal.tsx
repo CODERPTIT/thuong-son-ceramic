@@ -80,8 +80,9 @@ async function renderProductPosterCanvas(
   // 1. Draw base poster image
   ctx.drawImage(imgElem, 0, 0, srcW, srcH, 0, 0, finalW, srcH);
 
-  // 2. Exact footer position calculated from accurate crop detection
-  const footerBarHeightPx = Math.round((srcH * cropBottom) / 100);
+  // 2. Exact footer position with guaranteed minimum height for clear legibility
+  const minFooterBarPx = Math.max(44, Math.round(srcH * 0.055));
+  const footerBarHeightPx = Math.max(minFooterBarPx, Math.round((srcH * cropBottom) / 100));
   const footerY = srcH - footerBarHeightPx;
 
   // 3. Generate & Draw System QR Code
@@ -121,10 +122,19 @@ async function renderProductPosterCanvas(
       maskX = (finalW - 10) - maskSize;
     }
 
-    // Anti-collision clamp: QR white box MUST NOT touch or cross footer bar
-    const maxSafeBottom = footerY - 6;
-    if (maskY + maskSize > maxSafeBottom) {
-      const shift = (maskY + maskSize) - maxSafeBottom;
+    // 100% COMPLETE ERASURE OF OLD QR:
+    // Wipe the entire original QR footprint completely with pure white
+    // extending all the way down to and into the footer bar, so ZERO old QR pixels can peek out
+    const wipeX = Math.max(0, Math.min(qx - pad, maskX));
+    const wipeY = Math.max(0, Math.min(qy - pad, maskY));
+    const wipeW = Math.min(finalW - wipeX, Math.max(maskSize, qs + pad * 2 + 10));
+    const wipeH = Math.max(maskSize, footerY - wipeY + 4);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(wipeX, wipeY, wipeW, wipeH);
+
+    // If maskY + maskSize exceeds footerY, align the bottom of the card directly with footerY
+    if (maskY + maskSize > footerY) {
+      const shift = (maskY + maskSize) - footerY;
       maskY -= shift;
       qy -= shift;
     }
