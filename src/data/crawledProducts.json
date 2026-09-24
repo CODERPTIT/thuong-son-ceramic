@@ -951,10 +951,10 @@
     "featured": false,
     "new": true,
     "images": {
-      "thumbnail": "/images/rooms/P85012C_room.jpg",
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P65012C_PC2-scaled.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C.jpg",
       "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P85012C-1024x1024.jpg",
-      "inSpace": "/images/rooms/P85012C_room.jpg"
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/P65012C_PC2-scaled.jpg"
     },
     "technicalSpecs": {
       "thickness": "9.5mm",
@@ -1228,10 +1228,10 @@
     "featured": false,
     "new": true,
     "images": {
-      "thumbnail": "/images/rooms/N85005H_room.jpg",
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_02-1920x1216.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02.jpg",
       "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_2D_02-1920x1080.jpg",
-      "inSpace": "/images/rooms/N85005H_room.jpg"
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85005H_02-1920x1216.jpg"
     },
     "technicalSpecs": {
       "thickness": "9.5mm",
@@ -1274,10 +1274,10 @@
     "featured": false,
     "new": true,
     "images": {
-      "thumbnail": "/images/rooms/N85006H_room.jpg",
+      "thumbnail": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_03-1920x1072.jpg",
       "fullFace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02.jpg",
       "closeUp": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_2D_02-1920x1080.jpg",
-      "inSpace": "/images/rooms/N85006H_room.jpg"
+      "inSpace": "https://ymyceramic.com.vn/wp-content/uploads/2022/06/N85006H_03-1920x1072.jpg"
     },
     "technicalSpecs": {
       "thickness": "9.5mm",
