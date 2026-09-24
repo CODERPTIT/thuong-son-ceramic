@@ -26,8 +26,13 @@ function sanitizeImageUrl(url: string): string {
 
 export default function ProductCard({ product, aspectRatio = 'portrait' }: ProductCardProps) {
   const aspectClass = aspectRatio === 'square' ? 'aspect-square' : 'aspect-[4/5]';
-  const encodedCode = product.code.replace(/ /g, '%20');
-  const [imgSrc, setImgSrc] = React.useState(sanitizeImageUrl(product.images.thumbnail));
+  const encodedCode = encodeURIComponent(product.code);
+  const showcaseImage = product.images.inSpace || product.images.thumbnail;
+  const [imgSrc, setImgSrc] = React.useState(sanitizeImageUrl(showcaseImage));
+
+  React.useEffect(() => {
+    setImgSrc(sanitizeImageUrl(product.images.inSpace || product.images.thumbnail));
+  }, [product.images.inSpace, product.images.thumbnail]);
 
   return (
     <article className="group flex flex-col bg-white border border-[#D5CDBE]/70 hover:border-[#B85C38] transition-all duration-300">
