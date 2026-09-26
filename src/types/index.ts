@@ -42,13 +42,6 @@ export interface Product {
     m2PerPallet?: number;
     kgPerPallet?: number;
   };
-  technicalStandards?: Array<{
-    stt: number;
-    criterion: string;
-    unit: string;
-    standard: string;
-    result: string;
-  }>;
 }
 
 export interface Collection {
