@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Menu, X, ChevronDown, Phone, MessageSquare, Mail } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, Phone, MessageSquare, Mail, MapPin } from 'lucide-react';
 import SearchModal from '@/components/search/SearchModal';
 import MegaMenu from '@/components/navigation/MegaMenu';
 import BrandLogo from '@/components/ui/BrandLogo';
@@ -41,7 +41,16 @@ export default function Header() {
     <>
       {/* Top thin announcement bar with Thường Sơn store info */}
       <div className="bg-[#1C1B19] text-[#F5F1EA]/85 text-[10px] uppercase font-mono tracking-wider sm:tracking-[0.2em] text-center py-1.5 sm:py-2 px-3 sm:px-4 flex items-center justify-center gap-2 sm:gap-4 relative z-50 overflow-hidden text-ellipsis whitespace-nowrap">
-        <span className="shrink-0 font-medium">SHOWROOM</span>
+        <a
+          href="https://maps.google.com/?q=Công+ty+TNHH+Thường+Sơn+Hoằng+Lộc+Thanh+Hóa"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 shrink-0 font-medium hover:text-[#B85C38] transition-colors"
+          title="Mở Google Maps chỉ đường tới Showroom Thường Sơn Hoằng Lộc"
+        >
+          <MapPin size={11} className="text-[#B85C38]" />
+          <span>SHOWROOM</span>
+        </a>
         <span className="opacity-40 shrink-0">·</span>
         <div className="flex items-center gap-1.5 shrink-0">
           <Phone size={11} className="text-[#B85C38]" />
