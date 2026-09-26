@@ -524,59 +524,7 @@ export default function ProductDetailView({
           </div>
         </div>
 
-        {/* Packaging Table (Quy cách đóng gói) */}
-        {product.packaging && (
-          <div className="mb-24 pt-12 border-t border-[#D5CDBE]">
-            <div className="flex items-center justify-between gap-3 mb-4">
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-[1px] bg-[#B85C38]" />
-                <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
-                  QUY CÁCH ĐÓNG GÓI
-                </h3>
-              </div>
-              <span className="text-[10px] font-mono text-[#8B7C66] sm:hidden flex items-center gap-1">
-                Vuốt ngang ↔
-              </span>
-            </div>
 
-            <div className="bg-white border border-[#D5CDBE] overflow-x-auto shadow-sm">
-              <table className="w-full text-center text-xs font-mono min-w-[600px]">
-                <thead>
-                  <tr className="bg-[#1C1B19] text-[#F5F1EA] uppercase tracking-wider text-[11px]">
-                    <th className="p-3.5">VIÊN / HỘP</th>
-                    <th className="p-3.5">M² / HỘP</th>
-                    <th className="p-3.5">KG / HỘP (±5%)</th>
-                    <th className="p-3.5">HỘP / PALLET</th>
-                    <th className="p-3.5">M² / PALLET</th>
-                    <th className="p-3.5">KG / PALLET (±5%)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="bg-[#FAF8F4]">
-                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                      {product.packaging.vienPerBox ?? '—'}
-                    </td>
-                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                      {product.packaging.m2PerBox ?? '—'}
-                    </td>
-                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                      {product.packaging.kgPerBox ?? '—'}
-                    </td>
-                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                      {product.packaging.boxPerPallet ?? '—'}
-                    </td>
-                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                      {product.packaging.m2PerPallet ?? '—'}
-                    </td>
-                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                      {product.packaging.kgPerPallet ? product.packaging.kgPerPallet.toLocaleString('vi-VN') : '—'}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
 
         {/* Related Collection Story Banner */}
         {collection && (
