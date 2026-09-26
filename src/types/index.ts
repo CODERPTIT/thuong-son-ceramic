@@ -26,13 +26,13 @@ export interface Product {
   };
   featured: boolean;
   new: boolean;
-  technicalSpecs: {
-    thickness: string;
-    waterAbsorption: string;
-    slipResistance: string;
-    facesCount: number;
-    origin: string;
-    application: string;
+  technicalSpecs?: {
+    thickness?: string;
+    waterAbsorption?: string;
+    slipResistance?: string;
+    facesCount?: number;
+    origin?: string;
+    application?: string;
   };
   packaging?: {
     vienPerBox?: number;

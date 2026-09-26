@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Phone, MessageSquare, Share2, Layers, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon, Sparkles, FileImage } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Share2, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon, Sparkles, FileImage } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
@@ -363,13 +363,7 @@ export default function ProductDetailView({
               );
             })()}
 
-            {/* Face verification banner */}
-            <div className="p-4 bg-[#FAF8F4] border border-[#D5CDBE] flex items-center gap-3 text-xs text-[#1C1B19]/80 font-light">
-              <Layers size={18} className="text-[#B85C38] shrink-0" />
-              <span>
-                <strong>Cam kết Face gạch thực tế:</strong> Sản phẩm sở hữu {product.technicalSpecs.facesCount} mặt face vân ngẫu nhiên khác nhau, triệt tiêu sự lặp vân khi thi công trên diện tích rộng.
-              </span>
-            </div>
+
           </div>
 
           {/* Right Column: Sticky Product Info & Specs (5 cols) */}
@@ -530,113 +524,59 @@ export default function ProductDetailView({
           </div>
         </div>
 
-        {/* Specifications & Packaging Tables (Thông số kỹ thuật & Quy cách đóng gói) */}
-        <div className="mb-24 pt-12 border-t border-[#D5CDBE] space-y-12">
-          {/* 1. BẢNG THÔNG SỐ KỸ THUẬT — chỉ hiển thị dữ liệu thật */}
-          {(() => {
-            const specs = product.technicalSpecs;
-            const rows: { label: string; value: string | number }[] = [];
-            if (specs.thickness)       rows.push({ label: 'Độ dày',               value: specs.thickness });
-            if (specs.waterAbsorption) rows.push({ label: 'Độ hút nước',          value: specs.waterAbsorption });
-            if (specs.slipResistance)  rows.push({ label: 'Chống trơn trượt',     value: specs.slipResistance });
-            if (specs.facesCount)      rows.push({ label: 'Số mặt face (vân)',    value: `${specs.facesCount} mặt` });
-            if (specs.application)     rows.push({ label: 'Ứng dụng',             value: specs.application });
-            if (specs.origin)          rows.push({ label: 'Xuất xứ',              value: specs.origin });
-            if (rows.length === 0) return null;
-            return (
-              <div>
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <div className="flex items-center gap-3">
-                    <span className="w-8 h-[1px] bg-[#B85C38]" />
-                    <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
-                      THÔNG SỐ KỸ THUẬT
-                    </h3>
-                  </div>
-                  <span className="text-[10px] font-mono text-[#8B7C66] sm:hidden flex items-center gap-1">
-                    Vuốt ngang ↔
-                  </span>
-                </div>
-                <div className="bg-white border border-[#D5CDBE] overflow-x-auto shadow-sm">
-                  <table className="w-full text-left text-xs font-mono min-w-[480px]">
-                    <thead>
-                      <tr className="bg-[#1C1B19] text-[#F5F1EA] uppercase tracking-wider text-[11px]">
-                        <th className="p-3.5 text-center w-12">STT</th>
-                        <th className="p-3.5 pl-6">CHỈ TIÊU</th>
-                        <th className="p-3.5 text-right pr-6">GIÁ TRỊ</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#D5CDBE]/70">
-                      {rows.map((row, idx) => (
-                        <tr
-                          key={row.label}
-                          className={idx % 2 === 0 ? 'bg-white hover:bg-[#FAF8F4]/80' : 'bg-[#FAF8F4]/60 hover:bg-[#FAF8F4]'}
-                        >
-                          <td className="p-3.5 text-center font-serif text-[#B85C38] text-sm font-medium">{idx + 1}</td>
-                          <td className="p-3.5 pl-6 font-medium text-[#1C1B19] text-sm">{row.label}</td>
-                          <td className="p-3.5 text-right pr-6 font-serif text-[#B85C38] text-sm font-semibold">{row.value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+        {/* Packaging Table (Quy cách đóng gói) */}
+        {product.packaging && (
+          <div className="mb-24 pt-12 border-t border-[#D5CDBE]">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-[1px] bg-[#B85C38]" />
+                <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
+                  QUY CÁCH ĐÓNG GÓI
+                </h3>
               </div>
-            );
-          })()}
-
-          {/* 2. BẢNG QUY CÁCH ĐÓNG GÓI */}
-          {product.packaging && (
-            <div>
-              <div className="flex items-center justify-between gap-3 mb-4">
-                <div className="flex items-center gap-3">
-                  <span className="w-8 h-[1px] bg-[#B85C38]" />
-                  <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[#8B7C66]">
-                    QUY CÁCH ĐÓNG GÓI
-                  </h3>
-                </div>
-                <span className="text-[10px] font-mono text-[#8B7C66] sm:hidden flex items-center gap-1">
-                  Vuốt ngang ↔
-                </span>
-              </div>
-
-              <div className="bg-white border border-[#D5CDBE] overflow-x-auto shadow-sm">
-                <table className="w-full text-center text-xs font-mono min-w-[600px]">
-                  <thead>
-                    <tr className="bg-[#1C1B19] text-[#F5F1EA] uppercase tracking-wider text-[11px]">
-                      <th className="p-3.5">VIÊN / HỘP</th>
-                      <th className="p-3.5">M² / HỘP</th>
-                      <th className="p-3.5">KG / HỘP (±5%)</th>
-                      <th className="p-3.5">HỘP / PALLET</th>
-                      <th className="p-3.5">M² / PALLET</th>
-                      <th className="p-3.5">KG / PALLET (±5%)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="bg-[#FAF8F4]">
-                      <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                        {product.packaging.vienPerBox ?? '—'}
-                      </td>
-                      <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                        {product.packaging.m2PerBox ?? '—'}
-                      </td>
-                      <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                        {product.packaging.kgPerBox ?? '—'}
-                      </td>
-                      <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                        {product.packaging.boxPerPallet ?? '—'}
-                      </td>
-                      <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                        {product.packaging.m2PerPallet ?? '—'}
-                      </td>
-                      <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
-                        {product.packaging.kgPerPallet ? product.packaging.kgPerPallet.toLocaleString('vi-VN') : '—'}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <span className="text-[10px] font-mono text-[#8B7C66] sm:hidden flex items-center gap-1">
+                Vuốt ngang ↔
+              </span>
             </div>
-          )}
-        </div>
+
+            <div className="bg-white border border-[#D5CDBE] overflow-x-auto shadow-sm">
+              <table className="w-full text-center text-xs font-mono min-w-[600px]">
+                <thead>
+                  <tr className="bg-[#1C1B19] text-[#F5F1EA] uppercase tracking-wider text-[11px]">
+                    <th className="p-3.5">VIÊN / HỘP</th>
+                    <th className="p-3.5">M² / HỘP</th>
+                    <th className="p-3.5">KG / HỘP (±5%)</th>
+                    <th className="p-3.5">HỘP / PALLET</th>
+                    <th className="p-3.5">M² / PALLET</th>
+                    <th className="p-3.5">KG / PALLET (±5%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-[#FAF8F4]">
+                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
+                      {product.packaging.vienPerBox ?? '—'}
+                    </td>
+                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
+                      {product.packaging.m2PerBox ?? '—'}
+                    </td>
+                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
+                      {product.packaging.kgPerBox ?? '—'}
+                    </td>
+                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
+                      {product.packaging.boxPerPallet ?? '—'}
+                    </td>
+                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
+                      {product.packaging.m2PerPallet ?? '—'}
+                    </td>
+                    <td className="p-4 font-serif text-lg text-[#B85C38] font-medium">
+                      {product.packaging.kgPerPallet ? product.packaging.kgPerPallet.toLocaleString('vi-VN') : '—'}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         {/* Related Collection Story Banner */}
         {collection && (
