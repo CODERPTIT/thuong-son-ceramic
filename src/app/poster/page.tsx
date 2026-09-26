@@ -26,9 +26,20 @@ function detectProductFromFilename(fileName: string): ProductInfo | null {
       return productCodeMap[code];
     }
   }
-  // Check known MD5 hash of N88027R sample
-  if (cleanName.includes('D3B765F6D25E50FE82B23274A5C8679A')) {
-    return productCodeMap['N88027R'];
+  // Check known hashes of sample poster images
+  const sampleHashMap: Record<string, string> = {
+    'D3B765F6D25E50FE82B23274A5C8679A': 'N88027R',
+    '4A3397BC4EDCE0E5B7DEEA34D9463C5A': 'N88007R',
+    'CCBF632C308A52EFD593FA358E2E9D60': 'N88069R',
+    'E52CBC3955E7366054AD3A8292FA372D': 'EN89012R',
+    '580FD28F86731CB28ECC38523D0ADA68': 'N88042R',
+    '962C43FF2397B982F90B796423E7C99F': 'P88038R',
+    '25E939D33DD9FB1E2DA124E9F368AD32': 'N85027RH',
+  };
+  for (const [hash, pCode] of Object.entries(sampleHashMap)) {
+    if (cleanName.includes(hash)) {
+      return productCodeMap[pCode] || null;
+    }
   }
   return null;
 }
@@ -349,6 +360,46 @@ export default function StandalonePosterPage() {
                 } as any;
               }
             }
+
+            // Strategy B: If still not detected, scan for small boxed QR in the bottom-right corner (strip thin black border & pad white quiet zone)
+            if (!qrCode) {
+              const borderCanvas = document.createElement('canvas');
+              const bCtx = borderCanvas.getContext('2d');
+              if (bCtx) {
+                for (let boxSize = 40; boxSize <= 64; boxSize += 2) {
+                  if (qrCode) break;
+                  for (let bx = W - boxSize - 25; bx <= W - boxSize - 2; bx += 3) {
+                    if (qrCode) break;
+                    for (let by = H - boxSize - 18; by <= H - boxSize - 2; by += 3) {
+                      const innerW = boxSize - 4;
+                      const innerH = boxSize - 4;
+                      const pad = 8;
+                      const tw = innerW + pad * 2;
+                      const th = innerH + pad * 2;
+                      borderCanvas.width = tw * 2;
+                      borderCanvas.height = th * 2;
+                      bCtx.fillStyle = '#FFFFFF';
+                      bCtx.fillRect(0, 0, borderCanvas.width, borderCanvas.height);
+                      bCtx.drawImage(offscreen, bx + 2, by + 2, innerW, innerH, pad * 2, pad * 2, innerW * 2, innerH * 2);
+                      const bData = bCtx.getImageData(0, 0, borderCanvas.width, borderCanvas.height);
+                      const bQr = jsQR(bData.data, borderCanvas.width, borderCanvas.height);
+                      if (bQr) {
+                        qrCode = {
+                          data: bQr.data,
+                          location: {
+                            topLeftCorner: { x: bx, y: by },
+                            topRightCorner: { x: bx + boxSize, y: by },
+                            bottomLeftCorner: { x: bx, y: by + boxSize },
+                            bottomRightCorner: { x: bx + boxSize, y: by + boxSize },
+                          }
+                        } as any;
+                        break;
+                      }
+                    }
+                  }
+                }
+              }
+            }
           } catch (e) {
             console.warn('Sub-region QR scan error:', e);
           }
@@ -520,12 +571,12 @@ export default function StandalonePosterPage() {
       // Effective product: prioritized from manual override -> manual selection -> detected product
       const product = overrideProduct !== undefined
         ? overrideProduct
-        : (item.selectedProduct !== undefined ? item.selectedProduct : detection.matchedProduct);
+        : (item.selectedProduct ?? detection.matchedProduct);
 
       const targetUrl = product
         ? `${baseUrl}/products/${product.slug}`
         : detection.extractedCode
-        ? `${baseUrl}/catalog?search=${encodeURIComponent(detection.extractedCode)}`
+        ? `${baseUrl}/catalog?q=${encodeURIComponent(detection.extractedCode)}`
         : `${baseUrl}/catalog`;
 
       const defaultSize = (img.naturalWidth / img.naturalHeight > 1.2) ? 5.6 : 9.0;

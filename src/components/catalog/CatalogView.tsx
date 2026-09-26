@@ -47,7 +47,7 @@ export default function CatalogView() {
     newFilters.brand.forEach(b => params.append('brand', b));
     newFilters.collection.forEach(c => params.append('collection', c));
 
-    const q = searchParams.get('q');
+    const q = searchParams.get('q') || searchParams.get('search');
     if (q) params.set('q', q);
 
     const queryString = params.toString();
@@ -86,7 +86,7 @@ export default function CatalogView() {
   };
 
   // Filter & Sort Logic
-  const searchQuery = searchParams.get('q')?.toLowerCase() || '';
+  const searchQuery = (searchParams.get('q') || searchParams.get('search') || '').trim().toLowerCase();
 
   const filteredProducts = useMemo(() => {
     let result = [...PRODUCTS];
