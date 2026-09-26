@@ -15,18 +15,37 @@ interface ProductInfo {
 
 const productCodeMap = productCodeMapRaw as unknown as Record<string, ProductInfo>;
 
+// Helper: case-insensitive lookup in productCodeMap by code key
+function findProductByCode(code: string): ProductInfo | null {
+  if (!code) return null;
+  const upper = code.toUpperCase();
+  // 1. Direct key match (map keys are uppercase)
+  if (productCodeMap[upper]) return productCodeMap[upper];
+  // 2. Strip trailing permalink suffix e.g. "P68131R-2" → "P68131R"
+  const stripped = upper.replace(/-\d+$/, '');
+  if (productCodeMap[stripped]) return productCodeMap[stripped];
+  // 3. Full scan: match by code field OR slug field (case-insensitive)
+  const lower = code.toLowerCase();
+  return Object.values(productCodeMap).find(p =>
+    p.code?.toUpperCase() === upper ||
+    p.code?.toUpperCase() === stripped ||
+    p.slug?.toLowerCase() === lower ||
+    p.slug?.toLowerCase().includes(lower)
+  ) || null;
+}
+
 // Helper to auto-detect product from filename (case-insensitive)
 function detectProductFromFilename(fileName: string): ProductInfo | null {
   if (!fileName) return null;
   const cleanName = fileName.replace(/\.[^/.]+$/, '').toUpperCase();
+  // Try every product code key (longest first to avoid prefix collisions)
   const codes = Object.keys(productCodeMap).sort((a, b) => b.length - a.length);
   for (const code of codes) {
-    const upperCode = code.toUpperCase();
-    if (cleanName.includes(upperCode)) {
+    if (cleanName.includes(code.toUpperCase())) {
       return productCodeMap[code];
     }
   }
-  // Check known hashes of sample poster images
+  // Check known hashes of sample poster images (Zalo-renamed files)
   const sampleHashMap: Record<string, string> = {
     'D3B765F6D25E50FE82B23274A5C8679A': 'N88027R',
     '4A3397BC4EDCE0E5B7DEEA34D9463C5A': 'N88007R',
@@ -37,8 +56,8 @@ function detectProductFromFilename(fileName: string): ProductInfo | null {
     '25E939D33DD9FB1E2DA124E9F368AD32': 'N85027RH',
   };
   for (const [hash, pCode] of Object.entries(sampleHashMap)) {
-    if (cleanName.includes(hash)) {
-      return productCodeMap[pCode] || null;
+    if (cleanName.includes(hash.toUpperCase())) {
+      return findProductByCode(pCode);
     }
   }
   return null;
@@ -431,35 +450,20 @@ export default function StandalonePosterPage() {
 
           const detectedType: 1 | 2 = (minX / W) > 0.83 ? 1 : 2;
 
+          // Extract the path segment after the route marker (keep original case for slug matching)
           let extractedCode: string | null = null;
           const match = 
             qrCode.data.match(/\/san-pham\/([A-Za-z0-9_-]+)/i) ||
             qrCode.data.match(/\/q\/([A-Za-z0-9_-]+)/i) || 
             qrCode.data.match(/\/products\/([A-Za-z0-9_-]+)/i);
           if (match && match[1]) {
-            extractedCode = match[1].trim().toUpperCase();
+            extractedCode = match[1].trim(); // preserve original case for slug lookup
           }
 
+          // Look up product using the shared case-insensitive helper
           let matchedProduct: ProductInfo | null = result.matchedProduct;
           if (!matchedProduct && extractedCode) {
-            if (productCodeMap[extractedCode]) {
-              matchedProduct = productCodeMap[extractedCode];
-            } else {
-              // Try stripping trailing permalink numbers (e.g. P68131R-2 -> P68131R)
-              const stripped = extractedCode.replace(/-\d+$/, '');
-              if (productCodeMap[stripped]) {
-                matchedProduct = productCodeMap[stripped];
-              } else {
-                const clean = extractedCode.toLowerCase();
-                const found = Object.values(productCodeMap).find(p => 
-                  p.code?.toUpperCase() === extractedCode ||
-                  p.code?.toUpperCase() === stripped ||
-                  p.slug?.toLowerCase() === clean ||
-                  p.slug?.toLowerCase().includes(clean)
-                );
-                if (found) matchedProduct = found;
-              }
-            }
+            matchedProduct = findProductByCode(extractedCode);
           }
 
           result = {
