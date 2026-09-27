@@ -74,6 +74,7 @@ interface DetectionResult {
   footerYPercent: number;
   extractedCode: string | null;
   matchedProduct: ProductInfo | null;
+  is360?: boolean;
 }
 
 interface PosterItem {
@@ -93,6 +94,7 @@ interface PosterItem {
   qrSize: number;
   targetProductUrl: string;
   shareFile?: { file: File; blob: Blob } | null;
+  is360Mode?: boolean;
 }
 
 function dataUrlToBlobAndFile(dataUrl: string, fileName: string): { blob: Blob; file: File } {
@@ -452,10 +454,16 @@ export default function StandalonePosterPage() {
 
           // Extract the path segment after the route marker (keep original case for slug matching)
           let extractedCode: string | null = null;
+          const isDetected360 = qrCode.data.toLowerCase().includes('visualizer') || 
+                               qrCode.data.toLowerCase().includes('360') || 
+                               qrCode.data.toLowerCase().includes('pano');
+
           const match = 
             qrCode.data.match(/\/san-pham\/([A-Za-z0-9_-]+)/i) ||
             qrCode.data.match(/\/q\/([A-Za-z0-9_-]+)/i) || 
-            qrCode.data.match(/\/products\/([A-Za-z0-9_-]+)/i);
+            qrCode.data.match(/\/products\/([A-Za-z0-9_-]+)/i) ||
+            qrCode.data.match(/\/visualizer\/[^/]+\/[^/]+\/([A-Za-z0-9_-]+)/i) ||
+            qrCode.data.match(/\/360\/([A-Za-z0-9_-]+)/i);
           if (match && match[1]) {
             extractedCode = match[1].trim(); // preserve original case for slug lookup
           }
@@ -476,6 +484,7 @@ export default function StandalonePosterPage() {
             footerYPercent: 91.80,
             extractedCode: extractedCode || result.extractedCode,
             matchedProduct,
+            is360: isDetected360,
           };
         }
       } catch (err) {
@@ -577,8 +586,12 @@ export default function StandalonePosterPage() {
         ? overrideProduct
         : (item.selectedProduct ?? detection.matchedProduct);
 
+      const is360 = item.is360Mode !== undefined
+        ? item.is360Mode
+        : (detection.is360 || item.fileName.toLowerCase().includes('360') || product?.slug === 'orinda-airson-hk-2256');
+
       const targetUrl = product
-        ? `${baseUrl}/products/${product.slug}`
+        ? (is360 ? `${baseUrl}/360/${product.slug}` : `${baseUrl}/products/${product.slug}`)
         : detection.extractedCode
         ? `${baseUrl}/catalog?q=${encodeURIComponent(detection.extractedCode)}`
         : `${baseUrl}/catalog`;
@@ -625,6 +638,7 @@ export default function StandalonePosterPage() {
         previewDataUrl,
         detectedResult: detection,
         selectedProduct: product,
+        is360Mode: is360,
         cropBottom: computedCrop,
         qrX: currentQrX,
         qrY: currentQrY,
@@ -655,6 +669,17 @@ export default function StandalonePosterPage() {
   const handleChangeActiveQrSize = async (newSize: number) => {
     if (!activeItem) return;
     const updated = await processSingleItem(activeItem, activeItem.selectedProduct, newSize);
+    setItems((prev) => prev.map((it, idx) => (idx === activeIndex ? updated : it)));
+  };
+
+  // Handle toggling between product detail vs 360 VR QR
+  const handleToggle360Mode = async (is360: boolean) => {
+    if (!activeItem) return;
+    const modifiedItem: PosterItem = {
+      ...activeItem,
+      is360Mode: is360
+    };
+    const updated = await processSingleItem(modifiedItem, activeItem.selectedProduct, activeItem.qrSize);
     setItems((prev) => prev.map((it, idx) => (idx === activeIndex ? updated : it)));
   };
 
@@ -988,7 +1013,7 @@ export default function StandalonePosterPage() {
               <span className="text-[11px] font-mono text-[#8B7C66] block text-center uppercase tracking-wider">
                 Hoặc thử nhanh với 2 mẫu catalog tiêu chuẩn:
               </span>
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 <button
                   type="button"
                   onClick={() => loadSamplePosters(['/samples/poster_sample_1.jpg'])}
@@ -1012,6 +1037,22 @@ export default function StandalonePosterPage() {
                   <div className="overflow-hidden">
                     <span className="text-xs font-semibold text-[#1C1B19] block truncate">Mẫu 2: 6 Face</span>
                     <span className="text-[10px] text-[#8B7C66] font-mono block">Dải đen MP62003</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => loadSamplePosters(['/images/products/orinda-airson/poster.jpg'])}
+                  className="p-3 bg-white hover:bg-[#F5F1EA] border border-amber-300 hover:border-amber-600 rounded-xl text-left transition-all flex items-center gap-2.5 cursor-pointer shadow-sm active:scale-95 col-span-2 sm:col-span-1"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/images/products/orinda-airson/poster.jpg" alt="Mẫu 3 360 VR" className="w-8 h-11 object-cover rounded border border-amber-200" />
+                  <div className="overflow-hidden">
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs font-bold text-amber-800 block truncate">Mẫu 3: 360° VR</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
+                    </div>
+                    <span className="text-[10px] text-[#8B7C66] font-mono block">Orinda AIRSON 2256</span>
                   </div>
                 </button>
               </div>
@@ -1161,11 +1202,11 @@ export default function StandalonePosterPage() {
                       </div>
                       <div className="flex items-center gap-2 text-[11px]">
                         <Link
-                          href={`/products/${(activeItem.selectedProduct || activeItem.detectedResult?.matchedProduct)!.slug}`}
+                          href={activeItem.targetProductUrl}
                           target="_blank"
                           className="text-[#044C42] hover:text-[#B85C38] hover:underline flex items-center gap-0.5 font-medium"
                         >
-                          Kiểm tra link web <ExternalLink size={11} />
+                          Kiểm tra link QR <ExternalLink size={11} />
                         </Link>
                         <button
                           type="button"
@@ -1173,6 +1214,38 @@ export default function StandalonePosterPage() {
                           className="text-[#B85C38] hover:underline font-semibold cursor-pointer"
                         >
                           {isSearchingProduct ? 'Đóng' : 'Đổi sản phẩm'}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* QR Target Destination Switcher (Product vs 360 VR) */}
+                    <div className="pt-2 mt-1 border-t border-[#044C42]/15 flex items-center justify-between flex-wrap gap-2 text-[11px]">
+                      <span className="text-[#6E6254] flex items-center gap-1">
+                        <span>Đích đến khi quét QR:</span>
+                      </span>
+                      <div className="inline-flex rounded-lg border border-[#D5CDBE] bg-white p-0.5 shadow-xs">
+                        <button
+                          type="button"
+                          onClick={() => handleToggle360Mode(false)}
+                          className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-all cursor-pointer ${
+                            !activeItem.targetProductUrl.includes('/360/')
+                              ? 'bg-[#044C42] text-white font-semibold shadow-xs'
+                              : 'text-[#6E6254] hover:text-[#1C1B19]'
+                          }`}
+                        >
+                          Chi tiết sản phẩm
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleToggle360Mode(true)}
+                          className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer ${
+                            activeItem.targetProductUrl.includes('/360/')
+                              ? 'bg-amber-600 text-white font-semibold shadow-xs'
+                              : 'text-amber-800 hover:text-amber-950 font-medium'
+                          }`}
+                        >
+                          <span>Không gian 360° VR</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-ping" />
                         </button>
                       </div>
                     </div>

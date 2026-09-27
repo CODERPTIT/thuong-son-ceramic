@@ -23,7 +23,9 @@ export interface Product {
     closeUp?: string;
     inSpace?: string;
     gallery?: string[];
+    panorama360?: string;
   };
+  panorama360?: string;
   featured: boolean;
   new: boolean;
   technicalSpecs?: {

@@ -1,5 +1,51 @@
 [
   {
+    "id": "orinda-airson-hk-2256",
+    "slug": "orinda-airson-hk-2256",
+    "name": "Gạch vân đá cẩm thạch Orinda AIRSON HK 2256 Glossy",
+    "code": "AIRSON HK 2256",
+    "brand": "ORINDA",
+    "collection": "Orinda Royal Marble",
+    "collectionSlug": "orinda-royal-marble",
+    "material": "Marble",
+    "surface": "Polished",
+    "colors": [
+      "Vàng kem",
+      "Vân đá cẩm thạch",
+      "Hổ phách"
+    ],
+    "sizes": [
+      "1200x1800mm"
+    ],
+    "useCases": [
+      "Lát sàn phòng khách",
+      "Ốp đại sảnh biệt thự",
+      "Khách sạn cao cấp"
+    ],
+    "description": "Gạch khổ lớn Orinda AIRSON HK 2256 kích thước 1200x1800mm bề mặt bóng kiếng (Glossy) sang trọng. Họa tiết vân đá cẩm thạch vàng hổ phách tự nhiên với 3 faces random độc bản. Hỗ trợ xem phối cảnh thực tế ảo 360 độ trực quan trên mọi thiết bị.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "/images/products/orinda-airson/face-main.jpg",
+      "fullFace": "/images/products/orinda-airson/face-main.jpg",
+      "closeUp": "/images/products/orinda-airson/face-2.jpg",
+      "inSpace": "/images/products/orinda-airson/poster.jpg",
+      "gallery": [
+        "/images/products/orinda-airson/face-main.jpg",
+        "/images/products/orinda-airson/face-2.jpg",
+        "/images/products/orinda-airson/poster.jpg"
+      ],
+      "panorama360": "/panoramas/airson-hk-2256.jpg"
+    },
+    "panorama360": "/panoramas/airson-hk-2256.jpg",
+    "technicalSpecs": {
+      "facesCount": 3,
+      "origin": "Ấn Độ / Nhập khẩu chính ngạch",
+      "application": "Lát sàn phòng khách, đại sảnh, ốp tường trang trí cao cấp"
+    }
+  },
+  {
     "id": "ymy-f61245001rc",
     "slug": "y-my-f61245001rc-mo",
     "name": "Gạch Ý MỸ F61245001RC Granite 600x1200mm Mờ",

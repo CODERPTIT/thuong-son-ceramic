@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Phone, MessageSquare, Share2, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon, Sparkles, FileImage } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Share2, CheckCircle, QrCode, Mail, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, X as CloseIcon, Sparkles, FileImage, Compass } from 'lucide-react';
 import { Product, Collection } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import ProductQRModal from '@/components/product/ProductQRModal';
@@ -280,6 +280,18 @@ export default function ProductDetailView({
                       {currentActive.label}
                     </div>
 
+                    {/* 360 VR Experience Link Badge */}
+                    <Link
+                      href={`/360/${product.slug}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-10 bg-[#1C1B19]/90 hover:bg-[#1C1B19] backdrop-blur-md border border-amber-400/50 text-amber-300 hover:text-white text-[10px] sm:text-xs font-mono px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md hover:scale-105 transition-all group/btn"
+                      title="Trải nghiệm không gian 360° thực tế ảo"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                      <Compass size={13} className="text-amber-400 group-hover/btn:rotate-45 transition-transform" />
+                      <span>Xem 360° VR</span>
+                    </Link>
+
                     {/* Product code & image count badge */}
                     <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 bg-[#1C1B19]/85 backdrop-blur-sm text-[#F5F1EA] text-[10px] font-mono px-2.5 py-1 flex items-center gap-2 shadow-sm">
                       <span>Mã: {product.code}</span>
@@ -467,6 +479,33 @@ export default function ProductDetailView({
 
               {/* CTAs */}
               <div className="space-y-3">
+                {/* 360 VR Interactive Room Experience Card */}
+                <Link
+                  href={`/360/${product.slug}`}
+                  className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-[#1C1B19] via-stone-900 to-[#2A231C] text-white shadow-md hover:shadow-xl border border-amber-500/35 hover:border-amber-400 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:rotate-12 transition-transform shrink-0">
+                      <Compass className="w-5 h-5 animate-spin" style={{ animationDuration: '10s' }} />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono">
+                          Phối Cảnh 360° Thực Tế Ảo
+                        </span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+                      </div>
+                      <p className="text-[11px] text-stone-300">
+                        Xoay 360° xem trọn vẹn căn phòng lát mẫu {product.code}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs font-semibold text-amber-300 group-hover:translate-x-1 transition-transform shrink-0">
+                    <span className="hidden sm:inline">Khám phá</span>
+                    <ChevronRight size={14} />
+                  </div>
+                </Link>
+
                 <button
                   onClick={() => setInquiryModalOpen(true)}
                   className="btn btn-ink w-full py-3.5 text-xs text-center"
