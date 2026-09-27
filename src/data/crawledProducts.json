@@ -131,7 +131,8 @@
         "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_A-scaled-1920x968.jpg",
         "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_B-scaled-1920x968.jpg",
         "https://ymyceramic.com.vn/wp-content/uploads/2024/01/F61245001RC_C-scaled-1920x967.jpg"
-      ]
+      ],
+      "panorama360": "/panoramas/y-my-f61245001rc.jpg"
     },
     "technicalSpecs": {
       "thickness": "10mm",
@@ -149,7 +150,8 @@
       "m2PerPallet": 57.6,
       "kgPerPallet": 1360
     },
-    "size": "600x1200mm"
+    "size": "600x1200mm",
+    "panorama360": "/panoramas/y-my-f61245001rc.jpg"
   },
   {
     "id": "ymy-n61245003rc",
