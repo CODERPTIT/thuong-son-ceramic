@@ -11,7 +11,8 @@
     "surface": "Polished",
     "colors": [
       "Trắng kem",
-      "Vân mây nhẹ"
+      "Vân mây nhẹ",
+      "Hổ phách nhạt"
     ],
     "sizes": [
       "600x1200mm"
@@ -22,27 +23,31 @@
       "Quầy lễ tân cao cấp",
       "Phòng tắm sang trọng"
     ],
-    "description": "Gạch Porcelain cao cấp thương hiệu Obito mã G-61204 kích thước 600x1200mm, độ dày 9mm, bề mặt bóng kiếng (Glossy) trắng kem vân mây tinh tế. Phù hợp ốp lát không gian đại sảnh, lễ tân, phòng khách và biệt thự.",
+    "description": "Gạch Porcelain cao cấp thương hiệu Obito mã G-61204 kích thước 600x1200mm, độ dày 9mm, bề mặt bóng kiếng (Glossy) trắng kem vân mây tinh tế. Tích hợp trải nghiệm thực tế ảo VR 360 độ góc nhìn không gian lễ tân đại sảnh.",
     "price": "Liên hệ báo giá",
     "featured": true,
     "new": true,
     "images": {
-      "thumbnail": "/images/products/obito-g61204/face-main.jpg",
-      "fullFace": "/images/products/obito-g61204/face-main.jpg",
+      "thumbnail": "/images/products/obito-g61204/face-1.jpg",
+      "fullFace": "/images/products/obito-g61204/face-1.jpg",
       "inSpace": "/images/products/obito-g61204/in-space.jpg",
       "gallery": [
-        "/images/products/obito-g61204/face-main.jpg",
+        "/images/products/obito-g61204/face-1.jpg",
         "/images/products/obito-g61204/in-space.jpg",
         "/images/products/obito-g61204/poster.jpg"
       ],
-      "panorama360": "/panoramas/airson-hk-2256.jpg"
+      "panorama360": "/panoramas/obito-g-61204.jpg"
     },
-    "panorama360": "/panoramas/airson-hk-2256.jpg",
+    "panorama360": "/panoramas/obito-g-61204.jpg",
     "technicalSpecs": {
       "thickness": "9mm",
       "facesCount": 1,
       "origin": "Chính hãng Obito",
       "application": "Ốp tường phòng khách, lễ tân, lát nền đại sảnh biệt thự"
+    },
+    "packaging": {
+      "vienPerBox": 2,
+      "m2PerBox": 1.44
     }
   },
   {

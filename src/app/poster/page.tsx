@@ -11,6 +11,7 @@ interface ProductInfo {
   code: string;
   slug: string;
   name: string;
+  panorama360?: string;
 }
 
 const productCodeMap = productCodeMapRaw as unknown as Record<string, ProductInfo>;
@@ -616,7 +617,7 @@ export default function StandalonePosterPage() {
 
       const is360 = item.is360Mode !== undefined
         ? item.is360Mode
-        : (detection.is360 || item.fileName.toLowerCase().includes('360') || product?.slug === 'orinda-airson-hk-2256');
+        : (detection.is360 || item.fileName.toLowerCase().includes('360') || product?.slug === 'orinda-airson-hk-2256' || product?.slug === 'obito-g-61204-glossy' || Boolean(product?.panorama360));
 
       const targetUrl = product
         ? (is360 ? `${baseUrl}/360/${product.slug}` : `${baseUrl}/products/${product.slug}`)
@@ -1039,18 +1040,18 @@ export default function StandalonePosterPage() {
             {/* Quick Test Samples */}
             <div className="pt-4 border-t border-[#D5CDBE]/70 space-y-2.5">
               <span className="text-[11px] font-mono text-[#8B7C66] block text-center uppercase tracking-wider">
-                Hoặc thử nhanh với 2 mẫu catalog tiêu chuẩn:
+                Hoặc thử nhanh với các mẫu catalog tiêu chuẩn &amp; 360 VR:
               </span>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 <button
                   type="button"
                   onClick={() => loadSamplePosters(['/samples/poster_sample_1.jpg'])}
-                  className="p-3 bg-white hover:bg-[#F5F1EA] border border-[#D5CDBE] hover:border-[#044C42] rounded-xl text-left transition-all flex items-center gap-2.5 cursor-pointer shadow-sm active:scale-95"
+                  className="p-2.5 bg-white hover:bg-[#F5F1EA] border border-[#D5CDBE] hover:border-[#044C42] rounded-xl text-left transition-all flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/samples/poster_sample_1.jpg" alt="Mẫu 1" className="w-8 h-11 object-cover rounded border border-[#E5E0D8]" />
                   <div className="overflow-hidden">
-                    <span className="text-xs font-semibold text-[#1C1B19] block truncate">Mẫu 1: Đá Slab</span>
+                    <span className="text-xs font-semibold text-[#1C1B19] block truncate">Đá Slab</span>
                     <span className="text-[10px] text-[#8B7C66] font-mono block">Thẻ kem MP62003</span>
                   </div>
                 </button>
@@ -1058,12 +1059,12 @@ export default function StandalonePosterPage() {
                 <button
                   type="button"
                   onClick={() => loadSamplePosters(['/samples/poster_sample_2.jpg'])}
-                  className="p-3 bg-white hover:bg-[#F5F1EA] border border-[#D5CDBE] hover:border-[#044C42] rounded-xl text-left transition-all flex items-center gap-2.5 cursor-pointer shadow-sm active:scale-95"
+                  className="p-2.5 bg-white hover:bg-[#F5F1EA] border border-[#D5CDBE] hover:border-[#044C42] rounded-xl text-left transition-all flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/samples/poster_sample_2.jpg" alt="Mẫu 2" className="w-8 h-11 object-cover rounded border border-[#E5E0D8]" />
                   <div className="overflow-hidden">
-                    <span className="text-xs font-semibold text-[#1C1B19] block truncate">Mẫu 2: 6 Face</span>
+                    <span className="text-xs font-semibold text-[#1C1B19] block truncate">6 Face</span>
                     <span className="text-[10px] text-[#8B7C66] font-mono block">Dải đen MP62003</span>
                   </div>
                 </button>
@@ -1071,16 +1072,32 @@ export default function StandalonePosterPage() {
                 <button
                   type="button"
                   onClick={() => loadSamplePosters(['/images/products/orinda-airson/poster.jpg'])}
-                  className="p-3 bg-white hover:bg-[#F5F1EA] border border-amber-300 hover:border-amber-600 rounded-xl text-left transition-all flex items-center gap-2.5 cursor-pointer shadow-sm active:scale-95 col-span-2 sm:col-span-1"
+                  className="p-2.5 bg-white hover:bg-[#F5F1EA] border border-amber-300 hover:border-amber-600 rounded-xl text-left transition-all flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/products/orinda-airson/poster.jpg" alt="Mẫu 3 360 VR" className="w-8 h-11 object-cover rounded border border-amber-200" />
                   <div className="overflow-hidden">
                     <div className="flex items-center gap-1">
-                      <span className="text-xs font-bold text-amber-800 block truncate">Mẫu 3: 360° VR</span>
+                      <span className="text-xs font-bold text-amber-800 block truncate">360° VR</span>
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
                     </div>
-                    <span className="text-[10px] text-[#8B7C66] font-mono block">Orinda AIRSON 2256</span>
+                    <span className="text-[10px] text-[#8B7C66] font-mono block">Orinda AIRSON</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => loadSamplePosters(['/images/products/obito-g61204/poster-raw.jpg'])}
+                  className="p-2.5 bg-white hover:bg-[#F5F1EA] border border-emerald-300 hover:border-emerald-600 rounded-xl text-left transition-all flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/images/products/obito-g61204/poster-raw.jpg" alt="Mẫu 4 Obito VR" className="w-8 h-11 object-cover rounded border border-emerald-200" />
+                  <div className="overflow-hidden">
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs font-bold text-emerald-800 block truncate">Obito VR</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    </div>
+                    <span className="text-[10px] text-[#8B7C66] font-mono block">G-61204 Glossy</span>
                   </div>
                 </button>
               </div>
@@ -1088,10 +1105,10 @@ export default function StandalonePosterPage() {
               <div className="text-center pt-1">
                 <button
                   type="button"
-                  onClick={() => loadSamplePosters(['/samples/poster_sample_1.jpg', '/samples/poster_sample_2.jpg'])}
+                  onClick={() => loadSamplePosters(['/samples/poster_sample_1.jpg', '/samples/poster_sample_2.jpg', '/images/products/obito-g61204/poster-raw.jpg'])}
                   className="text-xs font-mono text-[#044C42] hover:underline cursor-pointer"
                 >
-                  ⚡ Thử tải cả 2 mẫu cùng lúc (Hàng loạt)
+                  ⚡ Thử tải cả 3 mẫu cùng lúc (Hàng loạt)
                 </button>
               </div>
             </div>
