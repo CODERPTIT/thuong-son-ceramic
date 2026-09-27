@@ -131,10 +131,10 @@ async function renderProductPosterCanvas(
 
     // 100% COMPLETE ERASURE OF OLD QR:
     // Erase any and all traces of the original QR code bounding box
-    const wipeLeft = Math.max(0, Math.min(maskX, qx - 4));
-    const wipeRight = Math.min(finalW, Math.max(maskX + maskSize, qx + qs + 4));
-    const wipeTop = Math.max(0, Math.min(maskY, qy - 4));
-    const wipeBottom = Math.max(maskY + maskSize, footerY + 2);
+    const wipeLeft = Math.max(0, maskX - 2);
+    const wipeRight = Math.min(finalW, maskX + maskSize + 2);
+    const wipeTop = Math.max(0, maskY - 2);
+    const wipeBottom = Math.min(footerY, maskY + maskSize + 2);
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(wipeLeft, wipeTop, wipeRight - wipeLeft, wipeBottom - wipeTop);
 
@@ -166,42 +166,69 @@ async function renderProductPosterCanvas(
     console.error('QR overlay error:', err);
   }
 
-  // 4. Draw Footer bar
+  // 4. Draw Footer bar with clean Thường Sơn info AFTER QR code
+  // Deep Emerald Green
   ctx.fillStyle = '#044C42';
   ctx.fillRect(0, footerY, finalW, footerBarHeightPx);
 
+  // Terracotta top accent line
   ctx.fillStyle = '#B85C38';
   const borderLineH = Math.max(2, Math.round(srcH * 0.0025));
   ctx.fillRect(0, footerY, finalW, borderLineH);
 
-  ctx.fillStyle = '#FFFFFF';
-  const fontSizeTitle = Math.round(footerBarHeightPx * 0.30);
-  ctx.font = `bold ${fontSizeTitle}px Georgia, "Playfair Display", serif`;
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('THƯỜNG SƠN CERAMIC', Math.round(finalW * 0.04), footerY + footerBarHeightPx * 0.40);
+  const padX = Math.round(finalW * 0.035);
+  const leftX = padX;
+  const rightX = finalW - padX;
 
-  ctx.fillStyle = '#D5CDBE';
-  const fontSizeSub = Math.round(footerBarHeightPx * 0.17);
-  ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillText('Nhà Phân Phối Gạch Kiến Trúc & Bề Mặt Cao Cấp', Math.round(finalW * 0.04), footerY + footerBarHeightPx * 0.72);
+  // Adaptive typography based on poster width to guarantee ZERO text collision
+  const isNarrow = finalW < 1050;
 
-  ctx.textAlign = 'right';
-  ctx.fillStyle = '#FFFFFF';
-  const showroomText = 'SHOWROOM: SN 01 ĐƯỜNG ĐÔI TL510, ĐÌNH BẢNG, XÃ HOẰNG LỘC, THANH HÓA';
-  let addrFontSize = fontSizeSub;
-  ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  const maxAddrW = finalW * 0.58;
-  const textW = ctx.measureText(showroomText).width;
-  if (textW > maxAddrW) {
-    addrFontSize = Math.floor(addrFontSize * (maxAddrW / textW));
-    ctx.font = `bold ${addrFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  if (isNarrow) {
+    // 2-Row Split Layout for Narrow / Portrait Posters:
+    // Row 1: Brand Name (Left) + Hotline (Right) - NEVER overlap
+    const titleSize = Math.max(13, Math.min(22, Math.round(footerBarHeightPx * 0.32)));
+    ctx.font = `bold ${titleSize}px Georgia, "Playfair Display", serif`;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('THƯỜNG SƠN CERAMIC', leftX, footerY + footerBarHeightPx * 0.36);
+
+    const hotlineText = 'HOTLINE: 0916 640 316 - 0912 958 578';
+    const hotlineSize = Math.max(10, Math.min(15, Math.round(footerBarHeightPx * 0.22)));
+    ctx.font = `bold ${hotlineSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    ctx.fillStyle = '#F5F1EA';
+    ctx.textAlign = 'right';
+    ctx.fillText(hotlineText, rightX, footerY + footerBarHeightPx * 0.36);
+
+    // Row 2: Showroom Address (Left)
+    const addrSize = Math.max(9, Math.min(13, Math.round(footerBarHeightPx * 0.20)));
+    ctx.font = `500 ${addrSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    ctx.fillStyle = '#D5CDBE';
+    ctx.textAlign = 'left';
+    ctx.fillText('Showroom: Sn 01 Đường đôi TL510, Đình Bảng, Xã Hoằng Lộc, Thanh Hóa', leftX, footerY + footerBarHeightPx * 0.74);
+  } else {
+    // Wide Layout for Landscape / High-Res Posters:
+    const fontSizeTitle = Math.round(footerBarHeightPx * 0.32);
+    ctx.font = `bold ${fontSizeTitle}px Georgia, "Playfair Display", serif`;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('THƯỜNG SƠN CERAMIC', leftX, footerY + footerBarHeightPx * 0.38);
+
+    const fontSizeSub = Math.round(footerBarHeightPx * 0.18);
+    ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    ctx.fillStyle = '#D5CDBE';
+    ctx.fillText('Nhà Phân Phối Gạch Kiến Trúc & Bề Mặt Cao Cấp', leftX, footerY + footerBarHeightPx * 0.72);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#FFFFFF';
+    const showroomText = 'SHOWROOM: SN 01 ĐƯỜNG ĐÔI TL510, ĐÌNH BẢNG, HOẰNG LỘC, THANH HÓA';
+    ctx.font = `bold ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+    ctx.fillText(showroomText, rightX, footerY + footerBarHeightPx * 0.38);
+
+    ctx.fillStyle = '#F5F1EA';
+    ctx.fillText('HOTLINE: 0916 640 316 - 0912 958 578', rightX, footerY + footerBarHeightPx * 0.72);
   }
-  ctx.fillText(showroomText, Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.40);
-
-  ctx.fillStyle = '#F5F1EA';
-  ctx.font = `500 ${fontSizeSub}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillText('HOTLINE: 0916 640 316 - 0912 958 578', Math.round(finalW * 0.96), footerY + footerBarHeightPx * 0.72);
 
   return canvas;
 }

@@ -1,4 +1,9 @@
 {
+  "61204": {
+    "code": "G-61204",
+    "slug": "obito-g-61204-glossy",
+    "name": "Gạch ốp lát Obito G-61204 600x1200mm Glossy"
+  },
   "F61245001RC": {
     "code": "F61245001RC",
     "slug": "y-my-f61245001rc-mo",
@@ -3188,5 +3193,20 @@
     "code": "AIRSON HK 2256",
     "slug": "orinda-airson-hk-2256",
     "name": "Gạch vân đá cẩm thạch Orinda AIRSON HK 2256 Glossy"
+  },
+  "G-61204": {
+    "code": "G-61204",
+    "slug": "obito-g-61204-glossy",
+    "name": "Gạch ốp lát Obito G-61204 600x1200mm Glossy"
+  },
+  "G61204": {
+    "code": "G-61204",
+    "slug": "obito-g-61204-glossy",
+    "name": "Gạch ốp lát Obito G-61204 600x1200mm Glossy"
+  },
+  "g-61204": {
+    "code": "G-61204",
+    "slug": "obito-g-61204-glossy",
+    "name": "Gạch ốp lát Obito G-61204 600x1200mm Glossy"
   }
 }

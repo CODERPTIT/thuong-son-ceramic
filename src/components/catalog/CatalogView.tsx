@@ -91,12 +91,14 @@ export default function CatalogView() {
   const filteredProducts = useMemo(() => {
     let result = [...PRODUCTS];
 
-    // Search query filter
+    // Search query filter (handles hyphenation & spaces gracefully)
     if (searchQuery) {
+      const normalizedQ = searchQuery.toLowerCase().replace(/[\s-_]+/g, '');
       result = result.filter(
         p =>
           p.name.toLowerCase().includes(searchQuery) ||
           p.code.toLowerCase().includes(searchQuery) ||
+          p.code.toLowerCase().replace(/[\s-_]+/g, '').includes(normalizedQ) ||
           p.material.toLowerCase().includes(searchQuery) ||
           p.brand.toLowerCase().includes(searchQuery)
       );

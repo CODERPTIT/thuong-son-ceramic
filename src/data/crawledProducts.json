@@ -1,5 +1,51 @@
 [
   {
+    "id": "obito-g-61204",
+    "slug": "obito-g-61204-glossy",
+    "name": "Gạch ốp lát Obito G-61204 600x1200mm Glossy",
+    "code": "G-61204",
+    "brand": "Obito",
+    "collection": "Obito Luxury Porcelain",
+    "collectionSlug": "obito-luxury-porcelain",
+    "material": "Marble",
+    "surface": "Polished",
+    "colors": [
+      "Trắng kem",
+      "Vân mây nhẹ"
+    ],
+    "sizes": [
+      "600x1200mm"
+    ],
+    "useCases": [
+      "Ốp tường phòng khách",
+      "Lát nền đại sảnh",
+      "Quầy lễ tân cao cấp",
+      "Phòng tắm sang trọng"
+    ],
+    "description": "Gạch Porcelain cao cấp thương hiệu Obito mã G-61204 kích thước 600x1200mm, độ dày 9mm, bề mặt bóng kiếng (Glossy) trắng kem vân mây tinh tế. Phù hợp ốp lát không gian đại sảnh, lễ tân, phòng khách và biệt thự.",
+    "price": "Liên hệ báo giá",
+    "featured": true,
+    "new": true,
+    "images": {
+      "thumbnail": "/images/products/obito-g61204/face-main.jpg",
+      "fullFace": "/images/products/obito-g61204/face-main.jpg",
+      "inSpace": "/images/products/obito-g61204/in-space.jpg",
+      "gallery": [
+        "/images/products/obito-g61204/face-main.jpg",
+        "/images/products/obito-g61204/in-space.jpg",
+        "/images/products/obito-g61204/poster.jpg"
+      ],
+      "panorama360": "/panoramas/airson-hk-2256.jpg"
+    },
+    "panorama360": "/panoramas/airson-hk-2256.jpg",
+    "technicalSpecs": {
+      "thickness": "9mm",
+      "facesCount": 1,
+      "origin": "Chính hãng Obito",
+      "application": "Ốp tường phòng khách, lễ tân, lát nền đại sảnh biệt thự"
+    }
+  },
+  {
     "id": "orinda-airson-hk-2256",
     "slug": "orinda-airson-hk-2256",
     "name": "Gạch vân đá cẩm thạch Orinda AIRSON HK 2256 Glossy",
